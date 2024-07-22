@@ -7,9 +7,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import config from "./config/config"
 import routes from "./config/routes"
 
-document.title = config.title
+document.title = config.appName
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes)
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(

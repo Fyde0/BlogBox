@@ -1,0 +1,19 @@
+interface IConfig {
+    appName: string,
+    basename: undefined, // if hosted in subdirectory
+    api: {
+        url: string // no end slash
+    }
+}
+
+const config: IConfig = {
+    appName: "",
+    basename: undefined,
+    api: {
+        url: ""
+    }
+}
+
+export default config
+
+// TODO Switch to .env

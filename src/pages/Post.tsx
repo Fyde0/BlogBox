@@ -1,6 +1,38 @@
+import { useParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap"
+import { useQuery, queryOptions } from "@tanstack/react-query"
 
 function Post() {
+    const { postId } = useParams();
+
+    async function fakeFetch(_key: string) {
+        return new Promise((_resolve, reject) => {
+            console.log("promise")
+            setTimeout(() => {
+                reject(new Error());
+            }, 2000)
+        })
+    }
+
+    const query = useQuery(queryOptions({
+        queryKey: [postId],
+        queryFn: () => fakeFetch(postId as string),
+        retry: 0,
+        throwOnError: true
+    }))
+
+    if (query.isLoading) {
+        return (
+            <main>Loading</main>
+        )
+    }
+
+    if (query.error) {
+        return (
+            <main>error</main>
+        )
+    }
+
     return (
         <Container>
             <Row>
@@ -8,7 +40,7 @@ function Post() {
                 <Col className="col-8">
                     <h1 className="display-4">Title</h1>
                     <p className="text-body-secondary">Posted by...</p>
-                    <img className="w-100" src="src/assets/pics/placeh1.jpg"></img>
+                    <img className="w-100" src="/src/assets/pics/placeh1.jpg"></img>
                 </Col>
                 <Col>
                     <h1 className="display-6">Right</h1>

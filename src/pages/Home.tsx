@@ -1,6 +1,8 @@
 function Home() {
     return (
-        <div>home</div>
+        <main>
+            home
+        </main>
     )
 }
 
