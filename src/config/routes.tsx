@@ -2,8 +2,9 @@ import { RouteObject } from "react-router-dom"
 import Root from "../pages/Root"
 import Home from "../pages/Home"
 import Login from "../pages/Login"
-import Logout from "../pages/Logout"
 import Post from "../pages/Post"
+import ProtectedRoute from "../components/ProtectedRoute"
+import Edit from "../pages/Edit"
 
 const routes: RouteObject[] = [
   {
@@ -21,13 +22,36 @@ const routes: RouteObject[] = [
         element: <Login />
       },
       {
-        path: "logout",
-        element: <Logout />
-      },
-      {
-        path: "post/:postId?",
-        element: <Post />
+        path: "post",
+        children: [
+          {
+            path: "new",
+            element: <><ProtectedRoute /><Edit /></>
+          },
+          {
+            path: ":postId",
+            element: <Post />,
+          }
+        ]
       }
+      // {
+      //   path: "post",
+      //   children: [
+      //     {
+      //       element: <ProtectedRoute />,
+      //       children: [
+      //         {
+      //           path: "new",
+      //           element: <Edit />
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       path: ":postId",
+      //       element: <Post />,
+      //     }
+      //   ]
+      // }
     ],
   },
 ]

@@ -2,7 +2,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
-// Stores and config
+// 
+import { isUserInfo } from "../interfaces/user"
 import useUserStore from "../stores/user"
 import config from "../config/config"
 
@@ -10,7 +11,7 @@ function Login() {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [error, setError] = useState<string>("")
-    const { login } = useUserStore()
+    const { clientLogin } = useUserStore()
     const navigate = useNavigate()
 
     const serverLogin = useMutation({
@@ -21,20 +22,26 @@ function Login() {
                 { withCredentials: true }
             )
         },
+        onSuccess: (data: any) => {
+            const userInfo = data.data
+            if (isUserInfo(userInfo)) {
+                clientLogin(userInfo)
+                navigate("/", { replace: true })
+            } else {
+                // If the response is not a user
+                setError("Unknown server error.")
+            }
+        },
         onError: (error: any) => {
             error.response
                 ? setError(error.response.data)
                 : setError("Something went wrong.")
         },
-        onSuccess: () => {
-            // TODO maybe use ID
-            login(username)
-            navigate("/")
-        }
     })
 
     function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        setError("")
         // Validate fields
         if (!username || !password) {
             setError("One or more fields are empty.")

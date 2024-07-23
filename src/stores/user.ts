@@ -1,17 +1,26 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import { IUserInfo } from '../interfaces/user'
 
 interface IUserState {
     loggedIn: boolean
-    username: string
-    login: (username: string) => void
-    logout: () => void
+    userInfo: IUserInfo
+    clientLogin: (info: IUserInfo) => void
+    clientLogout: () => void
 }
 
-const useUserStore = create<IUserState>((set) => ({
-    loggedIn: false,
-    username: "",
-    login: (username) => set({ loggedIn: true, username }),
-    logout: () => { set({ loggedIn: false, username: "" }) }
-}))
+const useUserStore = create(
+    persist<IUserState>(
+        (set) => ({
+            loggedIn: false,
+            userInfo: { username: "", admin: false },
+            clientLogin: (info: IUserInfo) => set({ loggedIn: true, userInfo: info }),
+            clientLogout: () => set({ loggedIn: false, userInfo: { username: "", admin: false } })
+        }),
+        // Persist in local storage
+        { name: "userInfo" }
+        // TODO Add onRehydrateStorage and check if session expired with ping
+    )
+)
 
 export default useUserStore
