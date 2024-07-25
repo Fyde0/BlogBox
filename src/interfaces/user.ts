@@ -5,8 +5,13 @@ interface IUser {
     admin: boolean
 }
 
-// User without password for UserStore
+// User without password for UserStore and for displaying
 export type IUserInfo = Omit<IUser, "password">
+
+export const emptyUserInfo: IUserInfo = {
+    username: "",
+    admin: false
+}
 
 // "Interface predicament"
 export function isUserInfo(obj: IUserInfo): obj is IUserInfo {

@@ -13,7 +13,9 @@ function Root() {
             {/* Main container */}
             <Container fluid="true">
                 <NavigationBar />
-                <Outlet />
+                <Container style={{ maxWidth: "1280px" }}>
+                    <Outlet />
+                </Container>
             </Container>
         </QueryClientProvider>
     )

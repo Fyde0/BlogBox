@@ -8,6 +8,7 @@ import useUserStore from "../stores/user"
 import config from "../config/config"
 
 function Login() {
+    // TODO change to IUser
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [error, setError] = useState<string>("")
@@ -16,7 +17,7 @@ function Login() {
 
     const serverLogin = useMutation({
         mutationFn: async () => {
-            return axios.post(
+            return await axios.post(
                 config.api.url + "/users/login",
                 { username, password },
                 { withCredentials: true }
