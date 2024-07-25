@@ -1,9 +1,7 @@
-function Home() {
+export function Component() {
     return (
         <main>
             home
         </main>
     )
 }
-
-export default Home

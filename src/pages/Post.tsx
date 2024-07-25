@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap"
 import { useQuery, queryOptions } from "@tanstack/react-query"
 
-function Post() {
+export function Component() {
     const { postId } = useParams();
 
     async function fakeFetch(_key: string) {
@@ -50,5 +50,3 @@ function Post() {
         </Container>
     )
 }
-
-export default Post

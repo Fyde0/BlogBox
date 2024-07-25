@@ -1,7 +1,7 @@
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-// Bootstrap and config
+//
 import "./assets/scss/styles.scss"
 import routes from "./config/routes"
 import config from "./config/config"

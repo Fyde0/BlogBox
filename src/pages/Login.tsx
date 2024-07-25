@@ -7,7 +7,7 @@ import { isUserInfo } from "../interfaces/user"
 import useUserStore from "../stores/user"
 import config from "../config/config"
 
-function Login() {
+export function Component() {
     // TODO change to IUser
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
@@ -103,5 +103,3 @@ function Login() {
         </main>
     )
 }
-
-export default Login

@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 // Components
 import NavigationBar from "../components/NavigationBar"
 
-function Root() {
+export function Component() {
     const queryClient = new QueryClient()
 
     return (
@@ -20,5 +20,3 @@ function Root() {
         </QueryClientProvider>
     )
 }
-
-export default Root
