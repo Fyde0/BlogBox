@@ -9,9 +9,6 @@ import config from "../config/config"
 function NavigationBar() {
     const { pathname } = useLocation()
 
-    // TODO Theme switcher
-    document.documentElement.setAttribute("data-bs-theme", "dark")
-
     return (
         <Navbar className="navbar bg-body-tertiary mb-4" key={pathname}>
             <Container style={{ maxWidth: "1280px" }}>

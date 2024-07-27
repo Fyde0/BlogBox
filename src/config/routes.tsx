@@ -1,35 +1,32 @@
-import { RouteObject } from "react-router-dom"
+import IRoute from "../interfaces/route"
 
-const routes: RouteObject[] = [
+const routes: IRoute[] = [
   {
     path: "/",
-    lazy: () => import("../pages/Root"),
-    // Not caught errors
-    errorElement: <p className="w-100 text-center mt-5">⚠️ Something went wrong.</p>,
+    lazy: () => import("../pages/Home"),
+    auth: false
+  },
+  {
+    path: "login",
+    lazy: () => import("../pages/Login"),
+    auth: false
+  },
+  {
+    path: "post",
+    auth: false,
     children: [
       {
-        index: true,
-        lazy: () => import("../pages/Home")
+        path: "new",
+        lazy: () => import("../pages/Edit"),
+        auth: true
       },
       {
-        path: "login",
-        lazy: () => import("../pages/Login")
-      },
-      {
-        path: "post",
-        children: [
-          {
-            path: "new",
-            lazy: () => import("../pages/Edit")
-          },
-          {
-            path: ":postId",
-            lazy: () => import("../pages/Post")
-          }
-        ]
+        path: ":postId",
+        lazy: () => import("../pages/Post"),
+        auth: false
       }
-    ],
-  },
+    ]
+  }
 ]
 
 export default routes

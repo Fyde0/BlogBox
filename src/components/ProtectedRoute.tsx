@@ -1,12 +1,11 @@
-import { ReactNode } from "react"
-import { Navigate } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 import useUserStore from "../stores/user"
 
-function ProtectedRoute({ children }: { children: ReactNode }) {
+function ProtectedRoute() {
     const { loggedIn } = useUserStore()
 
     if (loggedIn) {
-        return children
+        return <Outlet />
     }
 
     return (
