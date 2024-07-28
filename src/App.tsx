@@ -4,7 +4,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 //
 import "./assets/scss/styles.scss"
 import ProtectedRoute from "./components/ProtectedRoute"
-import ErrorBoundary from "./components/ErrorBoundary"
+import ErrorBoundary from "./components/errors/ErrorBoundary"
 import IRoute from "./interfaces/route"
 import routes from "./config/routes"
 import config from "./config/config"

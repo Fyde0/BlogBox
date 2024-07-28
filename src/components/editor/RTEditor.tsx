@@ -1,4 +1,4 @@
-import { Container, Form } from "react-bootstrap"
+import { Container } from "react-bootstrap"
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import DOMPurify from "dompurify"
@@ -40,34 +40,13 @@ function RTEditor({ setPost }: { setPost: React.Dispatch<React.SetStateAction<IP
     }
 
     return (
-        <Container className="d-flex flex-column justify-content-center gap-4">
-
-            {/* Title */}
-            <Container>
-                <Form.Label className="w-100">
-                    <h3>Title</h3>
-                    <Form.Control
-                        onChange={(e) => {
-                            const titleValue = e.currentTarget.value
-                            setPost((prevPost: IPost) => ({
-                                ...prevPost,
-                                title: titleValue
-                            }))
-                        }}
-                    />
-                </Form.Label>
-            </Container>
-
-            {/* Editor */}
-            <Container>
-                <Toolbar editor={editor} className="mb-2" />
-                <EditorContent editor={editor} />
-                {/* TODO Make these ↓ */}
-                {/* <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu> */}
-                {/* <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu> */}
-            </Container>
-
-        </Container>
+        < Container >
+            <Toolbar editor={editor} className="mb-2" />
+            <EditorContent editor={editor} />
+            {/* TODO Make these ↓ */}
+            {/* <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu> */}
+            {/* <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu> */}
+        </Container >
     )
 }
 

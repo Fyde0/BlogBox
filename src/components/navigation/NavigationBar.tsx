@@ -1,10 +1,9 @@
 import { useLocation } from "react-router-dom"
 import { Container, Nav, Navbar } from "react-bootstrap"
 //
-import RouterNavLink from "./navigation/RouterNavLink"
-import AuthNavigation from "./navigation/AuthNavigation"
-//
-import config from "../config/config"
+import RouterNavLink from "./RouterNavLink"
+import AuthNavigation from "./AuthNavigation"
+import config from "../../config/config"
 
 function NavigationBar() {
     const { pathname } = useLocation()
@@ -14,7 +13,7 @@ function NavigationBar() {
             <Container style={{ maxWidth: "1280px" }}>
                 <Nav>
                     <RouterNavLink type="brand" to="/">{config.appName}</RouterNavLink>
-                    <RouterNavLink to="post/new" className="nav-link">New post</RouterNavLink>
+                    <RouterNavLink to="post" className="nav-link">New post</RouterNavLink>
                 </Nav>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">

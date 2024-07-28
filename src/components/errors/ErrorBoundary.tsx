@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap"
-import "../assets/scss/styles.scss"
+import "../../assets/scss/styles.scss"
 
 function ErrorBoundary() {
 

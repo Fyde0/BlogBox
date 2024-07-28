@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 // 
-import { isUserInfo } from "../interfaces/user"
+import ErrorMessage from "../components/errors/ErrorMessage"
+import { isIUserInfo } from "../interfaces/user"
 import useUserStore from "../stores/user"
 import config from "../config/config"
 
@@ -25,7 +26,7 @@ export function Component() {
         },
         onSuccess: (data: any) => {
             const userInfo = data.data
-            if (isUserInfo(userInfo)) {
+            if (isIUserInfo(userInfo)) {
                 clientLogin(userInfo)
                 navigate("/", { replace: true })
             } else {
@@ -37,7 +38,7 @@ export function Component() {
             error.response
                 ? setError(error.response.data)
                 : setError("Something went wrong.")
-        },
+        }
     })
 
     function handleLogin(e: React.FormEvent<HTMLFormElement>) {
@@ -57,13 +58,12 @@ export function Component() {
             style={{ maxWidth: "300px" }}
         >
             <form onSubmit={handleLogin}>
+
                 <h1 className="h3 mb-4">Login</h1>
+
                 {/* Error */}
-                {error != "" &&
-                    <div className="alert alert-danger">
-                        {error}
-                    </div>
-                }
+                {error != "" && <ErrorMessage message={error} />}
+
                 {/* Username */}
                 <div className="mb-2">
                     <label className="mb-1 w-100">
@@ -75,6 +75,7 @@ export function Component() {
                         />
                     </label>
                 </div>
+
                 {/* Password */}
                 <div className="mb-4">
                     <label className="mb-1 w-100" htmlFor="floatingPassword">
@@ -86,6 +87,7 @@ export function Component() {
                         />
                     </label>
                 </div>
+
                 {/* Button */}
                 <div>
                     <button className="btn btn-primary py-2 w-100">
@@ -99,6 +101,7 @@ export function Component() {
                         }
                     </button>
                 </div>
+
             </form>
         </main>
     )

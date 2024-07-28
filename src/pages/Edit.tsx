@@ -1,17 +1,21 @@
 import { useState } from "react"
-import { Button, Container, ToggleButton } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
+import { Button, Container, Form, Spinner, ToggleButton } from "react-bootstrap"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 // 
 import RTEditor from "../components/editor/RTEditor"
+import ErrorMessage from "../components/errors/ErrorMessage"
 import IPost, { emptyPost } from "../interfaces/post"
 import useUserStore from "../stores/user"
 import config from "../config/config"
 
 export function Component() {
     const { userInfo } = useUserStore()
+    const navigate = useNavigate()
     const [post, setPost] = useState<IPost>({ ...emptyPost, author: userInfo })
     const [showPreview, setShowPreview] = useState<boolean>(false)
+    const [error, setError] = useState<string>("")
 
     const submitPost = useMutation({
         mutationFn: async () => {
@@ -22,24 +26,42 @@ export function Component() {
             )
         },
         onSuccess: (data: any) => {
-            console.log(data)
+            const post = data.data
+            navigate("/" + post.postId)
         },
         onError: (error: any) => {
-            console.log(error)
-        },
+            error.response
+                ? setError(error.response.data)
+                : setError("Something went wrong.")
+        }
     })
 
-    function handleSubmitPost() {
-        console.log("submitting")
-        console.log(post)
-        submitPost.mutate()
-    }
+    // TODO Validate post
 
     return (
         <Container
             className="m-auto d-flex flex-column justify-content-center gap-4"
             style={{ maxWidth: "900px" }}
         >
+
+            {/* Error */}
+            {error != "" && <ErrorMessage message={error} />}
+
+            {/* Title */}
+            <Container>
+                <Form.Label className="w-100">
+                    <h3>Title</h3>
+                    <Form.Control
+                        onChange={(e) => {
+                            const titleValue = e.currentTarget.value
+                            setPost((prevPost: IPost) => ({
+                                ...prevPost,
+                                title: titleValue
+                            }))
+                        }}
+                    />
+                </Form.Label>
+            </Container>
 
             {/* Editor */}
             <RTEditor setPost={setPost} />
@@ -58,14 +80,13 @@ export function Component() {
                 </ToggleButton>
                 <Button
                     variant="primary"
-                    onClick={handleSubmitPost}
+                    onClick={() => submitPost.mutate()}
                     disabled={submitPost.isPending}
                 >
                     {submitPost.isPending ?
-                        <>
-                            <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                            <span className="visually-hidden" role="status">Loading...</span>
-                        </>
+                        <Spinner animation="border" role="status" size="sm">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
                         :
                         <span>Post</span>
                     }
@@ -73,7 +94,7 @@ export function Component() {
             </Container>
 
             {/* Post preview */}
-            {/* TODO Make preview with sidebar? */}
+            {/* TODO Make preview with sidebar? Use /post? */}
             {showPreview && <Container style={{ maxWidth: "800px" }}>
                 {post.title && <span><h3 className="mb-3">{post.title}</h3><hr /></span>}
                 <Container dangerouslySetInnerHTML={{ __html: post.content }} />

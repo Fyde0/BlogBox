@@ -14,7 +14,7 @@ export const emptyUserInfo: IUserInfo = {
 }
 
 // "Interface predicament"
-export function isUserInfo(obj: IUserInfo): obj is IUserInfo {
+export function isIUserInfo(obj: IUserInfo): obj is IUserInfo {
     return obj.username && obj.admin !== undefined ? true : false
 }
 

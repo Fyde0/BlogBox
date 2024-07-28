@@ -3,10 +3,15 @@ import { Outlet } from "react-router-dom"
 import { Container } from "react-bootstrap"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 //
-import NavigationBar from "../components/NavigationBar"
+import NavigationBar from "../components/navigation/NavigationBar"
 
 export function Component() {
-    const queryClient = new QueryClient()
+    // React query setup and options
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: { refetchOnWindowFocus: false }
+        }
+    })
 
     // TODO Theme switcher, set in userStore
     document.documentElement.setAttribute("data-bs-theme", "dark")

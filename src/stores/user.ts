@@ -25,13 +25,15 @@ const useUserStore = create(
             setHydrating: (hydrating: boolean) => set({ hydrating })
         }),
         // Persist in local storage
-        // When reloading check with server if still logged it
+        // When reloading check with server if still logged in
         {
             name: "userInfo",
             onRehydrateStorage: () => {
                 // getting from local storage here, then check with server
                 return async (state) => {
                     if (!state) { return } // for TS
+                    // If not logged in already, don't check
+                    if (!state.loggedIn) { return }
                     state.setHydrating(true)
                     await axios.get(
                         config.api.url + "/users/ping",
