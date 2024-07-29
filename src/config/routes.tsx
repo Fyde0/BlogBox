@@ -12,16 +12,28 @@ const routes: IRoute[] = [
     lazy: () => import("../pages/Login"),
     auth: false
   },
-  // Post
+  // New post
   {
-    path: "post", // New post
-    lazy: () => import("../pages/Edit"),
+    path: "post",
+    lazy: () => import("../pages/CreatePost"),
     auth: true,
   },
+  // View and edit post
   {
     path: ":year/:month/:day/:titleId",
-    lazy: () => import("../pages/Post"),
-    auth: false
+    auth: false,
+    children: [
+      {
+        path: "",
+        lazy: () => import("../pages/ViewPost"),
+        auth: false
+      },
+      {
+        path: "edit",
+        lazy: () => import("../pages/EditPost"),
+        auth: true
+      }
+    ]
   },
   // Catch all (404)
   {

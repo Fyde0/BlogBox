@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 // 
-import ErrorMessage from "../components/errors/ErrorMessage"
 import { isIUserInfo } from "../interfaces/user"
 import useUserStore from "../stores/user"
 import config from "../config/config"
+import { Alert } from "react-bootstrap"
 
 export function Component() {
     // TODO change to IUser
@@ -62,7 +62,7 @@ export function Component() {
                 <h1 className="h3 mb-4">Login</h1>
 
                 {/* Error */}
-                {error != "" && <ErrorMessage message={error} />}
+                {error != "" && <Alert variant="danger">{error}</Alert>}
 
                 {/* Username */}
                 <div className="mb-2">

@@ -1,17 +1,18 @@
 import { queryOptions, useQuery } from "@tanstack/react-query"
-import { Container, Spinner } from "react-bootstrap"
+import { Col, Container, Row, Spinner } from "react-bootstrap"
 import axios from "axios"
 // 
 import PostPreview from "../components/PostPreview"
+import ErrorPage from "../components/errors/ErrorPage"
 import config from "../config/config"
 import IPost from "../interfaces/post"
 
 export function Component() {
 
     const query = useQuery(queryOptions({
-        queryKey: ["posts"],
+        queryKey: ["homePosts"],
         queryFn: async () => {
-            return await axios.get(config.api.url + "/posts")
+            return await axios.get(config.api.url + "/posts?amount=10")
                 .then((res: any) => res.data)
         },
         retry: 1
@@ -27,32 +28,35 @@ export function Component() {
         )
     }
 
-    if (!query.data) {
-        // there's nothing here
-    }
-
     if (query.error) {
-        console.log(query.error)
-        // return <Navigate to="/500" />
+        return <ErrorPage code={500} />
     }
 
     const posts: IPost[] = query.data
 
     if (posts.length === 0) {
         return (
-            <Container>There are no posts yet.</Container>
+            <Container className="text-center">There are no posts yet.</Container>
         )
     }
 
-    // TODO post order, limit, pages
-
     return (
-        <Container>
-            {
-                posts.map((post, i) => {
-                    return <PostPreview post={post} key={i} />
-                })
-            }
-        </Container>
+        <Row>
+            <Col lg="8">
+                {
+                    posts.map((post, i) => {
+
+                        return (
+                            <Container key={i} className="mb-3">
+                                <PostPreview post={post} />
+                            </Container>
+                        )
+                    })
+                }
+            </Col>
+            <Col>
+                Side bar
+            </Col>
+        </Row>
     )
 }

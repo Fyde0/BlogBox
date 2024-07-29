@@ -17,7 +17,7 @@ interface IUserState {
 const useUserStore = create(
     persist<IUserState>(
         (set) => ({
-            hydrating: true,
+            hydrating: false,
             loggedIn: false,
             userInfo: { username: "", admin: false },
             clientLogin: (info: IUserInfo) => set({ loggedIn: true, userInfo: info }),

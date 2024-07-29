@@ -1,4 +1,16 @@
-@import "./variables.scss";
-$enable-rounded: true;
-@import "bootstrap/scss/bootstrap";
-@import "./bootswatch.scss";
+@import "./minty/styles.scss";
+
+.post-preview {
+    max-height: 3 * $line-height-base * 1em;
+    overflow: hidden;
+}
+
+.post-preview::after {
+    background: linear-gradient(to right, #00000000, $card-bg);
+    content: '\200C';
+    position: absolute;
+    right: $card-spacer-x;
+    bottom: $card-spacer-y;
+    height: $line-height-base * 1em;
+    width: 25%;
+}

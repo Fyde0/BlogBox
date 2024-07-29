@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 
-function ErrorCode({ code, message }: { code?: number, message?: string }) {
+function ErrorPage({ code, message }: { code?: number, message?: string }) {
 
     let codeMessage = "Error"
 
@@ -21,4 +21,4 @@ function ErrorCode({ code, message }: { code?: number, message?: string }) {
     )
 }
 
-export default ErrorCode
+export default ErrorPage

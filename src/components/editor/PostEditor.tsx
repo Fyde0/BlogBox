@@ -1,26 +1,27 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Button, Container, Form, Spinner, ToggleButton } from "react-bootstrap"
+import { Alert, Button, Container, Form, Spinner, ToggleButton } from "react-bootstrap"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 // 
-import RTEditor from "../components/editor/RTEditor"
-import ErrorMessage from "../components/errors/ErrorMessage"
-import IPost, { emptyPost } from "../interfaces/post"
-import useUserStore from "../stores/user"
-import config from "../config/config"
+import RTEditor from "./RTEditor"
+import IPost, { emptyPost } from "../../interfaces/post"
+import config from "../../config/config"
 
-export function Component() {
-    const { userInfo } = useUserStore()
+function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
     const navigate = useNavigate()
-    const [post, setPost] = useState<IPost>({ ...emptyPost, author: userInfo })
+    const [post, setPost] = useState<IPost>(postToUpdate ? postToUpdate : emptyPost)
     const [showPreview, setShowPreview] = useState<boolean>(false)
     const [error, setError] = useState<string>("")
 
     const submitPost = useMutation({
-        mutationFn: async () => {
+        mutationFn: async (updateMode: boolean) => {
+            let endpoint = "/posts/create" // create new post
+            if (updateMode) {
+                endpoint = "/posts/update/" + post._id // update post
+            }
             return await axios.post(
-                config.api.url + "/posts/create",
+                config.api.url + endpoint,
                 { ...post },
                 { withCredentials: true }
             )
@@ -45,13 +46,14 @@ export function Component() {
         >
 
             {/* Error */}
-            {error != "" && <ErrorMessage message={error} />}
+            {error != "" && <Alert variant="danger" className="d-inline-block">{error}</Alert>}
 
             {/* Title */}
             <Container>
                 <Form.Label className="w-100">
                     <h3>Title</h3>
                     <Form.Control
+                        value={post.title}
                         onChange={(e) => {
                             const titleValue = e.currentTarget.value
                             setPost((prevPost: IPost) => ({
@@ -64,7 +66,7 @@ export function Component() {
             </Container>
 
             {/* Editor */}
-            <RTEditor setPost={setPost} />
+            <RTEditor post={post} setPost={setPost} />
 
             {/* Buttons */}
             <Container className="d-flex gap-2 justify-content-end">
@@ -80,7 +82,7 @@ export function Component() {
                 </ToggleButton>
                 <Button
                     variant="primary"
-                    onClick={() => submitPost.mutate()}
+                    onClick={() => submitPost.mutate(postToUpdate ? true : false)}
                     disabled={submitPost.isPending}
                 >
                     {submitPost.isPending ?
@@ -88,18 +90,21 @@ export function Component() {
                             <span className="visually-hidden">Loading...</span>
                         </Spinner>
                         :
-                        <span>Post</span>
+                        <span>{postToUpdate ? "Update" : "Post"}</span>
                     }
                 </Button>
             </Container>
 
             {/* Post preview */}
             {/* TODO Make preview with sidebar? Use /post? */}
-            {showPreview && <Container style={{ maxWidth: "800px" }}>
-                {post.title && <span><h3 className="mb-3">{post.title}</h3><hr /></span>}
-                <Container dangerouslySetInnerHTML={{ __html: post.content }} />
-            </Container>}
+            {
+                showPreview && <Container style={{ maxWidth: "800px" }}>
+                    {post.title && <span><h3 className="mb-3">{post.title}</h3><hr /></span>}
+                    <Container dangerouslySetInnerHTML={{ __html: post.content }} />
+                </Container>
+            }
 
-        </Container>
+        </Container >
     )
 }
+export default PostEditor

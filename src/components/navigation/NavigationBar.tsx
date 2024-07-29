@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom"
 import { Container, Nav, Navbar } from "react-bootstrap"
 //
-import RouterNavLink from "./RouterNavLink"
+import RouterLink from "./RouterLink"
 import AuthNavigation from "./AuthNavigation"
 import config from "../../config/config"
 
@@ -9,11 +9,12 @@ function NavigationBar() {
     const { pathname } = useLocation()
 
     return (
-        <Navbar className="navbar bg-body-tertiary mb-4" key={pathname}>
+        // TODO Implement expand?
+        <Navbar className="navbar bg-primary mb-4" key={pathname}>
             <Container style={{ maxWidth: "1280px" }}>
                 <Nav>
-                    <RouterNavLink type="brand" to="/">{config.appName}</RouterNavLink>
-                    <RouterNavLink to="post" className="nav-link">New post</RouterNavLink>
+                    <RouterLink type="brand" to="/">{config.appName}</RouterLink>
+                    <RouterLink to="post" className="nav-link">New post</RouterLink>
                 </Nav>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
