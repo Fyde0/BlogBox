@@ -1,12 +1,10 @@
-import { queryOptions, useQuery } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
-import axios from "axios"
 // 
 import Loading from "../components/Loading"
 import ErrorPage from "../components/errors/ErrorPage"
-import { isIPost } from "../interfaces/post"
-import config from "../config/config"
 import PostEditor from "../components/editor/PostEditor"
+import { getPostByPostIdQuery } from "../api/posts"
+import { FetchError } from "../api/FetchLib"
 import useUserStore from "../stores/user"
 
 export function Component() {
@@ -14,27 +12,19 @@ export function Component() {
     const { year, month, day, titleId } = useParams()
 
     const postId = year + "/" + month + "/" + day + "/" + titleId
-
-    const getPost = useQuery(queryOptions({
-        queryKey: [postId],
-        queryFn: async () => {
-            return await axios.get(config.api.url + "/posts/byPostId/" + postId)
-                .then((res: any) => res.data)
-        },
-        retry: 1,
-    }))
+    const getPost = getPostByPostIdQuery({ postId: postId })
 
     // isFetching is for initial load and also refetching
     if (getPost.isFetching) {
         return <Loading />
     }
 
-    if (getPost.isError && !getPost.data) {
-        return <ErrorPage code={404} />
-    }
-
-    if (getPost.isError || getPost.data && !isIPost(getPost.data)) {
-        return <ErrorPage code={500} />
+    if (getPost.isError || !getPost.data) {
+        if (getPost.error instanceof FetchError) {
+            return <ErrorPage code={getPost.error?.response.status} />
+        } else {
+            throw getPost.error
+        }
     }
 
     // Only the owner can edit the post

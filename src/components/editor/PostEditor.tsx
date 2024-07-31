@@ -4,7 +4,7 @@ import { Alert, Button, Container, Form, Spinner, ToggleButton } from "react-boo
 // 
 import RTEditor from "./RTEditor"
 import { submitPostMutation } from "../../api/posts"
-import FetchError from "../../api/FetchError"
+import { FetchError } from "../../api/FetchLib"
 import IPost, { emptyPost } from "../../interfaces/post"
 
 function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {

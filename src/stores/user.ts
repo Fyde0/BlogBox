@@ -1,8 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import axios from "axios"
 // 
-import { IUserInfo } from '../interfaces/user'
+import { emptyUserInfo, IUserInfo } from '../interfaces/user'
 import config from "../config/config"
 
 interface IUserState {
@@ -19,9 +18,9 @@ const useUserStore = create(
         (set) => ({
             hydrating: false,
             loggedIn: false,
-            userInfo: { username: "", admin: false },
+            userInfo: emptyUserInfo,
             clientLogin: (info: IUserInfo) => set({ loggedIn: true, userInfo: info }),
-            clientLogout: () => set({ loggedIn: false, userInfo: { username: "", admin: false } }),
+            clientLogout: () => set({ loggedIn: false, userInfo: emptyUserInfo }),
             setHydrating: (hydrating: boolean) => set({ hydrating })
         }),
         // Persist in local storage
@@ -35,15 +34,17 @@ const useUserStore = create(
                     // If not logged in already, don't check
                     if (!state.loggedIn) { return }
                     state.setHydrating(true)
-                    await axios.get(
-                        config.api.url + "/users/ping",
-                        { withCredentials: true }
-                    )
-                        .then((response) => {
-                            response.status === 200 ? state.clientLogin(state.userInfo) : state.clientLogout()
-                        })
-                        .catch(() => state.clientLogout())
-                        .then(() => state.setHydrating(false))
+                    return fetch(config.api.url + "/users/ping", {
+                        method: "GET",
+                        credentials: 'include',
+                    }).then(async (response) => {
+                        if (response.ok) {
+                            state.clientLogin(state.userInfo)
+                        } else {
+                            state.clientLogout()
+                        }
+                    }).catch(() => state.clientLogout())
+                        .finally(() => state.setHydrating(false))
                 }
             }
         }

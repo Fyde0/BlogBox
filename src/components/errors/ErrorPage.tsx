@@ -6,6 +6,7 @@ function ErrorPage({ code, message }: { code?: number, message?: string }) {
 
     if (message === undefined) {
         switch (code) {
+            case 200: codeMessage = "Wait... 200? Isn't that ok?"; break
             case 403: codeMessage = "Forbidden"; break
             case 404: codeMessage = "Not Found"; break
             case 500: codeMessage = "Server Error"; break

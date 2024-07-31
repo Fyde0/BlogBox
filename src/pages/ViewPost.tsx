@@ -7,7 +7,7 @@ import ErrorPage from "../components/errors/ErrorPage"
 import CenteredModal from "../components/CenteredModal"
 import Loading from "../components/Loading"
 // 
-import FetchError from "../api/FetchError"
+import { FetchError } from "../api/FetchLib"
 import { deletePostMutation, getPostByPostIdQuery } from "../api/posts"
 import useUserStore from "../stores/user"
 

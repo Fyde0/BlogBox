@@ -1,7 +1,6 @@
 import { queryOptions, useMutation, useQuery, UseQueryResult } from "@tanstack/react-query"
 // 
-import FetchError from "./FetchError"
-import fetchHeaders from "./fetchHeaders"
+import { FetchError, fetchHeaders } from "./FetchLib"
 import IPost, { isIPost, isIPostArray } from "../interfaces/post"
 import config from "../config/config"
 
@@ -24,8 +23,7 @@ export function getPostsQuery({ page }: { page: number }): UseQueryResult<IPost[
                 }
                 throw new FetchError(response, data.error)
             })
-        },
-        retry: 1
+        }
     }))
 }
 
@@ -46,8 +44,7 @@ export function getPostByPostIdQuery({ postId }: { postId: string }): UseQueryRe
                 }
                 throw new FetchError(response, data.error)
             })
-        },
-        retry: 1
+        }
     }))
 }
 
@@ -78,7 +75,6 @@ export function submitPostMutation({ updating }: { updating: boolean }) {
         }
     })
 }
-
 
 // 
 // Mutation, delete post by _id

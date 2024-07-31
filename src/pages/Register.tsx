@@ -1,47 +1,49 @@
 import { useState } from "react"
-import { Navigate } from "react-router-dom"
 import { Alert, Button, Container, Form } from "react-bootstrap"
-// 
-import { serverLoginMutation } from "../api/users"
-import { FetchError } from "../api/FetchLib"
-import useUserStore from "../stores/user"
-import IUser, { emptyUser, IUserInfo } from "../interfaces/user"
 import { z } from "zod"
+// 
+import { registerMutation } from "../api/users"
+import { FetchError } from "../api/FetchLib"
+import IUser, { emptyUser } from "../interfaces/user"
 
 export function Component() {
     const [user, setUser] = useState<IUser>(emptyUser)
     const [validationError, setValidationError] = useState<string>("")
-    const { clientLogin } = useUserStore()
 
-    const serverLogin = serverLoginMutation()
+    const register = registerMutation()
 
-    if (serverLogin.isSuccess) {
-        return <Navigate to="/" replace={true} />
-    }
-
-    if (serverLogin.isError && !(serverLogin.error instanceof FetchError)) {
-        throw serverLogin.error
+    if (register.isError && !(register.error instanceof FetchError)) {
+        throw register.error
     }
 
     function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         // resets server error
-        serverLogin.reset()
+        register.reset()
         setValidationError("")
 
         const validationResult = z.object({
-            username: z.string().min(1, { message: "Username required." }),
-            password: z.string().min(1, { message: "Password required." })
-        }).safeParse({ username: user.username, password: user.password })
+            username: z
+                .string()
+                .min(1, { message: "Username required." })
+                .min(4, { message: "The username must be between 4 and 32 characters." })
+                .max(32, { message: "The username must be between 4 and 32 characters." })
+                .regex(/^([a-z0-9-_]+)$/, { message: "The username contains invalid characters." }),
+            password: z
+                .string()
+                .min(1, { message: "Password required." })
+                .min(4, { message: "The password must be between 4 and 50 characters." })
+                .max(50, { message: "The password must be between 4 and 50 characters." }),
+        })
+            .safeParse({ username: user.username, password: user.password })
 
         if (!validationResult.success) {
             setValidationError(validationResult.error.issues[0].message)
+            return false
         }
 
-        serverLogin.mutate(
-            { user },
-            { onSuccess: (userInfo: IUserInfo) => clientLogin(userInfo) }
-        )
+        setValidationError("")
+        register.mutate({ user })
     }
 
     return (
@@ -53,13 +55,19 @@ export function Component() {
         >
 
             <Container>
-                <h3 className="mb-0">Login</h3>
+                <h3 className="mb-0">Sign up</h3>
             </Container>
 
             <Container>
 
+                {/* Success */}
+                {register.isSuccess &&
+                    <Alert variant="success" className="align-self-center">
+                        You are signed up! You can login now.
+                    </Alert>}
+
                 {/* Error */}
-                {serverLogin.isError && <Alert variant="danger" className="align-self-center">{serverLogin.error.message}</Alert>}
+                {register.isError && <Alert variant="danger" className="align-self-center">{register.error.message}</Alert>}
                 {validationError && <Alert variant="danger" className="align-self-center">{validationError}</Alert>}
 
                 {/* Username */}
@@ -94,13 +102,13 @@ export function Component() {
                     className="w-100"
                     type="submit"
                 >
-                    {serverLogin.isPending ?
+                    {register.isPending ?
                         <>
                             <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
                             <span className="visually-hidden" role="status">Loading...</span>
                         </>
                         :
-                        <span>Sign In</span>
+                        <span>Sign Up</span>
                     }
                 </Button>
             </Container>

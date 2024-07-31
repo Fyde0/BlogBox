@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap"
 import Loading from "../components/Loading"
 import PostPreview from "../components/PostPreview"
 import ErrorPage from "../components/errors/ErrorPage"
-import FetchError from "../api/FetchError"
+import { FetchError } from "../api/FetchLib"
 import { getPostsQuery } from "../api/posts"
 
 export function Component() {

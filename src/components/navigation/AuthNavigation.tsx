@@ -1,28 +1,13 @@
 import { Nav } from "react-bootstrap"
-import { useMutation } from "@tanstack/react-query"
-import axios from "axios"
 // 
 import RouterLink from "./RouterLink"
+import { serverLogoutMutation } from "../../api/users"
 import useUserStore from "../../stores/user"
-import config from "../../config/config"
 
 function AuthNavigation() {
     const { hydrating, loggedIn, clientLogout } = useUserStore()
 
-    // TODO Timeout, retries?
-    const serverLogout = useMutation({
-        mutationFn: async () => {
-            return await axios.get(
-                config.api.url + "/users/logout",
-                { withCredentials: true }
-            )
-        },
-        onSuccess: () => clientLogout(),
-        onError: (error) => {
-            // TODO handle?
-            console.log(error)
-        }
-    })
+    const serverLogout = serverLogoutMutation()
 
     if (serverLogout.isPending || hydrating) {
         return (
@@ -36,11 +21,23 @@ function AuthNavigation() {
         <Nav>
             {
                 !loggedIn ?
-                    <RouterLink to="login" className="nav-link">Login</RouterLink>
+                    <>
+                        <RouterLink to="/register" className="nav-link">Register</RouterLink>
+                        <RouterLink to="/login" className="nav-link">Login</RouterLink>
+                    </>
                     :
-                    <Nav.Link onClick={() => serverLogout.mutate()} active={false}>Logout</Nav.Link>
+                    <Nav.Link
+                        onClick={
+                            () => serverLogout.mutate(undefined, {
+                                onSuccess: () => clientLogout()
+                            })
+                        }
+                        active={false} // keep this, see ./RouterLink
+                    >
+                        Logout
+                    </Nav.Link>
             }
-        </Nav>
+        </Nav >
     )
 }
 
