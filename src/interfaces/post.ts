@@ -21,4 +21,8 @@ export function isIPost(obj: IPost): obj is IPost {
     return obj.title && isIUserInfo(obj.author) && obj.content ? true : false
 }
 
+export function isIPostArray(obj: IPost[]): obj is IPost[] {
+    return obj.every(post => isIPost(post))
+}
+
 export default IPost

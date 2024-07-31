@@ -22,6 +22,7 @@
     "react-dom": "^18.3.1",
     "react-router-bootstrap": "^0.26.3",
     "react-router-dom": "^6.25.0",
+    "zod": "^3.23.8",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

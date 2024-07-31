@@ -8,7 +8,7 @@ function PostPreview({ post }: { post: IPost }) {
         authorString += " on " + new Date(post.createdAt).toLocaleString(undefined, { dateStyle: "long", timeStyle: "short" })
     }
     if (post.updatedAt && post.createdAt !== post.updatedAt) {
-        authorString += " updated at " + new Date(post.updatedAt).toLocaleString(undefined, { timeStyle: "short" })
+        authorString += " (Updated " + new Date(post.updatedAt).toLocaleString(undefined, { dateStyle: "long", timeStyle: "short" }) + ")"
     }
 
     const parser = new DOMParser()

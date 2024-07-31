@@ -1,41 +1,32 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 import { Alert, Button, Container, Form, Spinner, ToggleButton } from "react-bootstrap"
-import { useMutation } from "@tanstack/react-query"
-import axios from "axios"
 // 
 import RTEditor from "./RTEditor"
+import { submitPostMutation } from "../../api/posts"
+import FetchError from "../../api/FetchError"
 import IPost, { emptyPost } from "../../interfaces/post"
-import config from "../../config/config"
 
 function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
-    const navigate = useNavigate()
+    // if postToUpdate exists, we're in "update mode"
     const [post, setPost] = useState<IPost>(postToUpdate ? postToUpdate : emptyPost)
     const [showPreview, setShowPreview] = useState<boolean>(false)
-    const [error, setError] = useState<string>("")
 
-    const submitPost = useMutation({
-        mutationFn: async (updateMode: boolean) => {
-            let endpoint = "/posts/create" // create new post
-            if (updateMode) {
-                endpoint = "/posts/update/" + post._id // update post
-            }
-            return await axios.post(
-                config.api.url + endpoint,
-                { ...post },
-                { withCredentials: true }
-            )
-        },
-        onSuccess: (data: any) => {
-            const post = data.data
-            navigate("/" + post.postId)
-        },
-        onError: (error: any) => {
-            error.response
-                ? setError(error.response.data)
-                : setError("Something went wrong.")
-        }
-    })
+    // API calls setup
+
+    const submitPost = submitPostMutation({ updating: postToUpdate ? true : false })
+
+    // API result checks
+
+    if (submitPost.isSuccess) {
+        return (
+            <Navigate to={"/" + (submitPost.data)} />
+        )
+    }
+
+    if (submitPost.isError && !(submitPost.error instanceof FetchError)) {
+        throw submitPost.error
+    }
 
     // TODO Validate post
 
@@ -46,7 +37,7 @@ function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
         >
 
             {/* Error */}
-            {error != "" && <Alert variant="danger" className="d-inline-block">{error}</Alert>}
+            {submitPost.isError && <Alert variant="danger" className="align-self-center">{submitPost.error.message}</Alert>}
 
             {/* Title */}
             <Container>
@@ -55,10 +46,10 @@ function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
                     <Form.Control
                         value={post.title}
                         onChange={(e) => {
-                            const titleValue = e.currentTarget.value
+                            const newTitle = e.currentTarget.value
                             setPost((prevPost: IPost) => ({
                                 ...prevPost,
-                                title: titleValue
+                                title: newTitle
                             }))
                         }}
                     />
@@ -70,19 +61,19 @@ function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
 
             {/* Buttons */}
             <Container className="d-flex gap-2 justify-content-end">
+
                 <ToggleButton
-                    id="preview"
-                    value="Preview"
-                    type="checkbox"
-                    variant="secondary"
+                    id="preview" value="Preview"
+                    type="checkbox" variant="secondary"
                     checked={showPreview}
                     onChange={(e) => setShowPreview(e.currentTarget.checked)}
                 >
                     Preview
                 </ToggleButton>
+
                 <Button
                     variant="primary"
-                    onClick={() => submitPost.mutate(postToUpdate ? true : false)}
+                    onClick={() => submitPost.mutate(post)}
                     disabled={submitPost.isPending}
                 >
                     {submitPost.isPending ?
@@ -93,12 +84,14 @@ function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
                         <span>{postToUpdate ? "Update" : "Post"}</span>
                     }
                 </Button>
+
             </Container>
 
             {/* Post preview */}
-            {/* TODO Make preview with sidebar? Use /post? */}
+            {/* TODO Make preview with sidebar? Use ViewPost? */}
             {
-                showPreview && <Container style={{ maxWidth: "800px" }}>
+                showPreview &&
+                <Container style={{ maxWidth: "800px" }}>
                     {post.title && <span><h3 className="mb-3">{post.title}</h3><hr /></span>}
                     <Container dangerouslySetInnerHTML={{ __html: post.content }} />
                 </Container>
@@ -107,4 +100,5 @@ function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
         </Container >
     )
 }
+
 export default PostEditor

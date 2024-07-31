@@ -1,38 +1,28 @@
-import { queryOptions, useQuery } from "@tanstack/react-query"
-import { Col, Container, Row, Spinner } from "react-bootstrap"
-import axios from "axios"
+import { Col, Container, Row } from "react-bootstrap"
 // 
+import Loading from "../components/Loading"
 import PostPreview from "../components/PostPreview"
 import ErrorPage from "../components/errors/ErrorPage"
-import config from "../config/config"
-import IPost from "../interfaces/post"
+import FetchError from "../api/FetchError"
+import { getPostsQuery } from "../api/posts"
 
 export function Component() {
 
-    const query = useQuery(queryOptions({
-        queryKey: ["homePosts"],
-        queryFn: async () => {
-            return await axios.get(config.api.url + "/posts?amount=10")
-                .then((res: any) => res.data)
-        },
-        retry: 1
-    }))
+    const getPosts = getPostsQuery({ page: 1 })
 
-    if (query.isLoading) {
-        return (
-            <Container className="d-flex justify-content-center mt-5">
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </Container>
-        )
+    if (getPosts.isFetching) {
+        return <Loading />
     }
 
-    if (query.error) {
-        return <ErrorPage code={500} />
+    if (getPosts.isError || !getPosts.data) {
+        if (getPosts.error instanceof FetchError) {
+            return <ErrorPage code={getPosts.error?.response.status} />
+        } else {
+            throw getPosts.error
+        }
     }
 
-    const posts: IPost[] = query.data
+    const posts = getPosts.data
 
     if (posts.length === 0) {
         return (
@@ -45,7 +35,6 @@ export function Component() {
             <Col lg="8">
                 {
                     posts.map((post, i) => {
-
                         return (
                             <Container key={i} className="mb-3">
                                 <PostPreview post={post} />

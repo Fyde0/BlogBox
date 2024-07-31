@@ -1,108 +1,110 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useMutation } from "@tanstack/react-query"
-import axios from "axios"
+import { Navigate } from "react-router-dom"
+import { Alert, Button, Container, Form } from "react-bootstrap"
 // 
-import { isIUserInfo } from "../interfaces/user"
+import { serverLoginMutation } from "../api/users"
+import FetchError from "../api/FetchError"
 import useUserStore from "../stores/user"
-import config from "../config/config"
-import { Alert } from "react-bootstrap"
+import IUser, { emptyUser, IUserInfo } from "../interfaces/user"
+import { z } from "zod"
 
 export function Component() {
-    // TODO change to IUser
-    const [username, setUsername] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
-    const [error, setError] = useState<string>("")
+    const [user, setUser] = useState<IUser>(emptyUser)
+    const [validationError, setValidationError] = useState<string>("")
     const { clientLogin } = useUserStore()
-    const navigate = useNavigate()
 
-    const serverLogin = useMutation({
-        mutationFn: async () => {
-            return await axios.post(
-                config.api.url + "/users/login",
-                { username, password },
-                { withCredentials: true }
-            )
-        },
-        onSuccess: (data: any) => {
-            const userInfo = data.data
-            if (isIUserInfo(userInfo)) {
-                clientLogin(userInfo)
-                navigate("/", { replace: true })
-            } else {
-                // If the response is not a user
-                setError("Unknown server error.")
-            }
-        },
-        onError: (error: any) => {
-            error.response
-                ? setError(error.response.data)
-                : setError("Something went wrong.")
-        }
-    })
+    const serverLogin = serverLoginMutation()
+
+    if (serverLogin.isSuccess) {
+        return <Navigate to="/" replace={true} />
+    }
+
+    if (serverLogin.isError && !(serverLogin.error instanceof FetchError)) {
+        throw serverLogin.error
+    }
 
     function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        setError("")
-        // Validate fields
-        if (!username || !password) {
-            setError("One or more fields are empty.")
-            return false
+        // resets server error
+        serverLogin.reset()
+        setValidationError("")
+
+        const validationResult = z.object({
+            username: z.string().min(1, { message: "Username required." }),
+            password: z.string().min(1, { message: "Password required." })
+        }).safeParse({ username: user.username, password: user.password })
+
+        if (!validationResult.success) {
+            setValidationError(validationResult.error.issues[0].message)
         }
-        serverLogin.mutate()
+
+        serverLogin.mutate(
+            { user },
+            { onSuccess: (userInfo: IUserInfo) => clientLogin(userInfo) }
+        )
     }
 
     return (
-        <main
-            className="m-auto"
+        <Form
+            className="m-auto d-flex flex-column justify-content-center gap-4"
+            // makes Enter key work
+            onSubmit={handleLogin}
             style={{ maxWidth: "300px" }}
         >
-            <form onSubmit={handleLogin}>
 
-                <h1 className="h3 mb-4">Login</h1>
+            <Container>
+                <h3 className="mb-0">Login</h3>
+            </Container>
+
+            <Container>
 
                 {/* Error */}
-                {error != "" && <Alert variant="danger">{error}</Alert>}
+                {serverLogin.isError && <Alert variant="danger" className="align-self-center">{serverLogin.error.message}</Alert>}
+                {validationError && <Alert variant="danger" className="align-self-center">{validationError}</Alert>}
 
                 {/* Username */}
-                <div className="mb-2">
-                    <label className="mb-1 w-100">
-                        Username
-                        <input
-                            className="form-control" id="floatingInput"
-                            value={username}
-                            onChange={event => setUsername(event.target.value)}
-                        />
-                    </label>
-                </div>
+                <Form.Label className="w-100">
+                    Username
+                    <Form.Control
+                        type="username"
+                        value={user.username}
+                        onChange={event => setUser(prevUser => (
+                            { ...prevUser, username: event.target.value }
+                        ))}
+                    />
+                </Form.Label>
 
                 {/* Password */}
-                <div className="mb-4">
-                    <label className="mb-1 w-100" htmlFor="floatingPassword">
-                        Password
-                        <input
-                            type="password" className="form-control w-100" id="floatingPassword"
-                            value={password}
-                            onChange={event => setPassword(event.target.value)}
-                        />
-                    </label>
-                </div>
+                <Form.Label className="w-100">
+                    Password
+                    <Form.Control
+                        type="password"
+                        value={user.password}
+                        onChange={event => setUser(prevUser => (
+                            { ...prevUser, password: event.target.value }
+                        ))}
+                    />
+                </Form.Label>
 
-                {/* Button */}
-                <div>
-                    <button className="btn btn-primary py-2 w-100">
-                        {serverLogin.isPending ?
-                            <>
-                                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                <span className="visually-hidden" role="status">Loading...</span>
-                            </>
-                            :
-                            <span>Sign In</span>
-                        }
-                    </button>
-                </div>
+            </Container>
 
-            </form>
-        </main>
+            <Container>
+                <Button
+                    size="lg"
+                    className="w-100"
+                    type="submit"
+                >
+                    {serverLogin.isPending ?
+                        <>
+                            <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span className="visually-hidden" role="status">Loading...</span>
+                        </>
+                        :
+                        <span>Sign In</span>
+                    }
+                </Button>
+            </Container>
+
+        </Form>
     )
 }

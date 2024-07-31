@@ -10,6 +10,8 @@ import Toolbar from "./Toolbar"
 
 function RTEditor({ post, setPost }: { post: IPost, setPost: React.Dispatch<React.SetStateAction<IPost>> }) {
 
+    // TODO add underline, links, colors?
+
     // Editor setup
     const extensions = [
         StarterKit.configure({

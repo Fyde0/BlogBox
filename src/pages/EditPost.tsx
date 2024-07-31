@@ -1,18 +1,20 @@
 import { queryOptions, useQuery } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
+import axios from "axios"
 // 
 import Loading from "../components/Loading"
 import ErrorPage from "../components/errors/ErrorPage"
 import { isIPost } from "../interfaces/post"
 import config from "../config/config"
 import PostEditor from "../components/editor/PostEditor"
+import useUserStore from "../stores/user"
 
 export function Component() {
+    const { userInfo } = useUserStore()
     const { year, month, day, titleId } = useParams()
 
     const postId = year + "/" + month + "/" + day + "/" + titleId
 
-    // TOFIX doesn't run when refreshing
     const getPost = useQuery(queryOptions({
         queryKey: [postId],
         queryFn: async () => {
@@ -21,8 +23,6 @@ export function Component() {
         },
         retry: 1,
     }))
-
-    console.log(getPost.data)
 
     // isFetching is for initial load and also refetching
     if (getPost.isFetching) {
@@ -33,8 +33,13 @@ export function Component() {
         return <ErrorPage code={404} />
     }
 
-    if (getPost.data && !isIPost(getPost.data)) {
+    if (getPost.isError || getPost.data && !isIPost(getPost.data)) {
         return <ErrorPage code={500} />
+    }
+
+    // Only the owner can edit the post
+    if (getPost.data.author._id !== userInfo._id) {
+        return <ErrorPage code={403} />
     }
 
     return (
