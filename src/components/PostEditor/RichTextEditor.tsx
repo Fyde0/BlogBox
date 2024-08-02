@@ -8,7 +8,7 @@ import "../../assets/css/editor.css"
 import IPost from "../../interfaces/post"
 import Toolbar from "./Toolbar"
 
-function RTEditor({ post, setPost }: { post: IPost, setPost: React.Dispatch<React.SetStateAction<IPost>> }) {
+function RichTextEditor({ post, setPost }: { post: IPost, setPost: React.Dispatch<React.SetStateAction<IPost>> }) {
 
     // TODO add underline, links, colors?
 
@@ -52,4 +52,4 @@ function RTEditor({ post, setPost }: { post: IPost, setPost: React.Dispatch<Reac
     )
 }
 
-export default RTEditor
+export default RichTextEditor

@@ -1,4 +1,4 @@
-import PostEditor from "../components/editor/PostEditor"
+import PostEditor from "../components/PostEditor"
 
 export function Component() {
 

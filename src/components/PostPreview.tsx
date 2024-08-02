@@ -1,5 +1,5 @@
 import { Card } from "react-bootstrap";
-import IPost from "../interfaces/post";
+import IPost from "../../interfaces/post";
 import { Link } from "react-router-dom";
 
 function PostPreview({ post }: { post: IPost }) {

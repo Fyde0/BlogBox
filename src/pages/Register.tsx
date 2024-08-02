@@ -5,6 +5,7 @@ import { z } from "zod"
 import { registerMutation } from "../api/users"
 import { FetchError } from "../api/FetchLib"
 import IUser, { emptyUser } from "../interfaces/user"
+import { Link } from "react-router-dom"
 
 export function Component() {
     const [user, setUser] = useState<IUser>(emptyUser)
@@ -111,6 +112,10 @@ export function Component() {
                         <span>Sign Up</span>
                     }
                 </Button>
+            </Container>
+
+            <Container>
+                <small>If you already have an account, you can login <Link to="/login">here</Link>.</small>
             </Container>
 
         </Form>

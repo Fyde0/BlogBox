@@ -2,10 +2,11 @@ import { useState } from "react"
 import { Navigate, useParams } from "react-router-dom"
 import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap"
 // 
-import RouterLink from "../components/navigation/RouterLink"
+import RouterLink from "../components/RouterLink"
 import ErrorPage from "../components/errors/ErrorPage"
 import CenteredModal from "../components/CenteredModal"
 import Loading from "../components/Loading"
+import Sidebar from "../components/Sidebar"
 // 
 import { FetchError } from "../api/FetchLib"
 import { deletePostMutation, getPostByPostIdQuery } from "../api/posts"
@@ -59,42 +60,43 @@ export function Component() {
     // 
 
     return (
-        <Container className="d-flex flex-column justify-content-center">
+        <>
+            <Row className="d-flex flex-column">
 
-            {/* Delete modal */}
-            <CenteredModal
-                show={showDeleteModal}
-                onHide={() => setShowDeleteModal(false)}
-                variant="danger"
-                title="Confirmation"
-                confirmText="Delete"
-                confirmAction={
-                    () => deletePost.mutate(
-                        post._id,
-                        { onSettled: () => setShowDeleteModal(false) }
-                    )
-                }
-                loading={deletePost.isPending}
-            >
-                Are you sure you want to delete this post?
-            </CenteredModal>
+                {/* Delete modal */}
+                <CenteredModal
+                    show={showDeleteModal}
+                    onHide={() => setShowDeleteModal(false)}
+                    variant="danger"
+                    title="Confirmation"
+                    confirmText="Delete"
+                    confirmAction={
+                        () => deletePost.mutate(
+                            post._id,
+                            { onSettled: () => setShowDeleteModal(false) }
+                        )
+                    }
+                    loading={deletePost.isPending}
+                >
+                    Are you sure you want to delete this post?
+                </CenteredModal>
 
-            {/* Mutation error alert */}
-            {deletePost.isError && <Alert variant="danger" className="align-self-center">{deletePost.error.message}</Alert>}
+                {/* Mutation error alert */}
+                {deletePost.isError && <Alert variant="danger" className="align-self-center">{deletePost.error.message}</Alert>}
+
+            </Row>
 
             <Row>
 
                 {/* Post */}
                 <Col lg="8">
-                    <Container>
-                        <h1>{post.title}</h1>
-                        <p className="text-body-secondary">{authorString}</p><hr className="my-4" />
-                        <Container dangerouslySetInnerHTML={{ __html: post.content }} />
-                    </Container>
+                    <h1>{post.title}</h1>
+                    <p className="text-body-secondary">{authorString}</p><hr className="my-4" />
+                    <Container className="p-0" dangerouslySetInnerHTML={{ __html: post.content }} />
                 </Col>
 
                 {/* Sidebar */}
-                <Col>
+                <Col className="d-flex flex-column gap-3">
                     {
                         userInfo._id === post.author._id &&
                         <Card className="border-primary">
@@ -105,9 +107,10 @@ export function Component() {
                             </Card.Body>
                         </Card>
                     }
+                    <Sidebar />
                 </Col>
 
             </Row>
-        </Container>
+        </>
     )
 }

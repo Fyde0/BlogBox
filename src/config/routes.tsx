@@ -2,7 +2,7 @@ import IRoute from "../interfaces/route"
 
 const routes: IRoute[] = [
   {
-    path: "/",
+    path: "/:page?",
     lazy: () => import("../pages/Home"),
     auth: false
   },
@@ -25,18 +25,29 @@ const routes: IRoute[] = [
   },
   // View and edit post
   {
-    path: ":year/:month/:day/:titleId",
+    path: ":year/:month?/:day?",
     auth: false,
     children: [
       {
         path: "",
-        lazy: () => import("../pages/ViewPost"),
+        lazy: () => import("../pages/ViewPostsByDateRange"),
         auth: false
       },
       {
-        path: "edit",
-        lazy: () => import("../pages/EditPost"),
-        auth: true
+        path: ":titleId",
+        auth: false,
+        children: [
+          {
+            path: "",
+            lazy: () => import("../pages/ViewPost"),
+            auth: false
+          },
+          {
+            path: "edit",
+            lazy: () => import("../pages/EditPost"),
+            auth: true
+          }
+        ]
       }
     ]
   },

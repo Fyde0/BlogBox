@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Navigate } from "react-router-dom"
 import { Alert, Button, Container, Form, Spinner, ToggleButton } from "react-bootstrap"
 // 
-import RTEditor from "./RTEditor"
+import RichTextEditor from "./RichTextEditor"
 import { submitPostMutation } from "../../api/posts"
 import { FetchError } from "../../api/FetchLib"
 import IPost, { emptyPost } from "../../interfaces/post"
@@ -57,7 +57,7 @@ function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
             </Container>
 
             {/* Editor */}
-            <RTEditor post={post} setPost={setPost} />
+            <RichTextEditor post={post} setPost={setPost} />
 
             {/* Buttons */}
             <Container className="d-flex gap-2 justify-content-end">

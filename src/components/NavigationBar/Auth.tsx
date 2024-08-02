@@ -1,10 +1,10 @@
 import { Nav } from "react-bootstrap"
 // 
-import RouterLink from "./RouterLink"
+import RouterLink from "../RouterLink"
 import { serverLogoutMutation } from "../../api/users"
 import useUserStore from "../../stores/user"
 
-function AuthNavigation() {
+function Auth() {
     const { hydrating, loggedIn, clientLogout } = useUserStore()
 
     const serverLogout = serverLogoutMutation()
@@ -41,4 +41,4 @@ function AuthNavigation() {
     )
 }
 
-export default AuthNavigation
+export default Auth

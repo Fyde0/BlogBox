@@ -7,6 +7,7 @@ import { FetchError } from "../api/FetchLib"
 import useUserStore from "../stores/user"
 import IUser, { emptyUser, IUserInfo } from "../interfaces/user"
 import { z } from "zod"
+import { Link } from "react-router-dom"
 
 export function Component() {
     const [user, setUser] = useState<IUser>(emptyUser)
@@ -103,6 +104,10 @@ export function Component() {
                         <span>Sign In</span>
                     }
                 </Button>
+            </Container>
+
+            <Container>
+                <small>You don't have an account? You can make one <Link to="/register">here</Link>.</small>
             </Container>
 
         </Form>

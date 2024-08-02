@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 // 
 import Loading from "../components/Loading"
 import ErrorPage from "../components/errors/ErrorPage"
-import PostEditor from "../components/editor/PostEditor"
+import PostEditor from "../components/PostEditor"
 import { getPostByPostIdQuery } from "../api/posts"
 import { FetchError } from "../api/FetchLib"
 import useUserStore from "../stores/user"

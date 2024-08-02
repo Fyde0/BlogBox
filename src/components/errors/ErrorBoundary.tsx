@@ -1,4 +1,8 @@
+import { useRouteError } from "react-router-dom";
+
 function ErrorBoundary() {
+    let error = useRouteError()
+    console.log(error)
 
     // TODO Get theme from user store safely
     document.documentElement.setAttribute("data-bs-theme", "dark")

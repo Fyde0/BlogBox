@@ -1,7 +1,8 @@
-import { Col, Container, Row } from "react-bootstrap"
+import { Card, Col, Container, Row } from "react-bootstrap"
 // 
+import Sidebar from "../components/Sidebar"
 import Loading from "../components/Loading"
-import PostPreview from "../components/PostPreview"
+import PostsList from "../components/PostsList"
 import ErrorPage from "../components/errors/ErrorPage"
 import { FetchError } from "../api/FetchLib"
 import { getPostsQuery } from "../api/posts"
@@ -33,18 +34,18 @@ export function Component() {
     return (
         <Row>
             <Col lg="8">
-                {
-                    posts.map((post, i) => {
-                        return (
-                            <Container key={i} className="mb-3">
-                                <PostPreview post={post} />
-                            </Container>
-                        )
-                    })
-                }
+                <PostsList posts={posts} />
             </Col>
-            <Col>
-                Side bar
+            <Col className="d-flex flex-column gap-3">
+                <Card>
+                    <Card.Body>
+                        <Card.Title>Welcome</Card.Title>
+                        <Card.Text>
+                            TODO Write something here
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+                <Sidebar />
             </Col>
         </Row>
     )
