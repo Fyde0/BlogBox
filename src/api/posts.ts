@@ -2,25 +2,27 @@ import { queryOptions, useMutation, useQuery, UseQueryResult } from "@tanstack/r
 // 
 import queryClient from "./queryClient"
 import { FetchError, fetchHeaders } from "./FetchLib"
-import IPost, { isIPost, isIPostArray } from "../interfaces/post"
-import IPostsCountByMonth, { isIPostsCountByMonthArray } from "../interfaces/postsCountByMonth"
+import IPost, { isIPost } from "../interfaces/post"
+import IAllPosts, { isIAllPosts } from "./interfaces/allPosts"
+import IPostsCountByMonth, { isIPostsCountByMonthArray } from "./interfaces/postsCountByMonth"
 import config from "../config/config"
 
 // 
 // Query, get posts
 // 
-export function getPostsQuery({ page }: { page: number }): UseQueryResult<IPost[]> {
+export function getAllPostsQuery({ page }: { page: number }): UseQueryResult<IAllPosts> {
     const amount = 10
     const skip = amount * (page - 1)
     return useQuery(queryOptions({
         queryKey: ["homePostsPage" + page],
         queryFn: async () => {
+            console.log("fetch")
             return fetch(config.api.url + "/posts?amount=" + amount + "&skip=" + skip, {
                 method: "GET",
                 credentials: 'include',
             }).then(async (response) => {
                 const data = await response.json()
-                if (response.ok && isIPostArray(data)) {
+                if (response.ok && isIAllPosts(data)) {
                     return data
                 }
                 throw new FetchError(response, data.error)
@@ -29,20 +31,25 @@ export function getPostsQuery({ page }: { page: number }): UseQueryResult<IPost[
     }))
 }
 
+// TODO Join all posts and by date
+
 // 
 // Query, get posts by date
 // 
-export function getPostsByDateQuery({ startDateEpochMs, endDateEpochMs }:
-    { startDateEpochMs: number, endDateEpochMs: number }): UseQueryResult<IPost[]> {
+export function getPostsByDateQuery({ startDateEpochMs, endDateEpochMs, page }:
+    { startDateEpochMs: number, endDateEpochMs: number, page: number }): UseQueryResult<IAllPosts> {
+    const amount = 10
+    const skip = amount * (page - 1)
     return useQuery(queryOptions({
-        queryKey: ["postsByDate" + startDateEpochMs + endDateEpochMs],
+        queryKey: ["postsByDate" + startDateEpochMs + endDateEpochMs + page],
         queryFn: async () => {
-            return fetch(config.api.url + "/posts/byDateRange/" + startDateEpochMs + "/" + endDateEpochMs, {
+            return fetch(config.api.url + "/posts/byDateRange/" + startDateEpochMs + "/" + endDateEpochMs +
+                "?amount=" + amount + "&skip=" + skip, {
                 method: "GET",
                 credentials: 'include',
             }).then(async (response) => {
                 const data = await response.json()
-                if (response.ok && isIPostArray(data)) {
+                if (response.ok && isIAllPosts(data)) {
                     return data
                 }
                 throw new FetchError(response, data.error)
@@ -75,7 +82,7 @@ export function getPostByPostIdQuery({ postId }: { postId: string }): UseQueryRe
 // 
 // Query, get posts count by publish month
 // 
-export function getPostsAmountByMonth(): UseQueryResult<IPostsCountByMonth[]> {
+export function getPostsCountByMonth(): UseQueryResult<IPostsCountByMonth[]> {
     return useQuery(queryOptions({
         queryKey: ["postsCountByMonth"],
         queryFn: async () => {

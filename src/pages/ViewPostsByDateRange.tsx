@@ -1,4 +1,4 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 // 
@@ -8,9 +8,19 @@ import PostsList from "../components/PostsList";
 import Sidebar from "../components/Sidebar";
 import { getPostsByDateQuery } from "../api/posts";
 import { FetchError } from "../api/FetchLib";
+import Paginator from "../components/Paginator";
 
 export function Component() {
-    const { year, month, day } = useParams()
+    const { year, month, day, page } = useParams()
+
+    console.log(year)
+    console.log(month)
+    console.log(day)
+    console.log(page)
+
+    let currentPage = Number(page)
+
+    if (!page) currentPage = 1
 
     const dateValidation = z
         .object({
@@ -21,7 +31,7 @@ export function Component() {
         .safeParse({ year, month, day })
 
     if (!dateValidation.success) {
-        return <ErrorPage code={500} />
+        return <ErrorPage code={404} />
     }
 
     const startDate = new Date(
@@ -62,7 +72,7 @@ export function Component() {
     const startDateEpochMs = startDate.getTime()
     const endDateEpochMs = endDate.getTime()
 
-    const getPosts = getPostsByDateQuery({ startDateEpochMs, endDateEpochMs })
+    const getPosts = getPostsByDateQuery({ startDateEpochMs, endDateEpochMs, page: currentPage })
 
     if (getPosts.isFetching) {
         return <Loading />
@@ -76,18 +86,16 @@ export function Component() {
         }
     }
 
-    const posts = getPosts.data
-
-    if (posts.length === 0) {
-        return (
-            <Container className="text-center">No posts found.</Container>
-        )
-    }
+    const posts = getPosts.data.posts
+    const postsCount = getPosts.data.totalCount
+    const postsPerPage = 10
+    const pages = Math.ceil(postsCount / postsPerPage)
 
     return (
         <Row>
-            <Col lg="8">
+            <Col lg="8" className="d-flex flex-column justify-content-center gap-3">
                 <PostsList title={title} posts={posts} />
+                <Paginator totalPages={pages} currentPage={currentPage} />
             </Col>
             <Col>
                 <Sidebar />

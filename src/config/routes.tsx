@@ -2,7 +2,7 @@ import IRoute from "../interfaces/route"
 
 const routes: IRoute[] = [
   {
-    path: "/:page?",
+    path: "/page?/:page?", // ← I don't get it
     lazy: () => import("../pages/Home"),
     auth: false
   },
@@ -29,7 +29,7 @@ const routes: IRoute[] = [
     auth: false,
     children: [
       {
-        path: "",
+        path: "page?/:page?",
         lazy: () => import("../pages/ViewPostsByDateRange"),
         auth: false
       },

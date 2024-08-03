@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
 // 
 import Loading from "../Loading"
-import { getPostsAmountByMonth } from "../../api/posts"
+import { getPostsCountByMonth } from "../../api/posts"
 import { Badge, ListGroup } from "react-bootstrap"
 
 function Archives() {
 
-    const archivesQuery = getPostsAmountByMonth()
+    const archivesQuery = getPostsCountByMonth()
 
     if (archivesQuery.isFetching) {
         return <Loading />
