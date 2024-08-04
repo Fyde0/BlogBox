@@ -7,6 +7,7 @@ interface IPost {
     author: IUserInfo
     content: string
     picture?: string
+    tags: string[]
     createdAt?: Date
     updatedAt?: Date
 }
@@ -14,7 +15,8 @@ interface IPost {
 export const emptyPost = {
     title: "",
     author: emptyUserInfo,
-    content: ""
+    content: "",
+    tags: []
 }
 
 export function isIPost(obj: IPost): obj is IPost {

@@ -5,6 +5,7 @@
     overflow: hidden;
 }
 
+// Gradient at the end of post previews
 .post-preview::after {
     background: linear-gradient(to right, #00000000, $card-bg);
     content: '\200C';
@@ -13,4 +14,25 @@
     bottom: $card-spacer-y;
     height: $line-height-base * 1em;
     width: 25%;
+}
+
+// Focus class for tags div (copied from bootstrap)
+.tags-input-div:focus-within {
+    color: $input-focus-color;
+    background-color: $input-focus-bg;
+    border-color: $input-focus-border-color;
+    outline: 0;
+
+    @if $enable-shadows {
+        @include box-shadow($input-box-shadow, $input-focus-box-shadow);
+    }
+
+    @else {
+        // Avoid using mixin so we can pass custom focus shadow properly
+        box-shadow: $input-focus-box-shadow;
+    }
+}
+
+.remove-tag-icon:hover {
+    color: $danger;
 }

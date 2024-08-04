@@ -29,7 +29,7 @@ function Auth() {
                     <Nav.Link
                         onClick={
                             () => serverLogout.mutate(undefined, {
-                                onSuccess: () => clientLogout()
+                                onSettled: () => clientLogout()
                             })
                         }
                         active={false} // keep this, see ./RouterLink

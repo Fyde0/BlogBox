@@ -3,6 +3,7 @@ import { Button, Container, Form, Spinner, ToggleButton } from "react-bootstrap"
 // 
 import RichTextEditor from "./RichTextEditor"
 import IPost, { emptyPost } from "../../interfaces/post"
+import TagsInput from "./TagsInput"
 
 function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost, submitPost: Function, isPending: boolean }) {
     // if postToUpdate exists, we're in "update mode"
@@ -33,6 +34,17 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
 
             {/* Editor */}
             <RichTextEditor post={post} setPost={setPost} />
+
+            {/* Tags */}
+            <Container>
+                <Form.Label className="w-100">
+                    <h6>Tags</h6>
+                    <TagsInput 
+                        tags={post.tags}
+                        setTags={(tags: string[]) => setPost(prevPost => ({...prevPost, tags: tags}))}
+                    />
+                </Form.Label>
+            </Container>
 
             {/* Buttons */}
             <Container className="d-flex gap-2 justify-content-end">

@@ -11,6 +11,7 @@ import Sidebar from "../components/Sidebar"
 import { FetchError } from "../api/FetchLib"
 import { deletePostMutation, getPostByPostIdQuery } from "../api/posts"
 import useUserStore from "../stores/user"
+import Tag from "../components/Tag"
 
 export function Component() {
     const { userInfo } = useUserStore()
@@ -91,8 +92,16 @@ export function Component() {
                 {/* Post */}
                 <Col lg="8">
                     <h1>{post.title}</h1>
-                    <p className="text-body-secondary">{authorString}</p><hr className="my-4" />
+                    <p className="text-body-secondary">{authorString}</p>
+                    <hr className="my-4" />
                     <Container className="p-0" dangerouslySetInnerHTML={{ __html: post.content }} />
+                    <Container className="d-inline-flex flex-wrap p-0">
+                        {
+                            post.tags.map((tag, i) => {
+                                return <Tag key={i}>{tag}</Tag>
+                            })
+                        }
+                    </Container>
                 </Col>
 
                 {/* Sidebar */}

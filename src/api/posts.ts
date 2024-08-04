@@ -27,7 +27,6 @@ export function getAllPostsQuery({ page = 1, startDate = "", endDate = "", sort 
     return useQuery(queryOptions({
         queryKey: ["homePostsPage", startDate, endDate, sort, page],
         queryFn: async () => {
-            console.log("fetch all")
             return fetch(apiUrl, {
                 method: "GET",
                 credentials: 'include',
@@ -49,7 +48,6 @@ export function getPostByPostIdQuery({ postId }: { postId: string }): UseQueryRe
     return useQuery(queryOptions({
         queryKey: [postId],
         queryFn: async () => {
-            console.log("fetch postId")
             return fetch(config.api.url + "/posts/byPostId/" + postId, {
                 method: "GET",
                 credentials: 'include',
@@ -71,7 +69,6 @@ export function getPostsCountByMonth(): UseQueryResult<IPostsCountByMonth[]> {
     return useQuery(queryOptions({
         queryKey: ["postsCountByMonth"],
         queryFn: async () => {
-            console.log("fetch count")
             return fetch(config.api.url + "/posts/countByMonth", {
                 method: "GET",
                 credentials: 'include',
