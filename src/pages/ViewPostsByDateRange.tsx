@@ -6,17 +6,12 @@ import ErrorPage from "../components/errors/ErrorPage";
 import Loading from "../components/Loading";
 import PostsList from "../components/PostsList";
 import Sidebar from "../components/Sidebar";
-import { getPostsByDateQuery } from "../api/posts";
+import { getAllPostsQuery } from "../api/posts";
 import { FetchError } from "../api/FetchLib";
 import Paginator from "../components/Paginator";
 
 export function Component() {
     const { year, month, day, page } = useParams()
-
-    console.log(year)
-    console.log(month)
-    console.log(day)
-    console.log(page)
 
     let currentPage = Number(page)
 
@@ -72,7 +67,7 @@ export function Component() {
     const startDateEpochMs = startDate.getTime()
     const endDateEpochMs = endDate.getTime()
 
-    const getPosts = getPostsByDateQuery({ startDateEpochMs, endDateEpochMs, page: currentPage })
+    const getPosts = getAllPostsQuery({ startDate: startDateEpochMs, endDate: endDateEpochMs, page: currentPage })
 
     if (getPosts.isFetching) {
         return <Loading />

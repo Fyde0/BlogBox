@@ -1,43 +1,18 @@
 import { useState } from "react"
-import { Navigate } from "react-router-dom"
-import { Alert, Button, Container, Form, Spinner, ToggleButton } from "react-bootstrap"
+import { Button, Container, Form, Spinner, ToggleButton } from "react-bootstrap"
 // 
 import RichTextEditor from "./RichTextEditor"
-import { submitPostMutation } from "../../api/posts"
-import { FetchError } from "../../api/FetchLib"
 import IPost, { emptyPost } from "../../interfaces/post"
 
-function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
+function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost, submitPost: Function, isPending: boolean }) {
     // if postToUpdate exists, we're in "update mode"
-    const [post, setPost] = useState<IPost>(postToUpdate ? postToUpdate : emptyPost)
+    const [post, setPost] = useState<IPost>(postToEdit ? postToEdit : emptyPost)
     const [showPreview, setShowPreview] = useState<boolean>(false)
-
-    // API calls setup
-
-    const submitPost = submitPostMutation({ updating: postToUpdate ? true : false })
-
-    // API result checks
-
-    if (submitPost.isSuccess) {
-        return (
-            <Navigate to={"/" + (submitPost.data)} />
-        )
-    }
-
-    if (submitPost.isError && !(submitPost.error instanceof FetchError)) {
-        throw submitPost.error
-    }
 
     // TODO Validate post
 
     return (
-        <Container
-            className="m-auto d-flex flex-column justify-content-center gap-4"
-            style={{ maxWidth: "900px" }}
-        >
-
-            {/* Error */}
-            {submitPost.isError && <Alert variant="danger" className="align-self-center">{submitPost.error.message}</Alert>}
+        <>
 
             {/* Title */}
             <Container>
@@ -73,15 +48,15 @@ function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
 
                 <Button
                     variant="primary"
-                    onClick={() => submitPost.mutate(post)}
-                    disabled={submitPost.isPending}
+                    onClick={() => submitPost(post)}
+                    disabled={isPending}
                 >
-                    {submitPost.isPending ?
+                    {isPending ?
                         <Spinner animation="border" role="status" size="sm">
                             <span className="visually-hidden">Loading...</span>
                         </Spinner>
                         :
-                        <span>{postToUpdate ? "Update" : "Post"}</span>
+                        <span>{postToEdit ? "Update" : "Post"}</span>
                     }
                 </Button>
 
@@ -97,7 +72,7 @@ function PostEditor({ postToUpdate }: { postToUpdate?: IPost }) {
                 </Container>
             }
 
-        </Container >
+        </>
     )
 }
 
