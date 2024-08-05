@@ -8,14 +8,13 @@ import PostsList from "../components/PostsList";
 import Sidebar from "../components/Sidebar";
 import { getAllPostsQuery } from "../api/posts";
 import { FetchError } from "../api/FetchLib";
-import Paginator from "../components/Paginator";
 
 export function Component() {
     const { year, month, day, page } = useParams()
 
     let currentPage = Number(page)
 
-    if (!page) currentPage = 1
+    if (!page || currentPage < 1) currentPage = 1
 
     const dateValidation = z
         .object({
@@ -73,7 +72,7 @@ export function Component() {
         return <Loading />
     }
 
-    if (getPosts.isError || !getPosts.data) {
+    if (getPosts.isError) {
         if (getPosts.error instanceof FetchError) {
             return <ErrorPage code={getPosts.error?.response.status} />
         } else {
@@ -81,16 +80,18 @@ export function Component() {
         }
     }
 
-    const posts = getPosts.data.posts
-    const postsCount = getPosts.data.totalCount
-    const postsPerPage = 10
-    const pages = Math.ceil(postsCount / postsPerPage)
+    const posts = getPosts.data?.posts
+    const postsCount = getPosts.data?.totalCount
 
     return (
         <Row>
-            <Col lg="8" className="d-flex flex-column justify-content-center gap-3">
-                <PostsList title={title} posts={posts} />
-                <Paginator totalPages={pages} currentPage={currentPage} />
+            <Col lg="8" className="d-flex flex-column justify-content-start gap-3">
+                <PostsList
+                    title={title}
+                    posts={posts}
+                    totalPosts={postsCount}
+                    currentPage={currentPage}
+                />
             </Col>
             <Col>
                 <Sidebar />

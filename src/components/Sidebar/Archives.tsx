@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
 // 
 import Loading from "../Loading"
-import { getPostsCountByMonth } from "../../api/posts"
+import { getPostsCountByMonthQuery } from "../../api/posts"
 import { Badge, ListGroup } from "react-bootstrap"
 
 function Archives() {
 
-    const archivesQuery = getPostsCountByMonth()
+    const archivesQuery = getPostsCountByMonthQuery()
 
     if (archivesQuery.isFetching) {
         return <Loading />
@@ -17,25 +17,28 @@ function Archives() {
     }
 
     return (
-        <ListGroup>
-            {
-                archivesQuery.data.map((obj, i) => {
-                    const date = new Date(obj._id.year, obj._id.month - 1)
-                    const month = date.toLocaleString('default', { month: "2-digit" })
-                    const year = date.toLocaleString('default', { year: "numeric" })
-                    // to respect Locale
-                    const monthAndYear = date.toLocaleString('default', { year: "numeric", month: "long" })
-                    return (
-                        <ListGroup.Item key={i} className="d-flex gap-1">
-                            <Link to={"/" + year + "/" + month}>
-                                {monthAndYear}
-                            </Link>
-                            <Badge>{obj.count}</Badge>
-                        </ListGroup.Item>
-                    )
-                })
-            }
-        </ListGroup>
+        <div>
+            <h5>Archives</h5>
+            <ListGroup>
+                {
+                    archivesQuery.data.map((obj, i) => {
+                        const date = new Date(obj._id.year, obj._id.month - 1)
+                        const month = date.toLocaleString('default', { month: "2-digit" })
+                        const year = date.toLocaleString('default', { year: "numeric" })
+                        // to respect Locale
+                        const monthAndYear = date.toLocaleString('default', { year: "numeric", month: "long" })
+                        return (
+                            <ListGroup.Item key={i} className="d-flex gap-1">
+                                <Link to={"/" + year + "/" + month}>
+                                    {monthAndYear}
+                                </Link>
+                                <Badge>{obj.count}</Badge>
+                            </ListGroup.Item>
+                        )
+                    })
+                }
+            </ListGroup>
+        </div>
     )
 }
 

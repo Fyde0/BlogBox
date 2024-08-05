@@ -1,11 +1,10 @@
 import { useParams } from "react-router-dom"
-import { Card, Col, Row } from "react-bootstrap"
+import { Col, Row } from "react-bootstrap"
 // 
 import Sidebar from "../components/Sidebar"
 import Loading from "../components/Loading"
 import PostsList from "../components/PostsList"
 import ErrorPage from "../components/errors/ErrorPage"
-import Paginator from "../components/Paginator"
 import { FetchError } from "../api/FetchLib"
 import { getAllPostsQuery } from "../api/posts"
 
@@ -14,7 +13,7 @@ export function Component() {
 
     let currentPage = Number(page)
 
-    if (!page) currentPage = 1
+    if (!page || currentPage < 1) currentPage = 1
 
     const getPosts = getAllPostsQuery({ page: currentPage })
 
@@ -22,7 +21,7 @@ export function Component() {
         return <Loading />
     }
 
-    if (getPosts.isError || !getPosts.data) {
+    if (getPosts.isError) {
         if (getPosts.error instanceof FetchError) {
             return <ErrorPage code={getPosts.error?.response.status} />
         } else {
@@ -30,26 +29,15 @@ export function Component() {
         }
     }
 
-    const posts = getPosts.data.posts
-    const postsCount = getPosts.data.totalCount
-    const postsPerPage = 10
-    const pages = Math.ceil(postsCount / postsPerPage)
+    const posts = getPosts.data?.posts
+    const postsCount = getPosts.data?.totalCount
 
     return (
         <Row>
-            <Col lg="8" className="d-flex flex-column justify-content-center gap-3">
-                <PostsList posts={posts} />
-                <Paginator totalPages={pages} currentPage={currentPage} />
+            <Col lg="8" className="d-flex flex-column justify-content-start gap-3">
+                <PostsList posts={posts} totalPosts={postsCount} currentPage={currentPage} />
             </Col>
-            <Col className="d-flex flex-column gap-3">
-                <Card>
-                    <Card.Body>
-                        <Card.Title>Welcome</Card.Title>
-                        <Card.Text>
-                            TODO Write something here
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
+            <Col>
                 <Sidebar />
             </Col>
         </Row>

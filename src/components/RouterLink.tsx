@@ -21,7 +21,7 @@ function RouterLink(props: IRouterLinkProps) {
             element = <Navbar.Brand>{props.children}</Navbar.Brand>
             break;
         case "button":
-            element = <Button>{props.children}</Button>
+            element = <Button className={props.className}>{props.children}</Button>
             break;
         case "pageItem":
             element = <Pagination.Item active={props.pageActive}>{props.children}</Pagination.Item>

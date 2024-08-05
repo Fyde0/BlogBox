@@ -7,7 +7,12 @@ interface IPostsCountByMonth {
 }
 
 export function isIPostsCountByMonth(obj: IPostsCountByMonth): obj is IPostsCountByMonth {
-    return obj._id.year && obj._id.month && obj.count ? true : false
+    return (
+        typeof obj._id.year === "number" &&
+            typeof obj._id.month === "number" &&
+            typeof obj.count === "number" ?
+            true : false
+    )
 }
 
 export function isIPostsCountByMonthArray(obj: IPostsCountByMonth[]): obj is IPostsCountByMonth[] {

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Navigate, useParams } from "react-router-dom"
-import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap"
+import { Alert, Button, Card, Col, Row } from "react-bootstrap"
 // 
 import RouterLink from "../components/RouterLink"
 import ErrorPage from "../components/errors/ErrorPage"
@@ -94,14 +94,14 @@ export function Component() {
                     <h1>{post.title}</h1>
                     <p className="text-body-secondary">{authorString}</p>
                     <hr className="my-4" />
-                    <Container className="p-0" dangerouslySetInnerHTML={{ __html: post.content }} />
-                    <Container className="d-inline-flex flex-wrap p-0">
+                    <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                    <div className="d-inline-flex flex-wrap">
                         {
                             post.tags.map((tag, i) => {
                                 return <Tag key={i}>{tag}</Tag>
                             })
                         }
-                    </Container>
+                    </div>
                 </Col>
 
                 {/* Sidebar */}

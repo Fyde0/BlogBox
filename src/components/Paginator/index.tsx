@@ -3,11 +3,15 @@ import { Pagination } from "react-bootstrap";
 import RouterLink from "../RouterLink";
 import PaginatorLink from "./PaginatorLink";
 
-function Paginator({ currentPage, totalPages }: { currentPage: number, totalPages: number }) {
+function Paginator({ currentPage, totalPosts }: { currentPage: number, totalPosts?: number }) {
 
-    if (totalPages <= 1) {
+    const postsPerPage = 10
+
+    if (!totalPosts || totalPosts <= postsPerPage) {
         return <></>
     }
+
+    const totalPages = Math.ceil(totalPosts / postsPerPage)
 
     const ellipsisThreshold = 4
     const ellipsisEnabled = totalPages > ellipsisThreshold + 3

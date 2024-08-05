@@ -1,8 +1,8 @@
 import { Card } from "react-bootstrap";
-import IPost from "../../interfaces/post";
 import { Link } from "react-router-dom";
+import IPost from "../../interfaces/post";
 
-function PostPreview({ post }: { post: IPost }) {
+function LgDefaultNoThumb({ post }: { post: IPost }) {
     let authorString = "Posted by " + post.author.username
     if (post.createdAt) {
         authorString += " on " + new Date(post.createdAt).toLocaleString(undefined, { dateStyle: "long", timeStyle: "short" })
@@ -41,4 +41,4 @@ function PostPreview({ post }: { post: IPost }) {
     )
 }
 
-export default PostPreview
+export default LgDefaultNoThumb

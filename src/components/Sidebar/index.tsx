@@ -1,12 +1,16 @@
-import { Container } from "react-bootstrap"
-//
 import Archives from "./Archives"
+import Intro from "./Intro"
+import LatestPosts from "./LatestPosts"
+import Tags from "./Tags"
 
 function Sidebar() {
     return (
-        <Container className="d-flex flex-column gap-3 p-0">
+        <div className="d-flex flex-column gap-4">
+            <Intro />
             <Archives />
-        </Container>
+            <Tags />
+            <LatestPosts />
+        </div>
     )
 }
 

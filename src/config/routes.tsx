@@ -51,6 +51,11 @@ const routes: IRoute[] = [
       }
     ]
   },
+  {
+    path: "tag/:tag/page?/:page?",
+    lazy: () => import("../pages/ViewPostsByTag"),
+    auth: false
+  },
   // Catch all (404)
   {
     path: "*",

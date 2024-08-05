@@ -18,24 +18,32 @@ function TagsInput({ tags, setTags }: { tags: string[], setTags: Function }) {
 
     return (
         <div
-            className="form-control tags-input-div d-inline-flex flex-wrap pt-0"
+            className="form-control tags-input-div d-inline-flex align-items-center flex-wrap gap-1"
             style={{ cursor: "text" }}
         >
             {tags.map((tag, i) => {
                 if (tag.trim() !== "") {
                     return (
-                        <Tag
-                            key={i}
-                            onRemove={() => setTags(tags.filter((_tag, j) => i !== j))}
-                        >
-                            {tag}
-                        </Tag>
+                        <span key={i} className="d-flex align-items-center">
+                            {/* input is for spacing */}
+                            {/* also TODO implement being able to navigate with keyboard */}
+                            <input
+                                className="border-0 bg-transparent p-0"
+                                style={{ outline: "0", width: "0" }}
+                            />
+                            <Tag
+                                className="d-flex align-items-center gap-1"
+                                onRemove={() => setTags(tags.filter((_tag, j) => i !== j))}
+                            >
+                                {tag}
+                            </Tag>
+                        </span>
                     )
                 }
             })}
             <input
                 className="border-0 bg-transparent p-0"
-                style={{ outline: "0", marginTop: "6px", width: (input.length * 1.2 + 1) + "ch" }}
+                style={{ outline: "0", width: (input.length * 1.2 + 1) + "ch" }}
                 value={input}
                 onChange={(e) => {
                     setInput(e.currentTarget.value)

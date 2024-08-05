@@ -1,34 +1,36 @@
 import { Container } from "react-bootstrap";
 // 
 import PostPreview from "./PostPreview";
+import Paginator from "./Paginator";
 import IPost from "../interfaces/post";
 
-function PostsList({ title, posts }: { title?: string, posts: IPost[] }) {
+function PostsList({ title, posts, currentPage, totalPosts }: { title?: string, posts?: IPost[], currentPage: number, totalPosts?: number }) {
 
     const titleElement = title && <Container><h1>{title}</h1></Container>
 
-    if (posts.length === 0) {
+    if (!posts || posts.length === 0) {
         return (
-            <Container className="d-flex flex-column justify-content-start gap-3 p-0">
+            <div className="d-flex flex-column justify-content-start gap-3">
                 {titleElement}
                 <Container>There are no posts here.</Container>
-            </Container>
+            </div>
         )
     }
 
     return (
-        <Container className="d-flex flex-column justify-content-start gap-3 p-0">
+        <div className="d-flex flex-column justify-content-start gap-3">
             {titleElement}
             {
                 posts.map((post, i) => {
                     return (
-                        <Container key={i}>
+                        <div key={i}>
                             <PostPreview post={post} />
-                        </Container>
+                        </div>
                     )
                 })
             }
-        </Container>
+            <Paginator totalPosts={totalPosts} currentPage={currentPage} />
+        </div>
     )
 }
 

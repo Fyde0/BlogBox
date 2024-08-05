@@ -1,13 +1,28 @@
 import { ReactNode } from "react";
 import { Badge } from "react-bootstrap";
+import RouterLink from "./RouterLink";
 
-function Tag({ children, onRemove }: { children: ReactNode, onRemove?: Function }) {
-    return (
+interface ITagProps {
+    children: ReactNode
+    link?: string
+    className?: string
+    onRemove?: Function
+}
+
+function Tag(props: ITagProps) {
+    // need this for TypeScript
+    const onRemove = props.onRemove
+
+    const cursorType = props.link ? "pointer" : "default"
+    const background = props.link ? "transparent" : "primary"
+
+    const tag =
         <Badge
-            className="d-flex align-items-center gap-1 me-1"
-            style={{ cursor: "default", marginTop: "6px" }}
+            className={props.className}
+            bg={background}
+            style={{ cursor: cursorType }}
         >
-            <span>#{children}</span>
+            <span>#{props.children}</span>
             {
                 onRemove &&
                 <i
@@ -17,6 +32,23 @@ function Tag({ children, onRemove }: { children: ReactNode, onRemove?: Function 
                 />
             }
         </Badge>
+
+    if (props.link) {
+        return (
+            <RouterLink
+                type="button"
+                to={props.link}
+                className="p-0"
+            >
+                {tag}
+            </RouterLink>
+        )
+    }
+
+    return (
+        <>
+            {tag}
+        </>
     )
 }
 
