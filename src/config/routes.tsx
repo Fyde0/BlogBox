@@ -17,7 +17,12 @@ const routes: IRoute[] = [
     lazy: () => import("../pages/Register"),
     auth: false
   },
-  // Settings
+  // User Panel
+  {
+    path: "profile",
+    lazy: () => import("../pages/EditProfile"),
+    auth: true
+  },
   {
     path: "settings",
     lazy: () => import("../pages/Settings"),

@@ -105,18 +105,19 @@ export function Component() {
                 </Col>
 
                 {/* Sidebar */}
-                <Col className="d-flex flex-column gap-3">
-                    {
-                        userInfo._id === post.author._id &&
-                        <Card className="border-primary">
-                            <Card.Header>Post options</Card.Header>
-                            <Card.Body className="d-flex gap-2">
-                                <RouterLink to="edit" type="button">Edit</RouterLink>
-                                <Button variant="danger" onClick={() => setShowDeleteModal(true)}>Delete</Button>
-                            </Card.Body>
-                        </Card>
-                    }
-                    <Sidebar />
+                <Col>
+                    <Sidebar>
+                        {
+                            userInfo._id === post.author._id &&
+                            <Card className="border-primary">
+                                <Card.Header>Post options</Card.Header>
+                                <Card.Body className="d-flex gap-2">
+                                    <RouterLink to="edit" type="button">Edit</RouterLink>
+                                    <Button variant="danger" onClick={() => setShowDeleteModal(true)}>Delete</Button>
+                                </Card.Body>
+                            </Card>
+                        }
+                    </Sidebar>
                 </Col>
 
             </Row>

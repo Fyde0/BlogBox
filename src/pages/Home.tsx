@@ -38,7 +38,7 @@ export function Component() {
                 <PostsList posts={posts} totalPosts={postsCount} currentPage={currentPage} />
             </Col>
             <Col>
-                <Sidebar />
+                <Sidebar host="home" />
             </Col>
         </Row>
     )

@@ -1,9 +1,9 @@
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 // 
+import SlidingAlert from "../components/SlidingAlert";
 import useUserStore from "../stores/user";
 import { serverChangeSettingsMutation } from "../api/users";
 import { FetchError } from "../api/FetchLib";
-import SlidingAlert from "../components/SlidingAlert";
 
 export function Component() {
     const { userSettings, changeSettings } = useUserStore()
@@ -36,13 +36,13 @@ export function Component() {
             onSubmit={handleSubmit}
         >
 
+            <Form.Label><h1>Settings</h1></Form.Label>
+
             {/* Success */}
             {serverSettings.isSuccess && <SlidingAlert variant="success">Settings applied!</SlidingAlert>}
 
             {/* Error */}
             {serverSettings.isError && <Alert variant="danger" className="align-self-center">{serverSettings.error.message}</Alert>}
-
-            <Form.Label><h1>Settings</h1></Form.Label>
 
             <Form.Group controlId="postsPerPage" as={Row}>
                 {/* <Row className="d-flex align-items-center"> */}

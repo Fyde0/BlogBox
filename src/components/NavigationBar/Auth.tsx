@@ -30,6 +30,7 @@ function Auth() {
                         title="User"
                         align="end"
                     >
+                        <RouterLink type="dropdown" to="/profile">Profile</RouterLink>
                         <RouterLink type="dropdown" to="/settings">Settings</RouterLink>
                         <NavDropdown.Divider />
                         <NavDropdown.Item

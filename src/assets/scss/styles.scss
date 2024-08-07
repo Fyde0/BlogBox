@@ -1,4 +1,4 @@
-@import "./flatly/styles.scss";
+@import "./minty/styles.scss";
 
 .post-preview {
     max-height: 3 * $line-height-base * 1em;
@@ -37,13 +37,14 @@
     color: $danger;
 }
 
+// TODO better Y amount, only good if alert only has one line
 @keyframes alert-animation {
     from {
-        transform: translate(-50%, -200%);
+        transform: translate(-50%, -100%);
     }
 
     to {
-        transform: translate(-50%, 0);
+        transform: translate(-50%, 150%);
     }
 }
 

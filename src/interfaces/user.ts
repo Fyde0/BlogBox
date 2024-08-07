@@ -7,13 +7,16 @@ interface IUser {
     password: string
     settings: IUserSettings
     admin: boolean
+    avatar?: string
+    name?: string
+    about?: string
 }
 
 export type IUserInfo = Omit<IUser, "password" | "settings">
 
 export const emptyUserInfo: IUserInfo = {
     username: "",
-    admin: false
+    admin: false,
 }
 
 export function isIUserInfo(obj: IUserInfo): obj is IUserInfo {
