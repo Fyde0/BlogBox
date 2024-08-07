@@ -29,7 +29,7 @@ export function registerMutation() {
 // 
 // Mutation, login
 // 
-export function serverLoginMutation() {
+export function loginMutation() {
     return useMutation({
         mutationFn: async ({ username, password }: { username: string, password: string }) => {
             return fetch(config.api.url + "/users/login", {
@@ -57,7 +57,7 @@ export function serverLoginMutation() {
 // 
 // Mutation, logout
 // 
-export function serverLogoutMutation() {
+export function logoutMutation() {
     return useMutation({
         mutationFn: async () => {
             return fetch(config.api.url + "/users/logout", {
@@ -78,7 +78,7 @@ export function serverLogoutMutation() {
 // 
 // Mutation, change settings
 // 
-export function serverChangeSettingsMutation() {
+export function changeSettingsMutation() {
     return useMutation({
         mutationFn: async ({ userSettings }: { userSettings: IUserSettings }) => {
             return fetch(config.api.url + "/users/settings", {
@@ -89,6 +89,28 @@ export function serverChangeSettingsMutation() {
             }).then(async (response) => {
                 const data = await response.json()
                 if (response.ok && isIUserSettings(data)) {
+                    return data
+                }
+                throw new FetchError(response, data.error)
+            })
+        }
+    })
+}
+
+// 
+// Mutation, update user info
+// 
+export function updateUserInfoMutation() {
+    return useMutation({
+        mutationFn: async (userInfo: FormData) => {
+            // no headers because there's a file, docs say so
+            return fetch(config.api.url + "/users/update", {
+                method: "PATCH",
+                body: userInfo,
+                credentials: "include",
+            }).then(async (response) => {
+                const data = await response.json()
+                if (response.ok && isIUserInfo(data)) {
                     return data
                 }
                 throw new FetchError(response, data.error)

@@ -11,7 +11,7 @@ function NavigationBar() {
     return (
         // TODO Implement expand?
         <Navbar className="bg-body-tertiary border-bottom shadow-sm z-3" key={pathname}>
-            <Container style={{ maxWidth: "1280px" }}>
+            <Container style={{ maxWidth: "1200px" }}>
                 <Nav>
                     <RouterLink type="brand" to="/">
                         <i className="fa-solid fa-box me-2"></i>

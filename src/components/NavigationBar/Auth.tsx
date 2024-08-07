@@ -1,13 +1,13 @@
 import { Nav, NavDropdown } from "react-bootstrap"
 // 
 import RouterLink from "../RouterLink"
-import { serverLogoutMutation } from "../../api/users"
+import { logoutMutation } from "../../api/users"
 import useUserStore from "../../stores/user"
 
 function Auth() {
     const { hydrating, loggedIn, clientLogout } = useUserStore()
 
-    const serverLogout = serverLogoutMutation()
+    const serverLogout = logoutMutation()
 
     if (serverLogout.isPending || hydrating) {
         return (

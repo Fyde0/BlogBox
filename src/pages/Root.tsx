@@ -17,7 +17,7 @@ export function Component() {
         <QueryClientProvider client={queryClient}>
             <Container fluid className="d-flex flex-column justify-content-start gap-4 vh-100 p-0">
                 <NavigationBar />
-                <Container fluid style={{ maxWidth: "1280px" }}>
+                <Container fluid style={{ maxWidth: "1000px" }}>
                     <Outlet />
                 </Container>
                 <Footer />

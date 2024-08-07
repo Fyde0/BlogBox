@@ -4,7 +4,7 @@ import { Alert, Button, Container, Form } from "react-bootstrap"
 import { z } from "zod"
 // 
 import { FetchError } from "../api/FetchLib"
-import { serverLoginMutation } from "../api/users"
+import { loginMutation } from "../api/users"
 import useUserStore from "../stores/user"
 
 export function Component() {
@@ -13,7 +13,7 @@ export function Component() {
     const [validationError, setValidationError] = useState<string>("")
     const { clientLogin } = useUserStore()
 
-    const serverLogin = serverLoginMutation()
+    const serverLogin = loginMutation()
 
     if (serverLogin.isSuccess) {
         return <Navigate to="/" replace={true} />

@@ -7,7 +7,7 @@ interface IUser {
     password: string
     settings: IUserSettings
     admin: boolean
-    avatar?: string
+    avatar?: string | File
     name?: string
     about?: string
 }
