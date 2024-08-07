@@ -1,15 +1,18 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 // 
-import { emptyUserInfo, IUserInfo } from '../interfaces/user'
+import IUserSettings, { defaultUserSettings } from "../interfaces/userSettings"
+import { emptyUserInfo, IUserInfo } from "../interfaces/user"
 import config from "../config/config"
 
 interface IUserState {
     hydrating: boolean
     loggedIn: boolean
     userInfo: IUserInfo
-    clientLogin: (info: IUserInfo) => void
-    clientLogout: () => void,
+    userSettings: IUserSettings
+    clientLogin: (info: IUserInfo, settings: IUserSettings) => void
+    clientLogout: () => void
+    changeSettings: (settings: IUserSettings) => void
     setHydrating: (hydrating: boolean) => void
 }
 
@@ -19,8 +22,10 @@ const useUserStore = create(
             hydrating: false,
             loggedIn: false,
             userInfo: emptyUserInfo,
-            clientLogin: (info: IUserInfo) => set({ loggedIn: true, userInfo: info }),
-            clientLogout: () => set({ loggedIn: false, userInfo: emptyUserInfo }),
+            userSettings: defaultUserSettings,
+            clientLogin: (info, settings) => set({ loggedIn: true, userInfo: info, userSettings: settings }),
+            clientLogout: () => set({ loggedIn: false, userInfo: emptyUserInfo, userSettings: defaultUserSettings }),
+            changeSettings: (settings) => set({ userSettings: settings }),
             setHydrating: (hydrating: boolean) => set({ hydrating })
         }),
         // Persist in local storage
@@ -39,7 +44,7 @@ const useUserStore = create(
                         credentials: 'include',
                     }).then(async (response) => {
                         if (response.ok) {
-                            state.clientLogin(state.userInfo)
+                            state.clientLogin(state.userInfo, state.userSettings)
                         } else {
                             state.clientLogout()
                         }

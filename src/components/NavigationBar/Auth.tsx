@@ -1,4 +1,4 @@
-import { Nav } from "react-bootstrap"
+import { Nav, NavDropdown } from "react-bootstrap"
 // 
 import RouterLink from "../RouterLink"
 import { serverLogoutMutation } from "../../api/users"
@@ -26,16 +26,19 @@ function Auth() {
                         <RouterLink to="/login" className="nav-link">Login</RouterLink>
                     </>
                     :
-                    <Nav.Link
-                        onClick={
+                    <NavDropdown
+                        title="User"
+                    >
+                        <RouterLink type="dropdown" to="/settings">Settings</RouterLink>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item onClick={
                             () => serverLogout.mutate(undefined, {
                                 onSettled: () => clientLogout()
                             })
-                        }
-                        active={false} // keep this, see ./RouterLink
-                    >
-                        Logout
-                    </Nav.Link>
+                        }>
+                            Logout
+                        </NavDropdown.Item>
+                    </NavDropdown>
             }
         </Nav >
     )

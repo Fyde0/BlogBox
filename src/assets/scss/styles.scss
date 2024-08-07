@@ -36,3 +36,14 @@
 .remove-tag-icon:hover {
     color: $danger;
 }
+
+@keyframes alert-animation {
+    from {
+        top: 0 // TODO not great, make it better
+    }
+
+    to {
+        top: 100px;
+        transform: translateY(-250px);
+    }
+}

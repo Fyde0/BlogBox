@@ -10,7 +10,7 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
     const [post, setPost] = useState<IPost>(postToEdit ? postToEdit : emptyPost)
     const [showPreview, setShowPreview] = useState<boolean>(false)
 
-    // TODO Validate post
+    // TODO Validate post (empty title, content)
 
     return (
         <>

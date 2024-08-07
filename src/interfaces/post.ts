@@ -1,4 +1,4 @@
-import { emptyUserInfo, isIUserInfo, IUserInfo } from "./user";
+import { emptyUserInfo, isIUserInfo, IUserInfo } from "./user"
 
 interface IPost {
     _id?: string
@@ -20,6 +20,7 @@ export const emptyPost = {
 }
 
 export function isIPost(obj: IPost): obj is IPost {
+    // we only need the username
     return obj.title && isIUserInfo(obj.author) && obj.content ? true : false
 }
 

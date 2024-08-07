@@ -17,6 +17,12 @@ const routes: IRoute[] = [
     lazy: () => import("../pages/Register"),
     auth: false
   },
+  // Settings
+  {
+    path: "settings",
+    lazy: () => import("../pages/Settings"),
+    auth: true
+  },
   // New post
   {
     path: "post",

@@ -51,7 +51,7 @@ export function Component() {
 
     return (
         <Container
-            className="m-auto d-flex flex-column justify-content-center gap-4"
+            className="m-auto d-flex flex-column gap-4"
             style={{ maxWidth: "900px" }}
         >
 

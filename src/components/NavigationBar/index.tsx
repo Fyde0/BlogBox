@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom"
 import { Container, Nav, Navbar } from "react-bootstrap"
 //
 import RouterLink from "../RouterLink"
-import AuthNavigation from "./Auth"
+import Auth from "./Auth"
 import config from "../../config/config"
 
 function NavigationBar() {
@@ -10,7 +10,7 @@ function NavigationBar() {
 
     return (
         // TODO Implement expand?
-        <Navbar className="bg-primary" key={pathname}>
+        <Navbar className="bg-body-tertiary border-bottom shadow-sm z-3" key={pathname}>
             <Container style={{ maxWidth: "1280px" }}>
                 <Nav>
                     <RouterLink type="brand" to="/">
@@ -22,7 +22,7 @@ function NavigationBar() {
                 </Nav>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
-                    <AuthNavigation />
+                    <Auth />
                 </Navbar.Collapse>
             </Container>
         </Navbar>

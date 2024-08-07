@@ -1,16 +1,15 @@
 import { useState } from "react"
-import { Navigate } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import { Alert, Button, Container, Form } from "react-bootstrap"
-// 
-import { serverLoginMutation } from "../api/users"
-import { FetchError } from "../api/FetchLib"
-import useUserStore from "../stores/user"
-import IUser, { emptyUser, IUserInfo } from "../interfaces/user"
 import { z } from "zod"
-import { Link } from "react-router-dom"
+// 
+import { FetchError } from "../api/FetchLib"
+import { serverLoginMutation } from "../api/users"
+import useUserStore from "../stores/user"
 
 export function Component() {
-    const [user, setUser] = useState<IUser>(emptyUser)
+    const [username, setUsername] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
     const [validationError, setValidationError] = useState<string>("")
     const { clientLogin } = useUserStore()
 
@@ -33,15 +32,19 @@ export function Component() {
         const validationResult = z.object({
             username: z.string().min(1, { message: "Username required." }),
             password: z.string().min(1, { message: "Password required." })
-        }).safeParse({ username: user.username, password: user.password })
+        }).safeParse({ username, password })
 
         if (!validationResult.success) {
             setValidationError(validationResult.error.issues[0].message)
         }
 
         serverLogin.mutate(
-            { user },
-            { onSuccess: (userInfo: IUserInfo) => clientLogin(userInfo) }
+            { username, password },
+            {
+                onSuccess: ({ userInfo, userSettings }) => {
+                    clientLogin(userInfo, userSettings)
+                }
+            }
         )
     }
 
@@ -68,10 +71,8 @@ export function Component() {
                     Username
                     <Form.Control
                         type="username"
-                        value={user.username}
-                        onChange={event => setUser(prevUser => (
-                            { ...prevUser, username: event.target.value }
-                        ))}
+                        value={username}
+                        onChange={(e) => setUsername(e.currentTarget.value)}
                     />
                 </Form.Label>
 
@@ -80,10 +81,8 @@ export function Component() {
                     Password
                     <Form.Control
                         type="password"
-                        value={user.password}
-                        onChange={event => setUser(prevUser => (
-                            { ...prevUser, password: event.target.value }
-                        ))}
+                        value={password}
+                        onChange={(e) => setPassword(e.currentTarget.value)}
                     />
                 </Form.Label>
 

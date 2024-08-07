@@ -4,11 +4,11 @@ import { z } from "zod"
 // 
 import { registerMutation } from "../api/users"
 import { FetchError } from "../api/FetchLib"
-import IUser, { emptyUser } from "../interfaces/user"
 import { Link } from "react-router-dom"
 
 export function Component() {
-    const [user, setUser] = useState<IUser>(emptyUser)
+    const [username, setUsername] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
     const [validationError, setValidationError] = useState<string>("")
 
     const register = registerMutation()
@@ -36,7 +36,7 @@ export function Component() {
                 .min(4, { message: "The password must be between 4 and 50 characters." })
                 .max(50, { message: "The password must be between 4 and 50 characters." }),
         })
-            .safeParse({ username: user.username, password: user.password })
+            .safeParse({ username, password })
 
         if (!validationResult.success) {
             setValidationError(validationResult.error.issues[0].message)
@@ -44,7 +44,7 @@ export function Component() {
         }
 
         setValidationError("")
-        register.mutate({ user })
+        register.mutate({ username, password })
     }
 
     return (
@@ -76,10 +76,8 @@ export function Component() {
                     Username
                     <Form.Control
                         type="username"
-                        value={user.username}
-                        onChange={event => setUser(prevUser => (
-                            { ...prevUser, username: event.target.value }
-                        ))}
+                        value={username}
+                        onChange={(e) => setUsername(e.currentTarget.value)}
                     />
                 </Form.Label>
 
@@ -88,10 +86,8 @@ export function Component() {
                     Password
                     <Form.Control
                         type="password"
-                        value={user.password}
-                        onChange={event => setUser(prevUser => (
-                            { ...prevUser, password: event.target.value }
-                        ))}
+                        value={password}
+                        onChange={(e) => setPassword(e.currentTarget.value)}
                     />
                 </Form.Label>
 

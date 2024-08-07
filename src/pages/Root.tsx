@@ -5,11 +5,13 @@ import { QueryClientProvider } from "@tanstack/react-query"
 import queryClient from "../api/queryClient"
 import NavigationBar from "../components/NavigationBar"
 import Footer from "../components/Footer"
+import useUserStore from "../stores/user"
 
 export function Component() {
+    const { userSettings } = useUserStore()
 
     // TODO Theme switcher, set in userStore
-    document.documentElement.setAttribute("data-bs-theme", "dark")
+    document.documentElement.setAttribute("data-bs-theme", userSettings.theme)
 
     return (
         <QueryClientProvider client={queryClient}>

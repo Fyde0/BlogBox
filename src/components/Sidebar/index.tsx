@@ -5,7 +5,7 @@ import Tags from "./Tags"
 
 function Sidebar() {
     return (
-        <div className="d-flex flex-column gap-4">
+        <div className="d-flex flex-column gap-5">
             <Intro />
             <Archives />
             <Tags />
