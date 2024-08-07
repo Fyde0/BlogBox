@@ -37,31 +37,30 @@ export function Component() {
         >
 
             {/* Success */}
-            {serverSettings.isSuccess && <SlidingAlert>Settings applied!</SlidingAlert>}
+            {serverSettings.isSuccess && <SlidingAlert variant="success">Settings applied!</SlidingAlert>}
 
             {/* Error */}
             {serverSettings.isError && <Alert variant="danger" className="align-self-center">{serverSettings.error.message}</Alert>}
 
             <Form.Label><h1>Settings</h1></Form.Label>
 
-            <Form.Group controlId="postsPerPage">
-                <Row>
-                    <Col lg={col1Width}>
-                        <Form.Label>Posts per page</Form.Label>
-                    </Col>
-                    <Col lg={2}>
-                        <Form.Select
-                            name="postsPerPage"
-                            defaultValue={userSettings.postsPerPage}
-                        >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="20">20</option>
-                            <option value="25">25</option>
-                        </Form.Select>
-                    </Col>
-                </Row>
+            <Form.Group controlId="postsPerPage" as={Row}>
+                {/* <Row className="d-flex align-items-center"> */}
+                <Form.Label column lg={col1Width}>Posts per page</Form.Label>
+                <Col>
+                    <Form.Select
+                        name="postsPerPage"
+                        defaultValue={userSettings.postsPerPage}
+                        style={{ width: "80px" }}
+                    >
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                    </Form.Select>
+                </Col>
+                {/* </Row> */}
             </Form.Group>
 
             <Form.Group controlId="theme">

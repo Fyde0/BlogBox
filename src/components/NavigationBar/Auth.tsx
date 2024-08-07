@@ -28,14 +28,18 @@ function Auth() {
                     :
                     <NavDropdown
                         title="User"
+                        align="end"
                     >
                         <RouterLink type="dropdown" to="/settings">Settings</RouterLink>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item onClick={
-                            () => serverLogout.mutate(undefined, {
-                                onSettled: () => clientLogout()
-                            })
-                        }>
+                        <NavDropdown.Item
+                            className="logout-dropdown-item"
+                            onClick={
+                                () => serverLogout.mutate(undefined, {
+                                    onSettled: () => clientLogout()
+                                })
+                            }
+                        >
                             Logout
                         </NavDropdown.Item>
                     </NavDropdown>

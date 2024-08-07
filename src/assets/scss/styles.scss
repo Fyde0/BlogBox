@@ -1,4 +1,4 @@
-@import "./minty/styles.scss";
+@import "./flatly/styles.scss";
 
 .post-preview {
     max-height: 3 * $line-height-base * 1em;
@@ -39,11 +39,15 @@
 
 @keyframes alert-animation {
     from {
-        top: 0 // TODO not great, make it better
+        transform: translate(-50%, -200%);
     }
 
     to {
-        top: 100px;
-        transform: translateY(-250px);
+        transform: translate(-50%, 0);
     }
+}
+
+.logout-dropdown-item:hover,
+.logout-dropdown-item:focus {
+    background-color: $danger;
 }

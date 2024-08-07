@@ -7,3 +7,5 @@ export class FetchError extends Error {
 export const fetchHeaders = {
     "Content-Type": "application/json"
 }
+
+// TODO fetch wrapper, handle "You're not logged in." (logout in store)
