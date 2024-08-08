@@ -7,11 +7,12 @@ import ErrorPage from "../components/errors/ErrorPage"
 import CenteredModal from "../components/CenteredModal"
 import Loading from "../components/Loading"
 import Sidebar from "../components/Sidebar"
+import Tag from "../components/Tag"
+import Author from "../components/Sidebar/Author"
 // 
 import { FetchError } from "../api/FetchLib"
 import { deletePostMutation, getPostByPostIdQuery } from "../api/posts"
 import useUserStore from "../stores/user"
-import Tag from "../components/Tag"
 
 export function Component() {
     const { userInfo } = useUserStore()
@@ -117,6 +118,7 @@ export function Component() {
                                 </Card.Body>
                             </Card>
                         }
+                        <Author userInfo={userInfo} />
                     </Sidebar>
                 </Col>
 

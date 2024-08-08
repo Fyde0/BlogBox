@@ -35,11 +35,16 @@ export function Component() {
         if (!(avatar instanceof File)) { return }
 
         const validationResult = z.object({
-            fileSize: z.number().max(1 * 1024 * 512).optional(),
-            name: z.string().max(50).optional(),
-            about: z.string().max(500).optional(),
+            fileSize: z.number()
+                .max(1 * 1024 * 512, { message: "The avatar can't be larger than 512Kb." }),
+            name: z.string()
+                .max(50, { message: "Your name can't be longer than 50 characters." })
+                .optional(),
+            about: z.string()
+                .max(500, { message: "Your About me field can't be longer than 500 characters." })
+                .optional(),
         }).safeParse({
-            filesize: avatar.size,
+            fileSize: avatar.size,
             name: formData.get("name"),
             about: formData.get("about")
         })
