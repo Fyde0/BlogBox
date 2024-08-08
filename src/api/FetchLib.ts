@@ -8,4 +8,4 @@ export const fetchHeaders = {
     "Content-Type": "application/json"
 }
 
-// TODO fetch wrapper, handle "You're not logged in." (logout in store)
+// TODO fetch wrapper, handle 401 (logout in store)

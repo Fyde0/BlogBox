@@ -3,14 +3,29 @@ import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
 
 function LgDefaultNoThumb({ post }: { post: IPost }) {
+
+    const now = new Date()
+
     let authorString = "Posted by " + post.author.username
+    let dateFormat: Intl.DateTimeFormatOptions = { month: "long", day: "numeric" }
+
     if (post.createdAt) {
-        authorString += " on " + new Date(post.createdAt).toLocaleString(undefined, { dateStyle: "long", timeStyle: "short" })
+        const createdAtDate = new Date(post.createdAt)
+        // only show year if different than current
+        if (now.getFullYear() !== createdAtDate.getFullYear()) {
+            dateFormat.year = "numeric"
+        }
+        authorString += " on " + createdAtDate.toLocaleString(undefined, dateFormat)
     }
     if (post.updatedAt && post.createdAt !== post.updatedAt) {
-        authorString += " (Updated " + new Date(post.updatedAt).toLocaleString(undefined, { dateStyle: "long", timeStyle: "short" }) + ")"
+        const updatedAtDate = new Date(post.updatedAt)
+        if (now.getFullYear() !== updatedAtDate.getFullYear()) {
+            dateFormat.year = "numeric"
+        }
+        authorString += " (Updated " + updatedAtDate.toLocaleString(undefined, dateFormat) + ")"
     }
 
+    // get first paragraph of post to show in preview
     const parser = new DOMParser()
     const doc = parser.parseFromString(post.content, 'text/html')
     const firstP = doc.querySelector('p')
@@ -23,7 +38,10 @@ function LgDefaultNoThumb({ post }: { post: IPost }) {
                         {post.title}
                     </Link>
                 </Card.Title>
-                <Card.Subtitle className="text-body-secondary">
+                <Card.Subtitle 
+                className="text-body-secondary"
+                style={{fontSize: "90%"}}
+                >
                     {authorString}
                 </Card.Subtitle>
             </Card.Header>

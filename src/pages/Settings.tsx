@@ -37,13 +37,21 @@ export function Component() {
             onSubmit={handleSubmit}
         >
 
-            <Form.Label><h1>Settings</h1></Form.Label>
+            <h1>Settings</h1>
 
             {/* Success */}
-            {serverChangeSettings.isSuccess && <SlidingAlert variant="success">Settings applied!</SlidingAlert>}
+            {
+                serverChangeSettings.isSuccess &&
+                <SlidingAlert variant="success">Settings applied!</SlidingAlert>
+            }
 
             {/* Error */}
-            {serverChangeSettings.isError && <Alert variant="danger" className="align-self-center">{serverChangeSettings.error.message}</Alert>}
+            {
+                serverChangeSettings.isError &&
+                <Alert variant="danger" className="align-self-center">
+                    {serverChangeSettings.error.message}
+                </Alert>
+            }
 
             <Form.Group controlId="postsPerPage" className={formGroupClasses}>
                 <Form.Label style={labelStyle}>Posts per page</Form.Label>

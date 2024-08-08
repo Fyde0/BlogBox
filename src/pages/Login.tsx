@@ -36,6 +36,7 @@ export function Component() {
 
         if (!validationResult.success) {
             setValidationError(validationResult.error.issues[0].message)
+            return
         }
 
         serverLogin.mutate(
@@ -63,8 +64,8 @@ export function Component() {
             <Container>
 
                 {/* Error */}
-                {serverLogin.isError && <Alert variant="danger" className="align-self-center">{serverLogin.error.message}</Alert>}
-                {validationError && <Alert variant="danger" className="align-self-center">{validationError}</Alert>}
+                {serverLogin.isError && <Alert variant="danger">{serverLogin.error.message}</Alert>}
+                {validationError && <Alert variant="danger">{validationError}</Alert>}
 
                 {/* Username */}
                 <Form.Label className="w-100">

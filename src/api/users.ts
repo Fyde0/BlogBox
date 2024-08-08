@@ -82,7 +82,7 @@ export function changeSettingsMutation() {
     return useMutation({
         mutationFn: async ({ userSettings }: { userSettings: IUserSettings }) => {
             return fetch(config.api.url + "/users/settings", {
-                method: "POST",
+                method: "PATCH",
                 headers: fetchHeaders,
                 body: JSON.stringify(userSettings),
                 credentials: "include",

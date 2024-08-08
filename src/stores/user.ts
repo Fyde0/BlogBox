@@ -12,6 +12,7 @@ interface IUserState {
     userSettings: IUserSettings
     clientLogin: (info: IUserInfo, settings: IUserSettings) => void
     clientLogout: () => void
+    changeUserInfo: (userInfo: IUserInfo) => void
     changeSettings: (settings: IUserSettings) => void
     setHydrating: (hydrating: boolean) => void
 }
@@ -25,6 +26,7 @@ const useUserStore = create(
             userSettings: defaultUserSettings,
             clientLogin: (info, settings) => set({ loggedIn: true, userInfo: info, userSettings: settings }),
             clientLogout: () => set({ loggedIn: false, userInfo: emptyUserInfo, userSettings: defaultUserSettings }),
+            changeUserInfo: (userInfo) => set({ userInfo: userInfo }),
             changeSettings: (settings) => set({ userSettings: settings }),
             setHydrating: (hydrating: boolean) => set({ hydrating })
         }),
