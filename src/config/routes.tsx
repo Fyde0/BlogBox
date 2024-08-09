@@ -19,20 +19,27 @@ const routes: IRoute[] = [
   },
   // User Panel
   {
-    path: "profile",
-    lazy: () => import("../pages/EditProfile"),
-    auth: true
-  },
-  {
-    path: "settings",
-    lazy: () => import("../pages/Settings"),
-    auth: true
+    path: "account",
+    lazy: () => import("../pages/UserPanel"),
+    auth: true,
+    children: [
+      {
+        path: "profile",
+        lazy: () => import("../pages/EditProfile"),
+        auth: true
+      },
+      {
+        path: "settings",
+        lazy: () => import("../pages/Settings"),
+        auth: true
+      }
+    ]
   },
   // New post
   {
     path: "post",
     lazy: () => import("../pages/CreatePost"),
-    auth: true,
+    auth: true
   },
   // View and edit post
   {

@@ -30,8 +30,7 @@ function Auth() {
                         title="User"
                         align="end"
                     >
-                        <RouterLink type="dropdown" to="/profile">Profile</RouterLink>
-                        <RouterLink type="dropdown" to="/settings">Settings</RouterLink>
+                        <RouterLink type="dropdown" to="/account/profile">Account</RouterLink>
                         <NavDropdown.Divider />
                         <NavDropdown.Item
                             className="logout-dropdown-item"

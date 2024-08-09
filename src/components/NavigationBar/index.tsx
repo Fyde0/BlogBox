@@ -7,6 +7,7 @@ import config from "../../config/config"
 
 function NavigationBar() {
     const { pathname } = useLocation()
+    // need pathname to rerender nav (see components/RouterLink)
 
     return (
         // TODO Implement expand?

@@ -118,7 +118,7 @@ export function Component() {
                                 </Card.Body>
                             </Card>
                         }
-                        <Author userInfo={userInfo} />
+                        <Author userInfo={post.author} />
                     </Sidebar>
                 </Col>
 

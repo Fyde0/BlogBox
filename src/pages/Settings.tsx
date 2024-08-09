@@ -32,12 +32,11 @@ export function Component() {
     return (
         <Form
             className="m-auto d-flex flex-column gap-4"
-            style={{ maxWidth: "900px" }}
             id="settingsForm"
             onSubmit={handleSubmit}
         >
 
-            <h1>Settings</h1>
+            <h2>Settings</h2>
 
             {/* Success */}
             {

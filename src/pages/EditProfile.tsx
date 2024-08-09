@@ -11,7 +11,7 @@ import { FetchError } from "../api/FetchLib"
 export function Component() {
     const { userInfo, changeUserInfo } = useUserStore()
     const [validationError, setValidationError] = useState<string>("")
-    const avatarInputRef = useRef<HTMLInputElement>(null);
+    const avatarInputRef = useRef<HTMLInputElement>(null)
 
     // API setup
     const serverUpdateUserInfo = updateUserInfoMutation()
@@ -63,12 +63,12 @@ export function Component() {
 
     return (
         <Form
-            className="m-auto"
-            style={{ maxWidth: "900px" }}
+            className="m-auto d-flex flex-column gap-4"
+            id="editProfileForm"
             onSubmit={handleSubmit}
         >
 
-            <h1>Profile</h1>
+            <h2>Profile</h2>
 
             {/* Success */}
             {
@@ -76,14 +76,12 @@ export function Component() {
                 <SlidingAlert variant="success">Settings applied!</SlidingAlert>
             }
 
-            <Row>
-                {/* Error */}
-                {
-                    serverUpdateUserInfo.isError &&
-                    <Alert variant="danger" className="w-auto mx-auto">{serverUpdateUserInfo.error.message}</Alert>
-                }
-                {validationError && <Alert variant="danger" className="w-auto mx-auto">{validationError}</Alert>}
-            </Row>
+            {/* Error */}
+            {
+                serverUpdateUserInfo.isError &&
+                <Alert variant="danger" className="w-auto mx-auto">{serverUpdateUserInfo.error.message}</Alert>
+            }
+            {validationError && <Alert variant="danger" className="w-auto mx-auto">{validationError}</Alert>}
 
             <Row>
 
