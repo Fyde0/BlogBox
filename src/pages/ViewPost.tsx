@@ -88,21 +88,24 @@ export function Component() {
 
             </Row>
 
-            <Row>
+            <Row className="gy-3">
 
                 {/* Post */}
-                <Col lg="8">
+                <Col md="8">
                     <h1>{post.title}</h1>
                     <p className="text-body-secondary">{authorString}</p>
                     <hr className="my-4" />
                     <div dangerouslySetInnerHTML={{ __html: post.content }} />
-                    <div className="d-inline-flex flex-wrap">
-                        {
-                            post.tags.map((tag, i) => {
-                                return <Tag key={i}>{tag}</Tag>
-                            })
-                        }
-                    </div>
+                    {
+                        post.tags.length > 0 &&
+                        <div className="d-inline-flex flex-wrap">
+                            {
+                                post.tags.map((tag, i) => {
+                                    return <Tag key={i}>{tag}</Tag>
+                                })
+                            }
+                        </div>
+                    }
                 </Col>
 
                 {/* Sidebar */}

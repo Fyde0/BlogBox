@@ -52,3 +52,8 @@
 .logout-dropdown-item:focus {
     background-color: $danger;
 }
+
+// Better caret after dropdowns
+.dropdown-toggle::after {
+    vertical-align: middle;
+}

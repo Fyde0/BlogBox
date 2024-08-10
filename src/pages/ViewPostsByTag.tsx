@@ -37,8 +37,9 @@ export function Component() {
     const postsCount = getPosts.data.totalCount
 
     return (
-        <Row>
-            <Col lg="8" className="d-flex flex-column justify-content-start gap-3">
+        // gutter (margin) between columns (for small screens)
+        <Row className="gy-3">
+            <Col md="8" className="d-flex flex-column justify-content-start gap-3">
                 <PostsList
                     title={"Tag: #" + tag}
                     posts={posts}

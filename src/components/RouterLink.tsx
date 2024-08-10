@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { Button, ListGroup, Nav, Navbar, NavDropdown, Pagination } from "react-bootstrap"
+import { Button, Dropdown, ListGroup, Nav, Navbar, Pagination } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 
 // Weird setup because of react-router + react-bootstrap
@@ -44,7 +44,7 @@ function RouterLink(props: IRouterLinkProps) {
             element = <Pagination.Next active={props.pageActive}>{props.children}</Pagination.Next>
             break;
         case "dropdown":
-            element = <NavDropdown.Item active={false}>{props.children}</NavDropdown.Item>
+            element = <Dropdown.Item active={false}>{props.children}</Dropdown.Item>
             break;
         case "listGroupItem":
             element = <ListGroup.Item action active={false}>{props.children}</ListGroup.Item>

@@ -33,8 +33,8 @@ export function Component() {
     const postsCount = getPosts.data?.totalCount
 
     return (
-        <Row>
-            <Col lg="8" className="d-flex flex-column justify-content-start gap-3">
+        <Row className="gy-3">
+            <Col md="8" className="d-flex flex-column justify-content-start gap-3">
                 <PostsList posts={posts} totalPosts={postsCount} currentPage={currentPage} />
             </Col>
             <Col>

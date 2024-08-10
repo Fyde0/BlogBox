@@ -63,7 +63,8 @@ function Paginator({ currentPage, totalPosts }: { currentPage: number, totalPost
 
 
     return (
-        <Pagination className="justify-content-center">
+        // m-0 because the gutter takes care of it
+        <Pagination className="justify-content-center m-0">
             <RouterLink to={"../page/" + String(currentPage - 1)} type="pagePrev" />
             {paginatorElements}
             <RouterLink to={"../page/" + String(currentPage + 1)} type="pageNext" />
