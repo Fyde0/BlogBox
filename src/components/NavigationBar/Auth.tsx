@@ -41,7 +41,7 @@ function Auth() {
                         */}
 
                         {/* Only on >= 768px */}
-                        <Dropdown align="end" className="d-none d-lg-block">
+                        <Dropdown align="end" className="d-none d-md-block">
                             <Dropdown.Toggle as={NavLink} className="p-0">
                                 <Avatar avatar={userInfo.avatar} size={32} />
                             </Dropdown.Toggle>
@@ -59,7 +59,7 @@ function Auth() {
                         </Dropdown>
 
                         {/* Only on < 768px */}
-                        <div className="d-block d-lg-none">
+                        <div className="d-block d-md-none">
                             <hr className="my-2" />
                             <RouterLink to="/account/profile" className="nav-link">Account</RouterLink>
                             <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
