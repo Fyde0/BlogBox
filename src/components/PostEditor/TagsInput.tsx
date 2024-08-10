@@ -18,7 +18,7 @@ function TagsInput({ tags, setTags }: { tags: string[], setTags: Function }) {
 
     return (
         <div
-            className="form-control tags-input-div d-inline-flex align-items-center flex-wrap gap-1"
+            className="form-control input-container d-inline-flex align-items-center flex-wrap gap-1"
             style={{ cursor: "text" }}
         >
             {tags.map((tag, i) => {

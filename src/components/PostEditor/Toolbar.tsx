@@ -1,4 +1,4 @@
-import { Button, Container, ToggleButton } from "react-bootstrap"
+import { Button, ToggleButton } from "react-bootstrap"
 import { Editor } from "@tiptap/react"
 
 function Toolbar({ editor, className }: { editor: Editor, className?: string }) {
@@ -7,13 +7,16 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
     // TODO Add underline, colors
     // TODO Try bootstrap icons?
 
+    const buttonClasses = "btn-sm toolbar-button"
+    const buttonGroupClasses = "btn-group"
+
     return (
-        <Container
-            className={"d-flex justify-content-center gap-2 flex-wrap " + className}
+        <div
+            className={"d-flex justify-content-center flex-wrap gap-2 p-2 editor-toolbar " + className}
             aria-label="Toolbar"
         >
             {/* Don't use <ButtonGroup />, it breaks the editor's JS */}
-            <div className="btn-group">
+            <div className={buttonGroupClasses}>
                 <ToggleButton
                     id="bold"
                     value="bold"
@@ -22,7 +25,7 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     onClick={() => editor.chain().focus().toggleBold().run()}
                     disabled={!editor.can().chain().focus().toggleBold().run()}
                     checked={editor.isActive('bold')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-bold"></i>
                 </ToggleButton>
@@ -34,7 +37,7 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                     disabled={!editor.can().chain().focus().toggleItalic().run()}
                     checked={editor.isActive('italic')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-italic"></i>
                 </ToggleButton>
@@ -46,19 +49,19 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     onClick={() => editor.chain().focus().toggleStrike().run()}
                     disabled={!editor.can().chain().focus().toggleStrike().run()}
                     checked={editor.isActive('strike')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-strikethrough"></i>
                 </ToggleButton>
             </div>
-            <div className="btn-group">
+            <div className={buttonGroupClasses}>
                 <ToggleButton
                     id="paragraph"
                     value="paragraph"
                     type="checkbox"
                     onClick={() => editor.chain().focus().setParagraph().run()}
                     checked={editor.isActive('paragraph')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-paragraph"></i>
                 </ToggleButton>
@@ -68,7 +71,7 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
                     checked={editor.isActive('heading', { level: 1 })}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-h"></i> <i className="fa-solid fa-1"></i>
                 </ToggleButton>
@@ -78,7 +81,7 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
                     checked={editor.isActive('heading', { level: 2 })}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-h"></i> <i className="fa-solid fa-2"></i>
                 </ToggleButton>
@@ -88,7 +91,7 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
                     checked={editor.isActive('heading', { level: 3 })}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-h"></i> <i className="fa-solid fa-3"></i>
                 </ToggleButton>
@@ -98,7 +101,7 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
                     checked={editor.isActive('heading', { level: 4 })}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-h"></i> <i className="fa-solid fa-4"></i>
                 </ToggleButton>
@@ -108,7 +111,7 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
                     checked={editor.isActive('heading', { level: 5 })}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-h"></i> <i className="fa-solid fa-5"></i>
                 </ToggleButton>
@@ -118,19 +121,19 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
                     checked={editor.isActive('heading', { level: 6 })}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-h"></i> <i className="fa-solid fa-6"></i>
                 </ToggleButton>
             </div>
-            <div className="btn-group">
+            <div className={buttonGroupClasses}>
                 <ToggleButton
                     id="bulletList"
                     value="bulletList"
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleBulletList().run()}
                     checked={editor.isActive('bulletList')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-list-ul"></i>
                 </ToggleButton>
@@ -140,12 +143,12 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleOrderedList().run()}
                     checked={editor.isActive('orderedList')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-list-ol"></i>
                 </ToggleButton>
             </div>
-            <div className="btn-group">
+            <div className={buttonGroupClasses}>
                 <ToggleButton
                     id="code"
                     value="code"
@@ -153,7 +156,7 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     onClick={() => editor.chain().focus().toggleCode().run()}
                     disabled={!editor.can().chain().focus().toggleCode().run()}
                     checked={editor.isActive('code')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-code"></i>
                 </ToggleButton>
@@ -163,29 +166,29 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                     checked={editor.isActive('codeBlock')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-file-code"></i>
                 </ToggleButton>
             </div>
-            <div className="btn-group">
+            <div className={buttonGroupClasses}>
                 <ToggleButton
                     id="blockquote"
                     value="blockquote"
                     type="checkbox"
                     onClick={() => editor.chain().focus().toggleBlockquote().run()}
                     checked={editor.isActive('blockquote')}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-quote-right"></i>
                 </ToggleButton>
             </div>
-            <div className="btn-group">
+            <div className={buttonGroupClasses}>
                 <Button
                     id="hr"
                     value="hr"
                     onClick={() => editor.chain().focus().setHorizontalRule().run()}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-grip-lines"></i>
                 </Button>
@@ -193,18 +196,18 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     id="break"
                     value="break"
                     onClick={() => editor.chain().focus().setHardBreak().run()}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-arrow-turn-down"></i>
                 </Button>
             </div>
-            <div className="btn-group">
+            <div className={buttonGroupClasses}>
                 <Button
                     id="undo"
                     value="undo"
                     onClick={() => editor.chain().focus().undo().run()}
                     disabled={!editor.can().chain().focus().undo().run()}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-rotate-left"></i>
                 </Button>
@@ -213,12 +216,12 @@ function Toolbar({ editor, className }: { editor: Editor, className?: string }) 
                     value="redo"
                     onClick={() => editor.chain().focus().redo().run()}
                     disabled={!editor.can().chain().focus().redo().run()}
-                    size="sm"
+                    className={buttonClasses}
                 >
                     <i className="fa-solid fa-rotate-right"></i>
                 </Button>
             </div>
-        </Container>
+        </div>
     )
 }
 

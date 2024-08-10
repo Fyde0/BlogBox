@@ -16,8 +16,25 @@
     width: 25%;
 }
 
+.prosemirror-editor {
+    outline: 0;
+    border: 0;
+    padding: $input-padding-y $input-padding-x;
+}
+
+.editor-toolbar input:disabled+label,
+.toolbar-button,
+.toolbar-button:disabled,
+.toolbar-button:disabled>input {
+    background-color: rgba(var(--bs-tertiary-bg-rgb));
+    border-color: var(--bs-border-color-translucent);
+    color: var(--bs-body-color);
+    min-width: 32px;
+}
+
 // Focus class for tags div (copied from bootstrap)
-.tags-input-div:focus-within {
+// makes the div highlight like an input on focus
+.input-container:focus-within {
     color: $input-focus-color;
     background-color: $input-focus-bg;
     border-color: $input-focus-border-color;

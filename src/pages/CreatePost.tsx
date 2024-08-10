@@ -19,10 +19,7 @@ export function Component() {
     }
 
     return (
-        <Container
-            className="m-auto d-flex flex-column gap-4"
-            style={{ maxWidth: "900px" }}
-        >
+        <Container className="m-auto d-flex flex-column gap-4">
 
             {/* Error */}
             {submitPost.isError && <Alert variant="danger" className="align-self-center">{submitPost.error.message}</Alert>}

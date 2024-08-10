@@ -1,8 +1,6 @@
-import { Container } from "react-bootstrap"
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import DOMPurify from "dompurify"
-// 
 // css for editor size
 import "../../assets/css/editor.css"
 import IPost from "../../interfaces/post"
@@ -24,7 +22,7 @@ function RichTextEditor({ post, setPost }: { post: IPost, setPost: React.Dispatc
         content: post.content,
         autofocus: true,
         // bootstrap class to text area
-        editorProps: { attributes: { class: "form-control" } },
+        editorProps: { attributes: { class: "prosemirror-editor" } },
         // like onChange for text area
         onUpdate: ({ editor }) => {
             setPost((prevPost: IPost) => {
@@ -38,17 +36,17 @@ function RichTextEditor({ post, setPost }: { post: IPost, setPost: React.Dispatc
 
     // Typescript security blanket
     if (!editor) {
-        return null
+        return <></>
     }
 
     return (
-        < Container >
-            <Toolbar editor={editor} className="mb-2" />
+        <div className="form-control input-container p-0">
+            <Toolbar editor={editor} className="border-bottom" />
             <EditorContent editor={editor} />
             {/* TODO Make these ↓ */}
             {/* <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu> */}
             {/* <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu> */}
-        </Container >
+        </div>
     )
 }
 
