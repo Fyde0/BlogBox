@@ -45,9 +45,15 @@ export function loginMutation() {
                 // merge with default settings in case there are new ones
                 const userSettings: IUserSettings =
                     { ...defaultUserSettings, ...data.userSettings }
+                const isAdmin = data.admin
 
-                if (response.ok && isIUserInfo(userInfo) && isIUserSettings(userSettings)) {
-                    return ({ userInfo, userSettings })
+                if (
+                    response.ok &&
+                    isIUserInfo(userInfo) &&
+                    isIUserSettings(userSettings) &&
+                    typeof isAdmin === "boolean"
+                ) {
+                    return ({ userInfo, userSettings, isAdmin })
                 }
                 throw new FetchError(response, data.error)
             })

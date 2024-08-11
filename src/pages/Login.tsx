@@ -42,8 +42,8 @@ export function Component() {
         serverLogin.mutate(
             { username, password },
             {
-                onSuccess: ({ userInfo, userSettings }) => {
-                    clientLogin(userInfo, userSettings)
+                onSuccess: ({ userInfo, userSettings, isAdmin }) => {
+                    clientLogin(userInfo, userSettings, isAdmin)
                 }
             }
         )

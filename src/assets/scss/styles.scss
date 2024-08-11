@@ -1,6 +1,8 @@
 @import "./minty/styles.scss";
 
 body {
+    // not sure if this is a good idea
+    // but it fixes a lot of things
     word-wrap: break-word;
     word-break: break-word;
 }
