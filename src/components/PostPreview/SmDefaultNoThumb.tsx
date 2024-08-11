@@ -6,19 +6,38 @@ function LgDefaultNoThumb({ post }: { post: IPost }) {
 
     const now = new Date()
 
-    let authorString = "Posted by " + post.author.username
-    let dateFormat: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" }
+    let shortAuthorString = "Posted by " + post.author.username
+    let shortDateFormat: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" }
 
     if (post.createdAt) {
         const createdAtDate = new Date(post.createdAt)
         // only show year if different than current
         if (now.getFullYear() !== createdAtDate.getFullYear()) {
-            dateFormat.year = "numeric"
+            shortDateFormat.year = "numeric"
         }
-        authorString += " on " + createdAtDate.toLocaleString(undefined, dateFormat)
+        shortAuthorString += " on " + createdAtDate.toLocaleString(undefined, shortDateFormat)
     }
     if (post.updatedAt && post.createdAt !== post.updatedAt) {
-        authorString += "*"
+        shortAuthorString += "*"
+    }
+
+    let longAuthorString = "Posted by " + post.author.username
+    let longDateFormat: Intl.DateTimeFormatOptions = { month: "long", day: "numeric" }
+
+    if (post.createdAt) {
+        const createdAtDate = new Date(post.createdAt)
+        // only show year if different than current
+        if (now.getFullYear() !== createdAtDate.getFullYear()) {
+            longDateFormat.year = "numeric"
+        }
+        longAuthorString += " on " + createdAtDate.toLocaleString(undefined, longDateFormat)
+    }
+    if (post.updatedAt && post.createdAt !== post.updatedAt) {
+        const updatedAtDate = new Date(post.updatedAt)
+        if (now.getFullYear() !== updatedAtDate.getFullYear()) {
+            longDateFormat.year = "numeric"
+        }
+        longAuthorString += " (Updated " + updatedAtDate.toLocaleString(undefined, longDateFormat) + ")"
     }
 
     return (
@@ -29,8 +48,8 @@ function LgDefaultNoThumb({ post }: { post: IPost }) {
                         {post.title}
                     </Link>
                 </Card.Title>
-                <Card.Subtitle style={{fontSize: "90%"}}>
-                    {authorString}
+                <Card.Subtitle style={{ fontSize: "90%" }} title={longAuthorString}>
+                    {shortAuthorString}
                 </Card.Subtitle>
             </Card.Body>
         </Card>

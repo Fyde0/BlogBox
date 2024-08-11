@@ -7,9 +7,11 @@ import Loading from "../components/Loading";
 import PostsList from "../components/PostsList";
 import { getAllPostsQuery } from "../api/posts";
 import { FetchError } from "../api/FetchLib";
+import useUserStore from "../stores/user";
 
 export function Component() {
     const { tag, page } = useParams()
+    const { userSettings } = useUserStore()
 
     let currentPage = Number(page)
     if (!page) currentPage = 1
@@ -19,7 +21,11 @@ export function Component() {
         tags.push(tag)
     }
 
-    const getPosts = getAllPostsQuery({ page: currentPage, tags })
+    const getPosts = getAllPostsQuery({
+        page: currentPage,
+        postsPerPage: userSettings.postsPerPage,
+        tags
+    })
 
     if (getPosts.isFetching) {
         return <Loading />

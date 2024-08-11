@@ -1,5 +1,10 @@
 @import "./minty/styles.scss";
 
+body {
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
 .post-preview {
     max-height: 3 * $line-height-base * 1em;
     overflow: hidden;

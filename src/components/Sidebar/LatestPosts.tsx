@@ -7,7 +7,7 @@ function LatestPosts({ count }: { count?: number }) {
     let postCount = 3
     if (count) { postCount = count }
 
-    const postsQuery = getAllPostsQuery({ page: 1 })
+    const postsQuery = getAllPostsQuery({ page: 1, postsPerPage: postCount })
 
     if (postsQuery.isFetching) {
         return <Loading />

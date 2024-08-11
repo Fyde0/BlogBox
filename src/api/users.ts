@@ -3,6 +3,7 @@ import { FetchError, fetchHeaders } from "./FetchLib"
 import IUserSettings, { defaultUserSettings, isIUserSettings } from "../interfaces/userSettings"
 import config from "../config/config"
 import { isIUserInfo, IUserInfo } from "../interfaces/user"
+import queryClient from "./queryClient"
 
 // 
 // Mutation, register
@@ -93,6 +94,12 @@ export function changeSettingsMutation() {
                 }
                 throw new FetchError(response, data.error)
             })
+        },
+        onSuccess: () => {
+            // need to run queries again in case postsPerPage changed
+            queryClient.invalidateQueries({ queryKey: ["allPosts"] })
+            queryClient.invalidateQueries({ queryKey: ["postsCountByMonth"] })
+            queryClient.invalidateQueries({ queryKey: ["tags"] })
         }
     })
 }
@@ -115,6 +122,10 @@ export function updateUserInfoMutation() {
                 }
                 throw new FetchError(response, data.error)
             })
+        },
+        onSuccess: () => {
+            // run single post queries again to show new user info
+            queryClient.invalidateQueries({ queryKey: ["postById"] })
         }
     })
 }

@@ -12,6 +12,7 @@ import config from "../config/config"
  * Gets all posts (optionally by page, with date range and sort)
  *
  * @param {number} [params.page=1] Page number.
+ * @param {number} [params.postsPerPage=10] How many posts in one page.
  * @param {number | string} [params.startDate=""] Start date in ms since epoch.
  * @param {number | string} [params.endDate=""] End date in ms since epoch.
  * @param {string[]} [params.tags=[]] Array of tags
@@ -22,20 +23,21 @@ export function getAllPostsQuery(
     {
         // defaults
         page = 1,
+        postsPerPage = 10,
         startDate = "",
         endDate = "",
         tags = [],
         sort = "desc"
     }: IGetAllPostsQueryProps): UseQueryResult<IAllPosts> {
-    const count = 10
+    const count = postsPerPage
     const skip = count * (page - 1)
     const apiUrl = config.api.url +
         "/posts" +
         "?startDate=" + startDate + "&endDate=" + endDate +
         "&tags=" + tags.join(",") +
-        "&sort=" + sort + "&skip=" + skip + "&amount=" + count
+        "&sort=" + sort + "&skip=" + skip + "&count=" + count
     return useQuery(queryOptions({
-        queryKey: ["allPosts", startDate, endDate, tags, sort, page],
+        queryKey: ["allPosts", startDate, endDate, tags, sort, page, postsPerPage],
         queryFn: async () => {
             return fetch(apiUrl, {
                 method: "GET",
@@ -56,7 +58,7 @@ export function getAllPostsQuery(
 // 
 export function getPostByPostIdQuery({ postId }: { postId: string }): UseQueryResult<IPost> {
     return useQuery(queryOptions({
-        queryKey: [postId],
+        queryKey: ["postById", postId],
         queryFn: async () => {
             return fetch(config.api.url + "/posts/byPostId/" + postId, {
                 method: "GET",

@@ -8,9 +8,11 @@ import PostsList from "../components/PostsList";
 import Sidebar from "../components/Sidebar";
 import { getAllPostsQuery } from "../api/posts";
 import { FetchError } from "../api/FetchLib";
+import useUserStore from "../stores/user";
 
 export function Component() {
     const { year, month, day, page } = useParams()
+    const { userSettings } = useUserStore()
 
     let currentPage = Number(page)
 
@@ -66,7 +68,12 @@ export function Component() {
     const startDateEpochMs = startDate.getTime()
     const endDateEpochMs = endDate.getTime()
 
-    const getPosts = getAllPostsQuery({ startDate: startDateEpochMs, endDate: endDateEpochMs, page: currentPage })
+    const getPosts = getAllPostsQuery({
+        startDate: startDateEpochMs,
+        endDate: endDateEpochMs,
+        page: currentPage,
+        postsPerPage: userSettings.postsPerPage
+    })
 
     if (getPosts.isFetching) {
         return <Loading />

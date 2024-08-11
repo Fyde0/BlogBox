@@ -2,10 +2,12 @@ import { Pagination } from "react-bootstrap";
 // 
 import RouterLink from "../RouterLink";
 import PaginatorLink from "./PaginatorLink";
+import useUserStore from "../../stores/user";
 
 function Paginator({ currentPage, totalPosts }: { currentPage: number, totalPosts?: number }) {
+    const { userSettings } = useUserStore()
 
-    const postsPerPage = 10
+    const postsPerPage = userSettings.postsPerPage
 
     if (!totalPosts || totalPosts <= postsPerPage) {
         return <></>
