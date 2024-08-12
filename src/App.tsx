@@ -2,7 +2,6 @@ import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
 //
-import "./assets/scss/styles.scss" // change theme here
 import ProtectedRoute from "./components/ProtectedRoute"
 import ErrorBoundary from "./components/errors/ErrorBoundary"
 import IRoute from "./interfaces/route"

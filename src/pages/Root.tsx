@@ -10,7 +10,23 @@ import useUserStore from "../stores/user"
 export function Component() {
     const { userSettings } = useUserStore()
 
-    // TODO Theme switcher, set in userStore
+    let theme = "cosmo"
+
+    switch (theme) {
+        case "minty":
+            import("../assets/scss/minty/styles.scss")
+            break;
+        case "flatly":
+            import("../assets/scss/flatly/styles.scss")
+            break;
+        case "cosmo":
+            import("../assets/scss/cosmo/styles.scss")
+            break;
+        default:
+            import("../assets/scss/minty/styles.scss")
+            break;
+    }
+
     document.documentElement.setAttribute("data-bs-theme", userSettings.theme)
 
     return (

@@ -1,4 +1,4 @@
-@import "./minty/styles.scss";
+// This file must be theme agnostic
 
 body {
     // not sure if this is a good idea
@@ -21,6 +21,12 @@ body {
     bottom: $card-spacer-y;
     height: $line-height-base * 1em;
     width: 25%;
+}
+
+.ProseMirror {
+    min-height: 500px;
+    max-height: 500px;
+    overflow: scroll;
 }
 
 .prosemirror-editor {

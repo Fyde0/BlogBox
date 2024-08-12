@@ -1,8 +1,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import DOMPurify from "dompurify"
-// css for editor size
-import "../../assets/css/editor.css"
+//
 import IPost from "../../interfaces/post"
 import Toolbar from "./Toolbar"
 
