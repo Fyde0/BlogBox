@@ -66,6 +66,7 @@ const routes: IRoute[] = [
       }
     ]
   },
+  // Admin panel
   {
     path: "admin",
     lazy: () => import("../pages/AdminPanel"),
@@ -73,7 +74,7 @@ const routes: IRoute[] = [
     children: [
       {
         path: "settings",
-        lazy: () => import("../pages/SiteSettings"),
+        lazy: () => import("../pages/BlogSettings"),
         admin: true,
       }
     ]

@@ -19,8 +19,8 @@ interface IUserState {
     setHydrating: (hydrating: boolean) => void
 }
 
-const useUserStore = create(
-    persist<IUserState>(
+const useUserStore = create<IUserState>()(
+    persist(
         (set) => ({
             hydrating: false,
             loggedIn: false,

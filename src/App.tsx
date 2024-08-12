@@ -1,9 +1,11 @@
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
+import { QueryClientProvider } from "@tanstack/react-query"
 //
 import ProtectedRoute from "./components/ProtectedRoute"
 import ErrorBoundary from "./components/errors/ErrorBoundary"
+import queryClient from "./api/queryClient"
 import IRoute from "./interfaces/route"
 import routes from "./config/routes"
 import config from "./config/config"
@@ -49,6 +51,8 @@ const router = createBrowserRouter(createRoutesFromElements(
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+        </QueryClientProvider>
     </StrictMode>
 )
