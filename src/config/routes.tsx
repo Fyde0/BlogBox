@@ -3,19 +3,50 @@ import IRoute from "../interfaces/route"
 const routes: IRoute[] = [
   {
     path: "/page?/:page?", // ← I don't get it
-    lazy: () => import("../pages/Home"),
-    auth: false
+    lazy: () => import("../pages/Home")
   },
   // Auth
   {
     path: "login",
-    lazy: () => import("../pages/Login"),
-    auth: false
+    lazy: () => import("../pages/Login")
   },
   {
     path: "register",
-    lazy: () => import("../pages/Register"),
-    auth: false
+    lazy: () => import("../pages/Register")
+  },
+  // New post
+  {
+    path: "post",
+    lazy: () => import("../pages/CreatePost"),
+    auth: true
+  },
+  // View and edit post
+  {
+    path: ":year/:month?/:day?",
+    children: [
+      {
+        path: "page?/:page?",
+        lazy: () => import("../pages/ViewPostsByDateRange")
+      },
+      {
+        path: ":titleId",
+        children: [
+          {
+            path: "",
+            lazy: () => import("../pages/ViewPost")
+          },
+          {
+            path: "edit",
+            lazy: () => import("../pages/EditPost"),
+            auth: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "tag/:tag/page?/:page?",
+    lazy: () => import("../pages/ViewPostsByTag")
   },
   // User Panel
   {
@@ -30,55 +61,27 @@ const routes: IRoute[] = [
       },
       {
         path: "settings",
-        lazy: () => import("../pages/Settings"),
+        lazy: () => import("../pages/UserSettings"),
         auth: true
       }
     ]
   },
-  // New post
   {
-    path: "post",
-    lazy: () => import("../pages/CreatePost"),
-    auth: true
-  },
-  // View and edit post
-  {
-    path: ":year/:month?/:day?",
-    auth: false,
+    path: "admin",
+    lazy: () => import("../pages/AdminPanel"),
+    admin: true,
     children: [
       {
-        path: "page?/:page?",
-        lazy: () => import("../pages/ViewPostsByDateRange"),
-        auth: false
-      },
-      {
-        path: ":titleId",
-        auth: false,
-        children: [
-          {
-            path: "",
-            lazy: () => import("../pages/ViewPost"),
-            auth: false
-          },
-          {
-            path: "edit",
-            lazy: () => import("../pages/EditPost"),
-            auth: true
-          }
-        ]
+        path: "settings",
+        lazy: () => import("../pages/SiteSettings"),
+        admin: true,
       }
     ]
-  },
-  {
-    path: "tag/:tag/page?/:page?",
-    lazy: () => import("../pages/ViewPostsByTag"),
-    auth: false
   },
   // Catch all (404)
   {
     path: "*",
-    lazy: () => import("../pages/404"),
-    auth: false
+    lazy: () => import("../pages/404")
   }
 ]
 

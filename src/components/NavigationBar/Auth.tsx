@@ -6,7 +6,7 @@ import useUserStore from "../../stores/user"
 import Avatar from "../Avatar"
 
 function Auth() {
-    const { userInfo, hydrating, loggedIn, clientLogout } = useUserStore()
+    const { userInfo, hydrating, loggedIn, isAdmin, clientLogout } = useUserStore()
 
     const serverLogout = logoutMutation()
 
@@ -47,6 +47,10 @@ function Auth() {
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <RouterLink type="dropdown" to="/account/profile">Account</RouterLink>
+                                {
+                                    isAdmin &&
+                                    <RouterLink type="dropdown" to="/admin/settings">Admin</RouterLink>
+                                }
                                 <Dropdown.Divider />
                                 <Dropdown.Item
                                     className="logout-dropdown-item"
@@ -62,6 +66,10 @@ function Auth() {
                         <div className="d-block d-md-none">
                             <hr className="my-2" />
                             <RouterLink to="/account/profile" className="nav-link">Account</RouterLink>
+                            {
+                                isAdmin &&
+                                <RouterLink type="dropdown" to="/admin/settings">Admin</RouterLink>
+                            }
                             <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                         </div>
                     </>

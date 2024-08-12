@@ -1,5 +1,5 @@
-import ErrorCode from "../components/errors/ErrorPage";
+import ErrorPage from "../components/errors/ErrorPage";
 
 export function Component() {
-    return <ErrorCode code={404} />
+    return <ErrorPage code={404} />
 }

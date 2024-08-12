@@ -23,9 +23,12 @@ function mapRoutes(routes: IRoute[]) {
             >
                 {route.children && mapRoutes(route.children)}
             </Route>
-        if (route.auth) {
+        if (route.auth || route.admin) {
             return (
-                <Route key={"auth-" + i} element={<ProtectedRoute />}>
+                <Route
+                    key={"auth-" + i}
+                    element={<ProtectedRoute admin={route.admin} />}
+                >
                     {newRoute}
                 </Route>
             )
