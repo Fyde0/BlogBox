@@ -4,19 +4,22 @@ import { Container } from "react-bootstrap"
 import NavigationBar from "../components/NavigationBar"
 import Footer from "../components/Footer"
 import useUserStore from "../stores/user"
-import useBlogSettingsStore from "../stores/blogSettings"
 import Loading from "../components/Loading"
+import { useBlogSettings } from "../api/blogSettings"
 
 export function Component() {
     const { userSettings } = useUserStore()
-    const { blogSettings, fetching } = useBlogSettingsStore()
+    const blogSettings = useBlogSettings()
 
-    if (fetching) {
-        // TODO make this better
-        return <Loading />
+    if (blogSettings.isFetching) {
+        return <Loading noTheme={true} colorMode={userSettings.theme} />
     }
 
-    switch (blogSettings.theme) {
+    if (blogSettings.isError || !blogSettings.data) {
+        throw blogSettings.error
+    }
+
+    switch (blogSettings.data.theme) {
         case "minty":
             import("../assets/scss/minty/styles.scss")
             break;
