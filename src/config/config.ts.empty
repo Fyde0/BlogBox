@@ -1,6 +1,6 @@
 interface IConfig {
     appName: string,
-    basename: undefined, // if hosted in subdirectory
+    basename: string, // if hosted in subdirectory
     api: {
         url: string // no end slash
     }
@@ -8,7 +8,7 @@ interface IConfig {
 
 const config: IConfig = {
     appName: "",
-    basename: undefined,
+    basename: "",
     api: {
         url: ""
     }

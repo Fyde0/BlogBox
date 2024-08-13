@@ -1,6 +1,5 @@
 import { queryOptions, useMutation, useQuery } from "@tanstack/react-query"
 // 
-import queryClient from "./queryClient"
 import { FetchError, fetchHeaders } from "./FetchLib"
 import IBlogSettings, { defaultBlogSettings, isIBlogSettings } from "../interfaces/blogSettings"
 import config from "../config/config"
@@ -23,7 +22,7 @@ export function useBlogSettings() {
                     throw new Error
                 })
         },
-        // 
+        staleTime: Infinity, // reload only on refresh
         placeholderData: defaultBlogSettings
     }))
 }
@@ -49,7 +48,9 @@ export function changeBlogSettingsMutation() {
             })
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["blogSettings"] })
+            // need to reload from home to avoid problems with loading new css
+            // in case the theme changed
+            window.location.href = "/" + config.basename;
         }
     })
 }

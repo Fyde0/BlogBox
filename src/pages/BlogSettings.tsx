@@ -1,4 +1,4 @@
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 // 
 import { changeBlogSettingsMutation, useBlogSettings } from "../api/blogSettings";
 import { FetchError } from "../api/FetchLib";
@@ -38,7 +38,7 @@ export function Component() {
                 <Form.Label style={labelStyle}>Theme</Form.Label>
                 <Form.Select
                     name="blogTheme"
-                    // defaultValue={userSettings.postsPerPage}
+                    defaultValue={blogSettings.data?.theme}
                     style={{ width: "120px" }}
                 >
                     <option value="minty">Minty</option>
@@ -47,8 +47,18 @@ export function Component() {
                 </Form.Select>
             </Form.Group>
 
-            <Button type="submit" className="align-self-start">
-                Save settings
+            <Button
+                type="submit"
+                className="align-self-start"
+                disabled={changeBlogSettings.isPending}
+            >
+                {changeBlogSettings.isPending ?
+                    <Spinner animation="border" role="status" size="sm">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                    :
+                    <span>Save settings</span>
+                }
             </Button>
 
         </Form>
