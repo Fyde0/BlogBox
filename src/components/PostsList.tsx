@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 // 
 import PostPreview from "./PostPreview";
 import Paginator from "./Paginator";
@@ -18,19 +18,17 @@ function PostsList({ title, posts, currentPage, totalPosts }: { title?: string, 
     }
 
     return (
-        <div className="d-flex flex-column justify-content-start gap-3">
+        <Row className="g-3">
             {titleElement}
             {
                 posts.map((post, i) => {
                     return (
-                        <div key={i}>
-                            <PostPreview post={post} />
-                        </div>
+                        <PostPreview post={post} key={i} />
                     )
                 })
             }
             <Paginator totalPosts={totalPosts} currentPage={currentPage} />
-        </div>
+        </Row>
     )
 }
 

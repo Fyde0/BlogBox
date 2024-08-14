@@ -45,11 +45,11 @@ function LgDefaultNoThumb({ post }: { post: IPost }) {
             <Card.Body>
                 <Card.Title>
                     <Link to={"/" + post.postId}>
-                        {post.title}
+                        <h6>{post.title}</h6>
                     </Link>
                 </Card.Title>
-                <Card.Subtitle style={{ fontSize: "90%" }} title={longAuthorString}>
-                    {shortAuthorString}
+                <Card.Subtitle title={longAuthorString}>
+                    <small>{shortAuthorString}</small>
                 </Card.Subtitle>
             </Card.Body>
         </Card>

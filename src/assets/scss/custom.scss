@@ -7,18 +7,33 @@ body {
     word-break: break-word;
 }
 
-.post-preview {
+.post-preview-lg-no-thumb {
     max-height: 3 * $line-height-base * 1em;
     overflow: hidden;
 }
 
 // Gradient at the end of post previews
-.post-preview::after {
+.post-preview-lg-no-thumb::after {
     background: linear-gradient(to right, #00000000, $card-bg);
     content: '\200C';
     position: absolute;
     right: $card-spacer-x;
     bottom: $card-spacer-y;
+    height: $line-height-base * 1em;
+    width: 25%;
+}
+
+.post-preview-lg-default {
+    max-height: 5 * $line-height-base * 1em;
+    overflow: hidden;
+}
+
+.post-preview-lg-default::after {
+    background: linear-gradient(to right, #00000000, var(--bs-body-bg));
+    content: '\200C';
+    position: absolute;
+    right: 0;
+    bottom: 0;
     height: $line-height-base * 1em;
     width: 25%;
 }

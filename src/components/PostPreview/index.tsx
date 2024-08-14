@@ -1,16 +1,16 @@
 import IPost from "../../interfaces/post";
-import LgDefaultNoThumb from "./LgDefaultNoThumb";
-import SmDefaultNoThumb from "./SmDefaultNoThumb";
+import LgDefault from "./LgDefault";
+import SmDefault from "./SmDefault";
 
 function PostPreview({ post, size = "lg" }: { post: IPost, size?: "lg" | "sm" }) {
 
     // TODO get style from settings
 
     if (size === "sm") {
-        return <SmDefaultNoThumb post={post} />
+        return <SmDefault post={post} />
     }
 
-    return <LgDefaultNoThumb post={post} />
+    return <LgDefault post={post} />
 }
 
 export default PostPreview

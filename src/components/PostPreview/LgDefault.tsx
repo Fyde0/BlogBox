@@ -1,8 +1,8 @@
-import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
+import { Col } from "react-bootstrap";
 
-function LgDefaultNoThumb({ post }: { post: IPost }) {
+function LgDefault({ post }: { post: IPost }) {
 
     const now = new Date()
 
@@ -31,32 +31,24 @@ function LgDefaultNoThumb({ post }: { post: IPost }) {
     const firstP = doc.querySelector('p')
 
     return (
-        <Card>
-            <Card.Header>
-                <Card.Title>
-                    <Link to={"/" + post.postId}>
-                        {post.title}
-                    </Link>
-                </Card.Title>
-                <Card.Subtitle 
-                className="text-body-secondary"
-                style={{fontSize: "90%"}}
-                >
-                    {authorString}
-                </Card.Subtitle>
-            </Card.Header>
-            {
-                firstP &&
-                <Card.Body>
-                    <Card.Text
+        <Col sm="12">
+            {/* position-relative is for text's ::after */}
+            <div className="position-relative">
+                <Link to={"/" + post.postId}>
+                    <h2 className="mb-0">{post.title}</h2>
+                </Link>
+                <p className="opacity-75">{authorString}</p>
+                {
+                    firstP &&
+                    <p
                         dangerouslySetInnerHTML={{ __html: firstP?.innerHTML }}
-                        // see assets/scss/style.scss
-                        className="post-preview"
+                        // see src/assets/scss/custom.scss
+                        className="post-preview-lg-default"
                     />
-                </Card.Body>
-            }
-        </Card>
+                }
+            </div>
+        </Col>
     )
 }
 
-export default LgDefaultNoThumb
+export default LgDefault
