@@ -28,6 +28,7 @@ export function Component() {
         serverUpdateUserInfo.reset()
         setValidationError("")
 
+        const form = document.getElementById("editProfileForm") as HTMLFormElement
         const formData = new FormData(e.currentTarget)
         const avatar = formData.get("avatar")
 
@@ -56,7 +57,12 @@ export function Component() {
 
         serverUpdateUserInfo.mutate(
             formData,
-            { onSuccess: (userInfo) => changeUserInfo(userInfo) }
+            {
+                onSuccess: (userInfo) => {
+                    changeUserInfo(userInfo)
+                    form.reset()
+                }
+            }
         )
 
     }
