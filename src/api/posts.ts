@@ -121,7 +121,13 @@ export function getTagsQuery(): UseQueryResult<String[]> {
 // 
 export function submitPostMutation({ updating }: { updating: boolean }) {
     return useMutation({
-        mutationFn: async ({ post, thumbnail }: { post: IPost, thumbnail: File | null }) => {
+        mutationFn: async ({ post, thumbnail, deleteThumbnail }:
+            {
+                post: IPost,
+                thumbnail: File | null,
+                deleteThumbnail?: boolean
+            }) => {
+
             let apiUrl = config.api.url + "/posts/create"
             let method = "POST"
             if (updating) {
@@ -133,6 +139,9 @@ export function submitPostMutation({ updating }: { updating: boolean }) {
             formData.append("post", JSON.stringify(post))
             if (thumbnail) {
                 formData.append("thumbnail", thumbnail)
+            }
+            if (deleteThumbnail) {
+                formData.append("deleteThumbnail", "true")
             }
 
             return fetch(apiUrl, {

@@ -9,6 +9,7 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
     // if postToUpdate exists, we're in "update mode"
     const [post, setPost] = useState<IPost>(postToEdit ? postToEdit : emptyPost)
     const [thumbnail, setThumbnail] = useState<File | null>()
+    const [deleteThumbnail, setDeleteThumbnail] = useState<boolean>(false)
     const thumbnailInputRef = useRef<HTMLInputElement>(null)
     const [showPreview, setShowPreview] = useState<boolean>(false)
 
@@ -33,33 +34,47 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
             </Form.Label>
 
             {/* Thumbnail */}
-            <Form.Group controlId="thumbnail">
-                <Form.Label>
-                    <h6>Thumbnail</h6>
-                    <InputGroup>
-                        <Form.Control
-                            type="file"
-                            name="thumbnail"
-                            ref={thumbnailInputRef}
-                            onChange={() => {
-                                setThumbnail(thumbnailInputRef.current?.files?.item(0))
-                            }}
+            <div>
+                <Form.Group controlId="thumbnail">
+                    <Form.Label>
+                        <h6>Thumbnail</h6>
+                        <InputGroup>
+                            <Form.Control
+                                type="file"
+                                name="thumbnail"
+                                ref={thumbnailInputRef}
+                                onChange={() => {
+                                    setThumbnail(thumbnailInputRef.current?.files?.item(0))
+                                }}
+                            />
+                            <Button
+                                variant="outline-secondary"
+                                // reset input
+                                onClick={() => {
+                                    if (thumbnailInputRef.current) {
+                                        thumbnailInputRef.current.value = ""
+                                        setThumbnail(null)
+                                    }
+                                }}
+                            >
+                                <i className="fa-solid fa-xmark" />
+                            </Button>
+                        </InputGroup>
+                    </Form.Label>
+                </Form.Group>
+
+                {postToEdit &&
+                    <Form.Label className="d-flex align-items-center gap-2">
+                        <Form.Check
+                            type="checkbox"
+                            name="deleteThumbnail"
+                            checked={deleteThumbnail}
+                            onChange={() => setDeleteThumbnail(prev => !prev)}
                         />
-                        <Button
-                            variant="outline-secondary"
-                            // reset input
-                            onClick={() => {
-                                if (thumbnailInputRef.current) {
-                                    thumbnailInputRef.current.value = ""
-                                    setThumbnail(null)
-                                }
-                            }}
-                        >
-                            <i className="fa-solid fa-xmark" />
-                        </Button>
-                    </InputGroup>
-                </Form.Label>
-            </Form.Group>
+                        Delete thumbnail
+                    </Form.Label>
+                }
+            </div>
 
             {/* Editor */}
             <RichTextEditor post={post} setPost={setPost} />
@@ -87,7 +102,7 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
 
                 <Button
                     variant="primary"
-                    onClick={() => submitPost({ post, thumbnail })}
+                    onClick={() => submitPost({ post, thumbnail, deleteThumbnail })}
                     disabled={isPending}
                 >
                     {isPending ?
