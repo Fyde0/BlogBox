@@ -5,6 +5,7 @@ function ErrorBoundary() {
     console.log(error)
 
     // TODO Get theme from user store safely
+    // TODO add theme agnostic error
     document.documentElement.setAttribute("data-bs-theme", "dark")
 
     return (

@@ -1,7 +1,7 @@
 import { queryOptions, useMutation, useQuery, UseQueryResult } from "@tanstack/react-query"
 // 
 import queryClient from "./queryClient"
-import { FetchError, fetchHeaders } from "./FetchLib"
+import { FetchError } from "./FetchLib"
 import IPost, { isIPost } from "../interfaces/post"
 import IGetAllPostsQueryProps from "./interfaces/getAllPostsQueryProps"
 import IAllPosts, { isIAllPosts } from "./interfaces/allPosts"
@@ -121,17 +121,23 @@ export function getTagsQuery(): UseQueryResult<String[]> {
 // 
 export function submitPostMutation({ updating }: { updating: boolean }) {
     return useMutation({
-        mutationFn: async (post: IPost) => {
+        mutationFn: async ({ post, thumbnail }: { post: IPost, thumbnail: File | null }) => {
             let apiUrl = config.api.url + "/posts/create"
             let method = "POST"
             if (updating) {
                 apiUrl = config.api.url + "/posts/update/" + post._id
                 method = "PATCH"
             }
+
+            const formData = new FormData
+            formData.append("post", JSON.stringify(post))
+            if (thumbnail) {
+                formData.append("thumbnail", thumbnail)
+            }
+
             return fetch(apiUrl, {
                 method: method,
-                headers: fetchHeaders,
-                body: JSON.stringify(post),
+                body: formData,
                 credentials: "include",
             }).then(async (response) => {
                 const data = await response.json()

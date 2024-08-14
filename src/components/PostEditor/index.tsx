@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Button, Form, Spinner, ToggleButton } from "react-bootstrap"
+import { useRef, useState } from "react"
+import { Button, Form, InputGroup, Spinner, ToggleButton } from "react-bootstrap"
 // 
 import RichTextEditor from "./RichTextEditor"
 import IPost, { emptyPost } from "../../interfaces/post"
@@ -8,6 +8,8 @@ import TagsInput from "./TagsInput"
 function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost, submitPost: Function, isPending: boolean }) {
     // if postToUpdate exists, we're in "update mode"
     const [post, setPost] = useState<IPost>(postToEdit ? postToEdit : emptyPost)
+    const [thumbnail, setThumbnail] = useState<File | null>()
+    const thumbnailInputRef = useRef<HTMLInputElement>(null)
     const [showPreview, setShowPreview] = useState<boolean>(false)
 
     // TODO Validate post (empty title, content)
@@ -29,6 +31,35 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
                     }}
                 />
             </Form.Label>
+
+            {/* Thumbnail */}
+            <Form.Group controlId="thumbnail">
+                <Form.Label>
+                    <h6>Thumbnail</h6>
+                    <InputGroup>
+                        <Form.Control
+                            type="file"
+                            name="thumbnail"
+                            ref={thumbnailInputRef}
+                            onChange={() => {
+                                setThumbnail(thumbnailInputRef.current?.files?.item(0))
+                            }}
+                        />
+                        <Button
+                            variant="outline-secondary"
+                            // reset input
+                            onClick={() => {
+                                if (thumbnailInputRef.current) {
+                                    thumbnailInputRef.current.value = ""
+                                    setThumbnail(null)
+                                }
+                            }}
+                        >
+                            <i className="fa-solid fa-xmark" />
+                        </Button>
+                    </InputGroup>
+                </Form.Label>
+            </Form.Group>
 
             {/* Editor */}
             <RichTextEditor post={post} setPost={setPost} />
@@ -56,7 +87,7 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
 
                 <Button
                     variant="primary"
-                    onClick={() => submitPost(post)}
+                    onClick={() => submitPost({ post, thumbnail })}
                     disabled={isPending}
                 >
                     {isPending ?
