@@ -24,7 +24,7 @@ export function Component() {
         <ThemeLoader theme={blogSettings.data.theme} colorMode={userSettings.theme}>
             <Container fluid className="d-flex flex-column justify-content-start gap-4 vh-100 p-0">
                 <NavigationBar />
-                <Container fluid style={{ maxWidth: "1000px" }}>
+                <Container fluid style={{ maxWidth: "1280px" }}>
                     <Outlet />
                 </Container>
                 <Footer />

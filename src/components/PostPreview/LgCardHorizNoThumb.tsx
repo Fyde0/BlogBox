@@ -1,7 +1,8 @@
 import { Card, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
 
-function LgCardNoThumb({ post }: { post: IPost }) {
+function LgCardHorizNoThumb({ post }: { post: IPost }) {
 
     const now = new Date()
 
@@ -30,15 +31,20 @@ function LgCardNoThumb({ post }: { post: IPost }) {
     const firstP = doc.querySelector('p')
 
     return (
-        <Col md="6">
+        <Col sm="12">
             <Card>
                 <Card.Header>
-                    <Card.Title><h5>{post.title}</h5></Card.Title>
+                    <Card.Title>
+                        <Link to={"/" + post.postId}>
+                            {post.title}
+                        </Link>
+                    </Card.Title>
                     <Card.Subtitle className="text-body-secondary">
                         <small>{authorString}</small>
                     </Card.Subtitle>
                 </Card.Header>
-                {firstP &&
+                {
+                    firstP &&
                     <Card.Body>
                         <Card.Text
                             dangerouslySetInnerHTML={{ __html: firstP?.innerHTML }}
@@ -52,4 +58,4 @@ function LgCardNoThumb({ post }: { post: IPost }) {
     )
 }
 
-export default LgCardNoThumb
+export default LgCardHorizNoThumb

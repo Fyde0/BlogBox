@@ -11,7 +11,7 @@ function NavigationBar() {
 
     return (
         <Navbar className="bg-body-tertiary border-bottom shadow-sm z-3" expand="md" key={pathname}>
-            <Container style={{ maxWidth: "1200px" }}>
+            <Container style={{ maxWidth: "1280px" }}>
 
                 {/* Brand / Logo */}
                 <RouterLink type="brand" to="/">

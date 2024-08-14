@@ -1,9 +1,8 @@
-import { Col, Image, Row } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
-import config from "../../config/config";
 
-function SmDefault({ post }: { post: IPost }) {
+function SmCardHorizNoThumb({ post }: { post: IPost }) {
 
     const now = new Date()
 
@@ -42,23 +41,19 @@ function SmDefault({ post }: { post: IPost }) {
     }
 
     return (
-        <Row className="g-0 mb-3">
-            <Col sm="3" className="d-flex align-items-center me-3">
-                {post.picture &&
-                    <Image
-                        fluid
-                        src={config.api.url + "/thumbs/" + post.picture}
-                        className="border"
-                    />}
-            </Col>
-            <Col className="d-flex flex-column justify-content-center">
-                <Link to={"/" + post.postId}>
-                    <h6 className="mb-1">{post.title}</h6>
-                </Link>
-                <small>{shortAuthorString}</small>
-            </Col>
-        </Row>
+        <Card>
+            <Card.Body>
+                <Card.Title>
+                    <Link to={"/" + post.postId}>
+                        <h6>{post.title}</h6>
+                    </Link>
+                </Card.Title>
+                <Card.Subtitle title={longAuthorString}>
+                    <small>{shortAuthorString}</small>
+                </Card.Subtitle>
+            </Card.Body>
+        </Card>
     )
 }
 
-export default SmDefault
+export default SmCardHorizNoThumb
