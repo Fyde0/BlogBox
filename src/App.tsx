@@ -8,9 +8,6 @@ import ErrorBoundary from "./components/errors/ErrorBoundary"
 import queryClient from "./api/queryClient"
 import IRoute from "./interfaces/route"
 import routes from "./config/routes"
-import config from "./config/config"
-
-document.title = config.appName
 
 // Generates Route objects recursively
 // Handles protected routes

@@ -16,7 +16,12 @@ export function useBlogSettings() {
             return fetch(config.api.url + "/blog/settings")
                 .then(async (response) => {
                     const data = await response.json()
-                    if (response.ok && isIBlogSettings(data)) {
+
+                    // merge with default settings in case there are new ones
+                    const blogSettings: IBlogSettings =
+                        { ...defaultBlogSettings, ...data }
+
+                    if (response.ok && isIBlogSettings(blogSettings)) {
                         return data
                     }
                     throw new Error
@@ -34,6 +39,7 @@ export function useBlogSettings() {
 export function changeBlogSettingsMutation() {
     return useMutation({
         mutationFn: async ({ blogSettings }: { blogSettings: IBlogSettings }) => {
+            console.log(blogSettings)
             return fetch(config.api.url + "/blog/settings", {
                 method: "PATCH",
                 headers: fetchHeaders,

@@ -12,6 +12,8 @@ export function Component() {
     const { userSettings } = useUserStore()
     const blogSettings = useBlogSettings()
 
+    document.title = blogSettings.data!.title
+
     if (blogSettings.isFetching) {
         return <Loading noTheme={true} colorMode={userSettings.theme} />
     }

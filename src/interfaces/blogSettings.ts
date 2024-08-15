@@ -1,13 +1,15 @@
 interface IBlogSettings {
+    title: string
     theme: "minty" | "flatly" | "cosmo"
 }
 
 export const defaultBlogSettings: IBlogSettings = {
-    theme: "minty",
+    title: "BlogBox",
+    theme: "minty"
 }
 
 export function isIBlogSettings(obj: IBlogSettings): obj is IBlogSettings {
-    return obj.theme ? true : false
+    return obj.title && obj.theme ? true : false
 }
 
 export default IBlogSettings

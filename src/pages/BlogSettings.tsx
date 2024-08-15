@@ -1,4 +1,6 @@
-import { Button, Form, Spinner } from "react-bootstrap";
+import { useState } from "react";
+import { Alert, Button, Form, Spinner } from "react-bootstrap";
+import { z } from "zod";
 // 
 import { changeBlogSettingsMutation, useBlogSettings } from "../api/blogSettings";
 import { FetchError } from "../api/FetchLib";
@@ -6,9 +8,10 @@ import IBlogSettings from "../interfaces/blogSettings";
 
 export function Component() {
     const blogSettings = useBlogSettings()
+    const [validationError, setValidationError] = useState<string>("")
 
     const formGroupClasses = "d-flex align-items-center"
-    const labelStyle = { width: "150px", marginBottom: "0" }
+    const labelStyle = { width: "120px", marginBottom: "0" }
 
     const changeBlogSettings = changeBlogSettingsMutation()
 
@@ -18,8 +21,26 @@ export function Component() {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        // resets server error
+        changeBlogSettings.reset()
+        setValidationError("")
+
         const formData = new FormData(e.currentTarget)
+        
+        const validationResult = z.object({
+            blogTitle: z.string()
+                .max(32, { message: "The blog title can't be longer than 32 characters." })
+        }).safeParse({
+            blogTitle: formData.get("blogTitle")
+        })
+
+        if (!validationResult.success) {
+            setValidationError(validationResult.error.issues[0].message)
+            return
+        }
+
         const newBlogSettings = blogSettings.data! // data is already checked in Root
+        newBlogSettings.title = formData.get("blogTitle") as IBlogSettings["title"]
         newBlogSettings.theme = formData.get("blogTheme") as IBlogSettings["theme"]
 
         changeBlogSettings.mutate({ blogSettings: newBlogSettings })
@@ -32,7 +53,23 @@ export function Component() {
             onSubmit={handleSubmit}
         >
 
+            {/* Error */}
+            {
+                changeBlogSettings.isError &&
+                <Alert variant="danger" className="w-auto mx-auto">{changeBlogSettings.error.message}</Alert>
+            }
+            {validationError && <Alert variant="danger" className="w-auto mx-auto">{validationError}</Alert>}
+
             <h2>Blog settings</h2>
+
+            <Form.Group controlId="blogTitle" className={formGroupClasses}>
+                <Form.Label style={labelStyle}>Title</Form.Label>
+                <Form.Control
+                    name="blogTitle"
+                    defaultValue={blogSettings.data?.title}
+                    style={{ width: "250px" }}
+                />
+            </Form.Group>
 
             <Form.Group controlId="blogTheme" className={formGroupClasses}>
                 <Form.Label style={labelStyle}>Theme</Form.Label>
