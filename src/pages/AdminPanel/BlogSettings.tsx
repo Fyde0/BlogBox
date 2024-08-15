@@ -2,18 +2,21 @@ import { useState } from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { z } from "zod";
 // 
-import { changeBlogSettingsMutation, useBlogSettings } from "../api/blogSettings";
-import { FetchError } from "../api/FetchLib";
-import IBlogSettings from "../interfaces/blogSettings";
+import { changeBlogSettingsMutation, useBlogSettings } from "../../api/blogSettings";
+import { FetchError } from "../../api/FetchLib";
+import IBlogSettings from "../../interfaces/blogSettings";
+import SlidingAlert from "../../components/SlidingAlert";
 
 export function Component() {
     const blogSettings = useBlogSettings()
+    const [previousTheme] = useState<IBlogSettings["theme"] | undefined>(blogSettings.data?.theme)
     const [validationError, setValidationError] = useState<string>("")
 
     const formGroupClasses = "d-flex align-items-center"
     const labelStyle = { width: "120px", marginBottom: "0" }
 
-    const changeBlogSettings = changeBlogSettingsMutation()
+    // need to check what theme was set previously, see api/blogSettings
+    const changeBlogSettings = changeBlogSettingsMutation(previousTheme)
 
     if (changeBlogSettings.isError && !(changeBlogSettings.error instanceof FetchError)) {
         throw changeBlogSettings.error
@@ -26,7 +29,7 @@ export function Component() {
         setValidationError("")
 
         const formData = new FormData(e.currentTarget)
-        
+
         const validationResult = z.object({
             blogTitle: z.string()
                 .max(32, { message: "The blog title can't be longer than 32 characters." })
@@ -52,6 +55,12 @@ export function Component() {
             id="blogSettingsForm"
             onSubmit={handleSubmit}
         >
+
+            {/* Success */}
+            {
+                changeBlogSettings.isSuccess &&
+                <SlidingAlert variant="success">Settings applied!</SlidingAlert>
+            }
 
             {/* Error */}
             {

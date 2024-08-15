@@ -1,9 +1,9 @@
 import { Alert, Button, Form } from "react-bootstrap";
 // 
-import SlidingAlert from "../components/SlidingAlert";
-import useUserStore from "../stores/user";
-import { changeSettingsMutation } from "../api/users";
-import { FetchError } from "../api/FetchLib";
+import SlidingAlert from "../../components/SlidingAlert";
+import useUserStore from "../../stores/user";
+import { changeSettingsMutation } from "../../api/users";
+import { FetchError } from "../../api/FetchLib";
 
 export function Component() {
     const { userSettings, changeSettings } = useUserStore()

@@ -51,17 +51,17 @@ const routes: IRoute[] = [
   // User Panel
   {
     path: "account",
-    lazy: () => import("../pages/UserPanel"),
+    lazy: () => import("../pages/UserPanel/index"),
     auth: true,
     children: [
       {
         path: "profile",
-        lazy: () => import("../pages/EditProfile"),
+        lazy: () => import("../pages/UserPanel/EditProfile"),
         auth: true
       },
       {
         path: "settings",
-        lazy: () => import("../pages/UserSettings"),
+        lazy: () => import("../pages/UserPanel/UserSettings"),
         auth: true
       }
     ]
@@ -69,12 +69,17 @@ const routes: IRoute[] = [
   // Admin panel
   {
     path: "admin",
-    lazy: () => import("../pages/AdminPanel"),
+    lazy: () => import("../pages/AdminPanel/index"),
     admin: true,
     children: [
       {
         path: "settings",
-        lazy: () => import("../pages/BlogSettings"),
+        lazy: () => import("../pages/AdminPanel/BlogSettings"),
+        admin: true,
+      },
+      {
+        path: "home",
+        lazy: () => import("../pages/AdminPanel/HomeLayout"),
         admin: true,
       }
     ]

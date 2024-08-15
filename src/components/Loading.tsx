@@ -19,7 +19,7 @@ function Loading({ noTheme, colorMode }: { noTheme?: boolean, colorMode?: "light
                 width: "100vw",
                 paddingTop: "8px",
                 display: "flex",
-                justifyContent: "center"
+                justifyContent: "center",
             }}>
                 <style>
                     {
@@ -34,7 +34,8 @@ function Loading({ noTheme, colorMode }: { noTheme?: boolean, colorMode?: "light
                         borderBottomColor: "transparent",
                         borderRadius: "50%",
                         boxSizing: "border-box",
-                        animation: "rotation 0.75s linear infinite"
+                        animation: "rotation 0.75s linear infinite",
+                        marginTop: "3rem"
                     }}
                 >
                     {/* Hidden status for screen readers */}
@@ -57,7 +58,7 @@ function Loading({ noTheme, colorMode }: { noTheme?: boolean, colorMode?: "light
 
     // Normal bootstrap spinner
     return (
-        <Container className="d-flex justify-content-center">
+        <Container className="d-flex justify-content-center mt-5">
             <Spinner animation="border" role="status">
                 <span className="visually-hidden">Loading...</span>
             </Spinner>

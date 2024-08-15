@@ -36,10 +36,9 @@ export function useBlogSettings() {
 // 
 // Mutation, change settings
 // 
-export function changeBlogSettingsMutation() {
+export function changeBlogSettingsMutation(previousTheme?: IBlogSettings["theme"]) {
     return useMutation({
         mutationFn: async ({ blogSettings }: { blogSettings: IBlogSettings }) => {
-            console.log(blogSettings)
             return fetch(config.api.url + "/blog/settings", {
                 method: "PATCH",
                 headers: fetchHeaders,
@@ -53,10 +52,12 @@ export function changeBlogSettingsMutation() {
                 throw new FetchError(response, data.error)
             })
         },
-        onSuccess: () => {
+        onSuccess: (data: IBlogSettings) => {
+            // if the theme changed
             // need to reload from home to avoid problems with loading new css
-            // in case the theme changed
-            window.location.href = "/" + config.basename;
+            if (previousTheme && previousTheme !== data.theme) {
+                window.location.href = "/" + config.basename;
+            }
         }
     })
 }

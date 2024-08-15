@@ -2,11 +2,11 @@ import { useRef, useState } from "react"
 import { Alert, Button, Col, Form, InputGroup, Row } from "react-bootstrap"
 import { z } from "zod"
 // 
-import SlidingAlert from "../components/SlidingAlert"
-import Avatar from "../components/Avatar"
-import useUserStore from "../stores/user"
-import { updateUserInfoMutation } from "../api/users"
-import { FetchError } from "../api/FetchLib"
+import SlidingAlert from "../../components/SlidingAlert"
+import Avatar from "../../components/Avatar"
+import useUserStore from "../../stores/user"
+import { updateUserInfoMutation } from "../../api/users"
+import { FetchError } from "../../api/FetchLib"
 
 export function Component() {
     const { userInfo, changeUserInfo } = useUserStore()
