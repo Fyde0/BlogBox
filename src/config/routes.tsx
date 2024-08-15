@@ -78,8 +78,8 @@ const routes: IRoute[] = [
         admin: true,
       },
       {
-        path: "home",
-        lazy: () => import("../pages/AdminPanel/HomeLayout"),
+        path: "homePostPreviews",
+        lazy: () => import("../pages/AdminPanel/Home/PostPreviewsStyle"),
         admin: true,
       }
     ]

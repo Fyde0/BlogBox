@@ -18,17 +18,21 @@ function PostsList({ title, posts, currentPage, totalPosts }: { title?: string, 
     }
 
     return (
-        <Row className="g-3">
-            {titleElement}
-            {
-                posts.map((post, i) => {
-                    return (
-                        <PostPreview post={post} key={i} />
-                    )
-                })
-            }
-            <Paginator totalPosts={totalPosts} currentPage={currentPage} />
-        </Row>
+        <>
+            <Row className="g-3">
+                {titleElement}
+                {
+                    posts.map((post, i) => {
+                        return (
+                            <PostPreview post={post} key={i} />
+                        )
+                    })
+                }
+            </Row>
+            <Row>
+                <Paginator totalPosts={totalPosts} currentPage={currentPage} />
+            </Row>
+        </>
     )
 }
 

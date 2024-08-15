@@ -8,11 +8,16 @@ export function Component() {
 
     return (
         <Row className="gx-5 gy-3">
-            <Col sm={3}>
-                <ListGroup key={pathname}>
+            <Col sm={3} className="d-flex flex-column gap-4">
+                <ListGroup key={pathname + "-settings"}>
                     <RouterLink type="listGroupItem" to="settings">Blog settings</RouterLink>
-                    <RouterLink type="listGroupItem" to="home">Home page layout</RouterLink>
                 </ListGroup>
+                <div>
+                    <h6 className="ms-1">Home page layout</h6>
+                    <ListGroup key={pathname + "-home"}>
+                        <RouterLink type="listGroupItem" to="homePostPreviews">Style of post previews</RouterLink>
+                    </ListGroup>
+                </div>
             </Col>
             <Col>
                 <Outlet />

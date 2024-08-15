@@ -22,7 +22,7 @@ export function useBlogSettings() {
                         { ...defaultBlogSettings, ...data }
 
                     if (response.ok && isIBlogSettings(blogSettings)) {
-                        return data
+                        return blogSettings
                     }
                     throw new Error
                 })

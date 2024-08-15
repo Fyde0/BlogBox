@@ -18,6 +18,10 @@ export const emptyUserInfo: IUserInfo = {
     username: "",
 }
 
+export const placeholderUserInfo: IUserInfo = {
+    username: "username"
+}
+
 export function isIUserInfo(obj: IUserInfo): obj is IUserInfo {
     return obj.username ? true : false
 }
