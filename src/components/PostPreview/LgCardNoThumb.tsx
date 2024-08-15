@@ -1,5 +1,6 @@
 import { Card, Col } from "react-bootstrap";
 import IPost from "../../interfaces/post";
+import { Link } from "react-router-dom";
 
 function LgCardNoThumb({ post }: { post: IPost }) {
 
@@ -33,7 +34,11 @@ function LgCardNoThumb({ post }: { post: IPost }) {
         <Col md="6">
             <Card>
                 <Card.Header>
-                    <Card.Title><h5>{post.title}</h5></Card.Title>
+                    <Card.Title>
+                        <Link to={"/" + post.postId}>
+                            <h5>{post.title}</h5>
+                        </Link>
+                    </Card.Title>
                     <Card.Subtitle className="text-body-secondary">
                         <small>{authorString}</small>
                     </Card.Subtitle>

@@ -36,7 +36,7 @@ function LgCardHorizNoThumb({ post }: { post: IPost }) {
                 <Card.Header>
                     <Card.Title>
                         <Link to={"/" + post.postId}>
-                            {post.title}
+                            <h5>{post.title}</h5>
                         </Link>
                     </Card.Title>
                     <Card.Subtitle className="text-body-secondary">

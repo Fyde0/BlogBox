@@ -1,16 +1,40 @@
+import { useBlogSettings } from "../../api/blogSettings";
 import IPost from "../../interfaces/post";
+import { postPreviewComponents, postPreviewAllStyle } from "./interfaces/postPreview";
 import LgDefault from "./LgDefault";
 import SmDefault from "./SmDefault";
 
-function PostPreview({ post, size = "lg" }: { post: IPost, size?: "lg" | "sm" }) {
+function PostPreview({ post, size = "lg", styleOverride }:
+    {
+        post: IPost,
+        size?: "lg" | "sm",
+        styleOverride?: postPreviewAllStyle
+    }) {
 
-    // TODO get style from settings
+    const blogSettings = useBlogSettings()
 
-    if (size === "sm") {
-        return <SmDefault post={post} />
+    // default return
+    let Component: React.FC<{ post: IPost }> = LgDefault
+
+    // override
+    if (styleOverride) {
+        Component = postPreviewComponents[styleOverride]
+        return <Component post={post} />
     }
 
-    return <LgDefault post={post} />
+    // small
+    if (size === "sm") {
+        // TODO get style from settings
+        Component = SmDefault
+    }
+
+    // large
+    const lgStyle = blogSettings.data?.homeLayout.postPreviewStyle
+    if (size === "lg" && lgStyle) {
+        Component = postPreviewComponents[lgStyle]
+    }
+
+    return <Component post={post} />
 }
 
 export default PostPreview

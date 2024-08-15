@@ -1,6 +1,7 @@
 import { Card, Col } from "react-bootstrap";
 import IPost from "../../interfaces/post";
 import config from "../../config/config";
+import { Link } from "react-router-dom";
 
 function LgCard({ post }: { post: IPost }) {
 
@@ -35,7 +36,11 @@ function LgCard({ post }: { post: IPost }) {
             <Card>
                 {post.picture && <Card.Img variant="top" src={config.api.url + "/thumbs/" + post.picture} />}
                 <Card.Body>
-                    <Card.Title><h5>{post.title}</h5></Card.Title>
+                    <Card.Title>
+                        <Link to={"/" + post.postId}>
+                            <h5>{post.title}</h5>
+                        </Link>
+                    </Card.Title>
                     <Card.Subtitle className="text-body-secondary">
                         <p><small>{authorString}</small></p>
                     </Card.Subtitle>
