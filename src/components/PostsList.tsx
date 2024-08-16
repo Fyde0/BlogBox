@@ -1,4 +1,4 @@
-import { Container, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 // 
 import PostPreview from "./PostPreview";
 import Paginator from "./Paginator";
@@ -6,13 +6,13 @@ import IPost from "../interfaces/post";
 
 function PostsList({ title, posts, currentPage, totalPosts }: { title?: string, posts?: IPost[], currentPage: number, totalPosts?: number }) {
 
-    const titleElement = title && <Container><h1>{title}</h1></Container>
+    const titleElement = title && <h1>{title}</h1>
 
     if (!posts || posts.length === 0) {
         return (
             <div className="d-flex flex-column justify-content-start gap-3">
                 {titleElement}
-                <Container>There are no posts here.</Container>
+                <h5>There are no posts here.</h5>
             </div>
         )
     }

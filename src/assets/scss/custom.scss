@@ -7,13 +7,13 @@ body {
     word-break: break-word;
 }
 
-.post-preview-lg-no-thumb {
+.post-preview-3-lines {
     max-height: 3 * $line-height-base * 1em;
     overflow: hidden;
 }
 
 // Gradient at the end of post previews
-.post-preview-lg-no-thumb::after {
+.post-preview-card::after {
     background: linear-gradient(to right, #00000000, $card-bg);
     content: '\200C';
     position: absolute;
@@ -23,7 +23,7 @@ body {
     width: 25%;
 }
 
-.post-preview-lg-default {
+.post-preview-5-lines {
     max-height: 5 * $line-height-base * 1em;
     overflow: hidden;
 }

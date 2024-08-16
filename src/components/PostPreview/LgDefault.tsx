@@ -43,7 +43,7 @@ function LgDefault({ post }: { post: IPost }) {
                     <p
                         dangerouslySetInnerHTML={{ __html: firstP?.innerHTML }}
                         // see src/assets/scss/custom.scss
-                        className="post-preview-lg-default"
+                        className="post-preview-5-lines post-preview-lg-default"
                     />
                 }
             </div>

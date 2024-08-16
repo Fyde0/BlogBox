@@ -48,7 +48,7 @@ function LgCardNoThumb({ post }: { post: IPost }) {
                         <Card.Text
                             dangerouslySetInnerHTML={{ __html: firstP?.innerHTML }}
                             // see src/assets/scss/custom.scss
-                            className="post-preview-lg-no-thumb"
+                            className="post-preview-3-lines"
                         />
                     </Card.Body>
                 }

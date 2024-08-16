@@ -1,6 +1,8 @@
 import { useState } from "react"
 import Tag from "../Tag"
 
+// This component must be a Form.Label or it won't work for some reason
+// TODO fix this
 function TagsInput({ tags, setTags }: { tags: string[], setTags: Function }) {
     const [input, setInput] = useState<string>("")
 

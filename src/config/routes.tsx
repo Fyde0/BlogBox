@@ -81,6 +81,11 @@ const routes: IRoute[] = [
         path: "homePostPreviews",
         lazy: () => import("../pages/AdminPanel/Home/PostPreviewsStyle"),
         admin: true,
+      },
+      {
+        path: "homeFeatured",
+        lazy: () => import("../pages/AdminPanel/Home/FeaturedPostsSettings"),
+        admin: true,
       }
     ]
   },

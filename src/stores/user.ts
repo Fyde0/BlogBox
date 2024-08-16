@@ -5,6 +5,8 @@ import IUserSettings, { defaultUserSettings } from "../interfaces/userSettings"
 import { emptyUserInfo, IUserInfo } from "../interfaces/user"
 import config from "../config/config"
 
+// TODO don't persist, refetch at start (don't use react query?)
+
 interface IUserState {
     hydrating: boolean
     loggedIn: boolean
