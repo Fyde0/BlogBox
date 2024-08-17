@@ -3,6 +3,7 @@ import { queryOptions, useMutation, useQuery } from "@tanstack/react-query"
 import { FetchError, fetchHeaders } from "./FetchLib"
 import IBlogSettings, { defaultBlogSettings, isIBlogSettings } from "../interfaces/blogSettings"
 import config from "../config/config"
+import { deepMerge } from "../helpers/deepMerge"
 
 // 
 // Hook (query) get blog settings
@@ -19,7 +20,7 @@ export function useBlogSettings() {
 
                     // merge with default settings in case there are new ones
                     const blogSettings: IBlogSettings =
-                        { ...defaultBlogSettings, ...data }
+                        deepMerge(defaultBlogSettings, data)
 
                     if (response.ok && isIBlogSettings(blogSettings)) {
                         return blogSettings
