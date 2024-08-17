@@ -42,15 +42,17 @@ function SmDefault({ post }: { post: IPost }) {
     }
 
     return (
-        <Row className="g-0 mb-3">
-            <Col sm="3" className="d-flex align-items-center me-3">
-                {post.picture &&
+        <Row className="g-3">
+            {post.picture &&
+                <Col sm="auto" className="d-flex align-items-center overflow-hidden">
                     <Image
-                        fluid
+                        width="100px"
+                        height="100px"
                         src={config.api.url + "/thumbs/" + post.picture}
-                        className="border"
-                    />}
-            </Col>
+                        className="border object-fit-cover"
+                    />
+                </Col>
+            }
             <Col className="d-flex flex-column justify-content-center">
                 <Link to={"/" + post.postId}>
                     <h6 className="mb-1">{post.title}</h6>

@@ -44,13 +44,16 @@ function SmCardHoriz({ post }: { post: IPost }) {
     return (
         <Card className="overflow-hidden">
             <Row className="g-0">
-                <Col sm="3" className="d-flex align-items-center">
-                    {post.picture &&
+                {post.picture &&
+                    <Col sm="auto" className="d-flex align-items-center overflow-hidden">
                         <Image
-                            fluid
+                            width="100px"
+                            height="100px"
                             src={config.api.url + "/thumbs/" + post.picture}
-                        />}
-                </Col>
+                            className="border object-fit-cover"
+                        />
+                    </Col>
+                }
                 <Col className="d-flex align-items-center">
                     <Card.Body>
                         <Card.Title>

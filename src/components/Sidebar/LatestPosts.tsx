@@ -22,7 +22,7 @@ function LatestPosts({ count }: { count?: number }) {
     return (
         <div>
             <h5>Latest posts</h5>
-            <div className="d-flex flex-column justify-content-start gap-2">
+            <div className="d-flex flex-column justify-content-start gap-3">
                 {
                     posts.map((post, i) => {
                         return <PostPreview key={i} size="sm" post={post} />

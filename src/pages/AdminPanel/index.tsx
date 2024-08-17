@@ -26,6 +26,7 @@ export function Component() {
                     <h6 className="ms-1">Sidebar layout</h6>
                     <ListGroup key={pathname + "-sidebar"}>
                         <RouterLink type="listGroupItem" to="sidebarSettings">Sidebar settings</RouterLink>
+                        <RouterLink type="listGroupItem" to="sidebarPostPreviews">Style of post previews</RouterLink>
                     </ListGroup>
                 </div>
             </Col>

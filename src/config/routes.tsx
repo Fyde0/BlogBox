@@ -96,6 +96,11 @@ const routes: IRoute[] = [
         path: "sidebarSettings",
         lazy: () => import("../pages/AdminPanel/Sidebar/SidebarSettings"),
         admin: true
+      },
+      {
+        path: "sidebarPostPreviews",
+        lazy: () => import("../pages/AdminPanel/Sidebar/LatestPostsPreviewsStyle"),
+        admin: true
       }
     ]
   },

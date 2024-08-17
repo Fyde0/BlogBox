@@ -1,4 +1,4 @@
-import { postPreviewLgStyle } from "../components/PostPreview/interfaces/postPreview"
+import { postPreviewLgStyle, postPreviewSmStyle } from "../components/PostPreview/interfaces/postPreview"
 
 interface IBlogSettings {
     title: string
@@ -14,7 +14,8 @@ interface IBlogSettings {
     sidebarLayout: {
         showArchives: boolean,
         showTags: boolean,
-        showLatestPosts: boolean
+        showLatestPosts: boolean,
+        postPreviewStyle: postPreviewSmStyle
     }
 }
 
@@ -32,7 +33,8 @@ export const defaultBlogSettings: IBlogSettings = {
     sidebarLayout: {
         showArchives: true,
         showTags: true,
-        showLatestPosts: true
+        showLatestPosts: true,
+        postPreviewStyle: "SmDefault"
     }
 }
 
@@ -50,7 +52,8 @@ export function isIBlogSettings(obj: IBlogSettings): obj is IBlogSettings {
     }
     if (typeof obj.sidebarLayout.showArchives !== "boolean" ||
         typeof obj.sidebarLayout.showTags !== "boolean" ||
-        typeof obj.sidebarLayout.showLatestPosts !== "boolean"
+        typeof obj.sidebarLayout.showLatestPosts !== "boolean" ||
+        !obj.sidebarLayout.postPreviewStyle
     ) {
         return false
     }

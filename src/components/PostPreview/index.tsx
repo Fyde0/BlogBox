@@ -24,8 +24,13 @@ function PostPreview({ post, size = "lg", styleOverride }:
 
     // small
     if (size === "sm") {
-        // TODO get style from settings
-        Component = SmDefault
+        const smStyle = blogSettings.data?.sidebarLayout.postPreviewStyle
+        if (smStyle) {
+            Component = postPreviewComponents[smStyle]
+        } else {
+            // default small
+            Component = SmDefault
+        }
     }
 
     // large
