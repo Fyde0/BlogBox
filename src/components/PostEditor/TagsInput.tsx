@@ -27,12 +27,6 @@ function TagsInput({ tags, setTags }: { tags: string[], setTags: Function }) {
                 if (tag.trim() !== "") {
                     return (
                         <span key={i} className="d-flex align-items-center">
-                            {/* input is for spacing */}
-                            {/* also TODO implement being able to navigate with keyboard */}
-                            <input
-                                className="border-0 bg-transparent p-0"
-                                style={{ outline: "0", width: "0" }}
-                            />
                             <Tag
                                 className="d-flex align-items-center gap-1"
                                 onRemove={() => setTags(tags.filter((_tag, j) => i !== j))}
