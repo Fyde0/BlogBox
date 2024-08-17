@@ -82,14 +82,13 @@ body {
     color: $danger;
 }
 
-// TODO better Y amount, only good if alert only has one line
 @keyframes alert-animation {
     from {
         transform: translate(-50%, -100%);
     }
 
     to {
-        transform: translate(-50%, 125%);
+        transform: translate(-50%, 35px);
     }
 }
 

@@ -10,7 +10,7 @@ function NavigationBar() {
     // need pathname to rerender nav (see components/RouterLink)
 
     return (
-        <Navbar className="bg-body-tertiary border-bottom shadow-sm z-3" expand="md" key={pathname}>
+        <Navbar className="bg-body-tertiary border-bottom shadow-sm z-1" expand="md" key={pathname}>
             <Container style={{ maxWidth: "1280px" }}>
 
                 {/* Brand / Logo */}
