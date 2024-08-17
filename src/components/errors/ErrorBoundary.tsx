@@ -1,17 +1,45 @@
 import { useRouteError } from "react-router-dom";
+import useUserStore from "../../stores/user";
 
 function ErrorBoundary() {
     let error = useRouteError()
+    const { userSettings } = useUserStore()
     console.log(error)
 
-    // TODO Get theme from user store safely
-    // TODO add theme agnostic error
-    document.documentElement.setAttribute("data-bs-theme", "dark")
+    let colorMode = "light"
+    if (userSettings) {
+        colorMode = userSettings.theme
+    }
+
+    let backgroundColor = "rgb(33, 37, 41)"
+    let textColor = "rgb(222, 226, 230)"
+    let aColor = "rgb(128, 139, 150)"
+    if (colorMode === "light") {
+        backgroundColor = "white"
+        textColor = "rgb(33, 37, 41)"
+        aColor = "rgb(31, 102, 182)"
+    }
+
+    document.documentElement.setAttribute("data-bs-theme", colorMode)
 
     return (
-        <div className="container text-center h4 mt-5 pt-5">
-            <p>Oops... something broke.</p>
-            <a className="h5" href="/">Go to home page</a>
+        // theme agnostic
+        <div
+            style={{
+                fontFamily: "Montserrat, -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+                height: "100vh",
+                width: "100vw",
+                backgroundColor,
+                color: textColor,
+                textAlign: "center",
+                paddingTop: "25%"
+            }}
+        >
+            <style>
+                {"a { color: " + aColor + "; } a:visited { color: " + aColor + "; }"}
+            </style>
+            <h1>Oops...<br />Something broke.</h1>
+            <a href="/"><h2>Go to home page</h2></a>
         </div>
     )
 }
