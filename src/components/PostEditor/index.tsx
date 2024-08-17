@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-import { Button, Form, InputGroup, Spinner, ToggleButton } from "react-bootstrap"
+import { Button, Col, Form, InputGroup, Row, Spinner, ToggleButton, Image } from "react-bootstrap"
 // 
 import RichTextEditor from "./RichTextEditor"
 import IPost, { emptyPost } from "../../interfaces/post"
@@ -34,48 +34,58 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
             </Form.Label>
 
             {/* Thumbnail */}
-            {/* TODO show thumbnail here */}
-            <div>
-                <Form.Group controlId="thumbnail">
-                    <Form.Label>
-                        <h6>Thumbnail</h6>
-                        <InputGroup>
-                            <Form.Control
-                                type="file"
-                                name="thumbnail"
-                                ref={thumbnailInputRef}
-                                onChange={() => {
-                                    setThumbnail(thumbnailInputRef.current?.files?.item(0))
-                                }}
-                            />
-                            <Button
-                                variant="outline-secondary"
-                                // reset input
-                                onClick={() => {
-                                    if (thumbnailInputRef.current) {
-                                        thumbnailInputRef.current.value = ""
-                                        setThumbnail(null)
-                                    }
-                                }}
-                            >
-                                <i className="fa-solid fa-xmark" />
-                            </Button>
-                        </InputGroup>
-                    </Form.Label>
-                </Form.Group>
+            <Row className="align-items-center">
+                <Col xs="auto">
+                    <Form.Group controlId="thumbnail">
+                        <Form.Label>
+                            <h6>Thumbnail</h6>
+                            <InputGroup>
+                                <Form.Control
+                                    type="file"
+                                    name="thumbnail"
+                                    ref={thumbnailInputRef}
+                                    onChange={() => {
+                                        setThumbnail(thumbnailInputRef.current?.files?.item(0))
+                                    }}
+                                />
+                                <Button
+                                    variant="outline-secondary"
+                                    // reset input
+                                    onClick={() => {
+                                        if (thumbnailInputRef.current) {
+                                            thumbnailInputRef.current.value = ""
+                                            setThumbnail(null)
+                                        }
+                                    }}
+                                >
+                                    <i className="fa-solid fa-xmark" />
+                                </Button>
+                            </InputGroup>
+                        </Form.Label>
+                    </Form.Group>
 
-                {postToEdit &&
-                    <Form.Label className="d-flex align-items-center gap-2">
-                        <Form.Check
-                            type="checkbox"
-                            name="deleteThumbnail"
-                            checked={deleteThumbnail}
-                            onChange={() => setDeleteThumbnail(prev => !prev)}
-                        />
-                        Delete thumbnail
-                    </Form.Label>
-                }
-            </div>
+                    {postToEdit &&
+                        <Form.Label className="d-flex align-items-center gap-2">
+                            <Form.Check
+                                type="checkbox"
+                                name="deleteThumbnail"
+                                checked={deleteThumbnail}
+                                onChange={() => setDeleteThumbnail(prev => !prev)}
+                            />
+                            Delete thumbnail
+                        </Form.Label>
+                    }
+                </Col>
+                <Col className="d-flex justify-content-center justify-content-md-start">
+                    {post.picture &&
+                        <Image
+                            height="128px"
+                            width="128px"
+                            className="border"
+                            src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture}
+                        />}
+                </Col>
+            </Row>
 
             {/* Editor */}
             <RichTextEditor post={post} setPost={setPost} />

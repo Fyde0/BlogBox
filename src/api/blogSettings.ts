@@ -2,7 +2,6 @@ import { queryOptions, useMutation, useQuery } from "@tanstack/react-query"
 // 
 import { FetchError, fetchHeaders } from "./FetchLib"
 import IBlogSettings, { defaultBlogSettings, isIBlogSettings } from "../interfaces/blogSettings"
-import config from "../config/config"
 import { deepMerge } from "../helpers/deepMerge"
 
 // 
@@ -14,7 +13,7 @@ export function useBlogSettings() {
     return useQuery(queryOptions({
         queryKey: ["blogSettings"],
         queryFn: async (): Promise<IBlogSettings> => {
-            return fetch(config.api.url + "/blog/settings")
+            return fetch(import.meta.env.VITE_API_URL + "/blog/settings")
                 .then(async (response) => {
                     const data = await response.json()
 
@@ -40,7 +39,7 @@ export function useBlogSettings() {
 export function changeBlogSettingsMutation(previousTheme?: IBlogSettings["theme"]) {
     return useMutation({
         mutationFn: async ({ blogSettings }: { blogSettings: IBlogSettings }) => {
-            return fetch(config.api.url + "/blog/settings", {
+            return fetch(import.meta.env.VITE_API_URL + "/blog/settings", {
                 method: "PATCH",
                 headers: fetchHeaders,
                 body: JSON.stringify(blogSettings),
@@ -57,7 +56,7 @@ export function changeBlogSettingsMutation(previousTheme?: IBlogSettings["theme"
             // if the theme changed
             // need to reload from home to avoid problems with loading new css
             if (previousTheme && previousTheme !== data.theme) {
-                window.location.href = "/" + config.basename;
+                window.location.href = "/" + import.meta.env.VITE_BASENAME
             }
         }
     })

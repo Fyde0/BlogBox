@@ -1,7 +1,6 @@
 import { Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
-import config from "../../config/config";
 
 function SmDefault({ post }: { post: IPost }) {
 
@@ -48,7 +47,7 @@ function SmDefault({ post }: { post: IPost }) {
                     <Image
                         width="100px"
                         height="100px"
-                        src={config.api.url + "/thumbs/" + post.picture}
+                        src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture}
                         className="border object-fit-cover"
                     />
                 </Col>

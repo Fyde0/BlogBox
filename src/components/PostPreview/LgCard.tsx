@@ -1,6 +1,5 @@
 import { Card, Col } from "react-bootstrap";
 import IPost from "../../interfaces/post";
-import config from "../../config/config";
 import { Link } from "react-router-dom";
 
 function LgCard({ post }: { post: IPost }) {
@@ -34,7 +33,7 @@ function LgCard({ post }: { post: IPost }) {
     return (
         <Col md="6">
             <Card>
-                {post.picture && <Card.Img variant="top" src={config.api.url + "/thumbs/" + post.picture} />}
+                {post.picture && <Card.Img variant="top" src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture} />}
                 <Card.Body>
                     <Card.Title>
                         <Link to={"/" + post.postId}>

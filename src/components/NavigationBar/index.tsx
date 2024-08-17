@@ -3,10 +3,11 @@ import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap"
 //
 import RouterLink from "../RouterLink"
 import Auth from "./Auth"
-import config from "../../config/config"
+import { useBlogSettings } from "../../api/blogSettings"
 
 function NavigationBar() {
     const { pathname } = useLocation()
+    const blogSettings = useBlogSettings()
     // need pathname to rerender nav (see components/RouterLink)
 
     return (
@@ -16,7 +17,7 @@ function NavigationBar() {
                 {/* Brand / Logo */}
                 <RouterLink type="brand" to="/">
                     <i className="fa-solid fa-box me-2"></i>
-                    {config.appName}
+                    {blogSettings.data?.title}
                 </RouterLink>
 
                 {/* Toggle icon on small screens */}

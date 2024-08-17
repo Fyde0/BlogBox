@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/axios": "^0.9.36",
     "@types/dompurify": "^3.0.5",
+    "@types/node": "^22.4.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-router-bootstrap": "^0.26.6",

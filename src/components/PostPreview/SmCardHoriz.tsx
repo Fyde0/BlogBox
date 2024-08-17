@@ -1,7 +1,6 @@
 import { Card, Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
-import config from "../../config/config";
 
 function SmCardHoriz({ post }: { post: IPost }) {
 
@@ -49,7 +48,7 @@ function SmCardHoriz({ post }: { post: IPost }) {
                         <Image
                             width="100px"
                             height="100px"
-                            src={config.api.url + "/thumbs/" + post.picture}
+                            src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture}
                             className="border object-fit-cover"
                         />
                     </Col>

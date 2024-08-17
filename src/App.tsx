@@ -43,7 +43,9 @@ const router = createBrowserRouter(createRoutesFromElements(
     >
         {mapRoutes(routes)}
     </Route>
-))
+),
+    { basename: import.meta.env.VITE_BASENAME }
+)
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(

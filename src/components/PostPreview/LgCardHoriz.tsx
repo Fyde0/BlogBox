@@ -1,7 +1,6 @@
 import { Card, Col, Row, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
-import config from "../../config/config";
 
 function LgCardHoriz({ post }: { post: IPost }) {
 
@@ -39,7 +38,7 @@ function LgCardHoriz({ post }: { post: IPost }) {
                         {post.picture &&
                             <Image
                                 className="object-fit-cover h-100"
-                                src={config.api.url + "/thumbs/" + post.picture}
+                                src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture}
                             />}
                     </Col>
                     <Col>

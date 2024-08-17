@@ -6,7 +6,6 @@ import IPost, { isIPost } from "../interfaces/post"
 import IGetAllPostsQueryProps from "./interfaces/getAllPostsQueryProps"
 import IAllPosts, { isIAllPosts } from "./interfaces/allPosts"
 import IPostsCountByMonth, { isIPostsCountByMonthArray } from "./interfaces/postsCountByMonth"
-import config from "../config/config"
 
 /**
  * Gets all posts (optionally by page, with date range and sort)
@@ -31,7 +30,7 @@ export function getAllPostsQuery(
     }: IGetAllPostsQueryProps): UseQueryResult<IAllPosts> {
     const count = postsPerPage
     const skip = count * (page - 1)
-    const apiUrl = config.api.url +
+    const API_URL = import.meta.env.VITE_API_URL +
         "/posts" +
         "?startDate=" + startDate + "&endDate=" + endDate +
         "&tags=" + tags.join(",") +
@@ -39,7 +38,7 @@ export function getAllPostsQuery(
     return useQuery(queryOptions({
         queryKey: ["allPosts", startDate, endDate, tags, sort, page, postsPerPage],
         queryFn: async () => {
-            return fetch(apiUrl, {
+            return fetch(API_URL, {
                 method: "GET",
                 credentials: "include",
             }).then(async (response) => {
@@ -60,7 +59,7 @@ export function getPostByPostIdQuery({ postId }: { postId: string }): UseQueryRe
     return useQuery(queryOptions({
         queryKey: ["postById", postId],
         queryFn: async () => {
-            return fetch(config.api.url + "/posts/byPostId/" + postId, {
+            return fetch(import.meta.env.VITE_API_URL + "/posts/byPostId/" + postId, {
                 method: "GET",
                 credentials: "include",
             }).then(async (response) => {
@@ -81,7 +80,7 @@ export function getPostsCountByMonthQuery(): UseQueryResult<IPostsCountByMonth[]
     return useQuery(queryOptions({
         queryKey: ["postsCountByMonth"],
         queryFn: async () => {
-            return fetch(config.api.url + "/posts/countByMonth", {
+            return fetch(import.meta.env.VITE_API_URL + "/posts/countByMonth", {
                 method: "GET",
                 credentials: "include"
             }).then(async (response) => {
@@ -102,7 +101,7 @@ export function getTagsQuery(): UseQueryResult<String[]> {
     return useQuery(queryOptions({
         queryKey: ["tags"],
         queryFn: async () => {
-            return fetch(config.api.url + "/posts/tags/", {
+            return fetch(import.meta.env.VITE_API_URL + "/posts/tags/", {
                 method: "GET",
                 credentials: "include"
             }).then(async (response) => {
@@ -128,10 +127,10 @@ export function submitPostMutation({ updating }: { updating: boolean }) {
                 deleteThumbnail?: boolean
             }) => {
 
-            let apiUrl = config.api.url + "/posts/create"
+            let API_URL = import.meta.env.VITE_API_URL + "/posts/create"
             let method = "POST"
             if (updating) {
-                apiUrl = config.api.url + "/posts/update/" + post._id
+                API_URL = import.meta.env.VITE_API_URL + "/posts/update/" + post._id
                 method = "PATCH"
             }
 
@@ -144,7 +143,7 @@ export function submitPostMutation({ updating }: { updating: boolean }) {
                 formData.append("deleteThumbnail", "true")
             }
 
-            return fetch(apiUrl, {
+            return fetch(API_URL, {
                 method: method,
                 body: formData,
                 credentials: "include",
@@ -171,7 +170,7 @@ export function submitPostMutation({ updating }: { updating: boolean }) {
 export function deletePostMutation() {
     return useMutation({
         mutationFn: async (_id: string | undefined) => {
-            return fetch(config.api.url + "/posts/delete/" + _id, {
+            return fetch(import.meta.env.VITE_API_URL + "/posts/delete/" + _id, {
                 method: "DELETE",
                 credentials: "include",
             }).then(async (response) => {

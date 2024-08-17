@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { FetchError, fetchHeaders } from "./FetchLib"
 import IUserSettings, { defaultUserSettings, isIUserSettings } from "../interfaces/userSettings"
-import config from "../config/config"
 import { isIUserInfo, IUserInfo } from "../interfaces/user"
 import queryClient from "./queryClient"
 
@@ -11,7 +10,7 @@ import queryClient from "./queryClient"
 export function registerMutation() {
     return useMutation({
         mutationFn: async ({ username, password }: { username: string, password: string }) => {
-            return fetch(config.api.url + "/users/register", {
+            return fetch(import.meta.env.VITE_API_URL + "/users/register", {
                 method: "POST",
                 headers: fetchHeaders,
                 body: JSON.stringify({ username, password }),
@@ -33,7 +32,7 @@ export function registerMutation() {
 export function loginMutation() {
     return useMutation({
         mutationFn: async ({ username, password }: { username: string, password: string }) => {
-            return fetch(config.api.url + "/users/login", {
+            return fetch(import.meta.env.VITE_API_URL + "/users/login", {
                 method: "POST",
                 headers: fetchHeaders,
                 body: JSON.stringify({ username, password }),
@@ -67,7 +66,7 @@ export function loginMutation() {
 export function logoutMutation() {
     return useMutation({
         mutationFn: async () => {
-            return fetch(config.api.url + "/users/logout", {
+            return fetch(import.meta.env.VITE_API_URL + "/users/logout", {
                 method: "GET",
                 headers: fetchHeaders,
                 credentials: "include",
@@ -88,7 +87,7 @@ export function logoutMutation() {
 export function changeSettingsMutation() {
     return useMutation({
         mutationFn: async ({ userSettings }: { userSettings: IUserSettings }) => {
-            return fetch(config.api.url + "/users/settings", {
+            return fetch(import.meta.env.VITE_API_URL + "/users/settings", {
                 method: "PATCH",
                 headers: fetchHeaders,
                 body: JSON.stringify(userSettings),
@@ -117,7 +116,7 @@ export function updateUserInfoMutation() {
     return useMutation({
         mutationFn: async (userInfo: FormData) => {
             // no headers because there's a file, docs say so
-            return fetch(config.api.url + "/users/update", {
+            return fetch(import.meta.env.VITE_API_URL + "/users/update", {
                 method: "PATCH",
                 body: userInfo,
                 credentials: "include",

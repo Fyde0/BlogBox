@@ -3,7 +3,6 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 // 
 import IUserSettings, { defaultUserSettings } from "../interfaces/userSettings"
 import { emptyUserInfo, IUserInfo } from "../interfaces/user"
-import config from "../config/config"
 
 // TODO don't persist, refetch at start (don't use react query?)
 
@@ -66,7 +65,7 @@ const useUserStore = create<IUserState>()(
                     // If not logged in already, don't check
                     if (!state.loggedIn) { return }
                     state.setHydrating(true)
-                    return fetch(config.api.url + "/users/ping", {
+                    return fetch(import.meta.env.VITE_API_URL + "/users/ping", {
                         method: "GET",
                         credentials: 'include',
                     }).then(async (response) => {
