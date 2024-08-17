@@ -34,6 +34,7 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
             </Form.Label>
 
             {/* Thumbnail */}
+            {/* TODO show thumbnail here */}
             <div>
                 <Form.Group controlId="thumbnail">
                     <Form.Label>

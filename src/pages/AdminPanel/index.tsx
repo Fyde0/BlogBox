@@ -19,6 +19,7 @@ export function Component() {
                     <ListGroup key={pathname + "-home"}>
                         <RouterLink type="listGroupItem" to="homePostPreviews">Style of post previews</RouterLink>
                         <RouterLink type="listGroupItem" to="homeFeatured">Featured posts settings</RouterLink>
+                        <RouterLink type="listGroupItem" to="homeIntroCard">Intro card settings</RouterLink>
                     </ListGroup>
                 </div>
             </Col>

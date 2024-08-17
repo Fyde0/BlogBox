@@ -29,15 +29,13 @@ export function Component() {
         newBlogSettings.homeLayout.featuredPosts = formData.get("enableFeaturedPosts") ? true : false
         newBlogSettings.homeLayout.featuredPostsTags = tags
 
-        console.log(newBlogSettings.homeLayout)
-
         changeBlogSettings.mutate({ blogSettings: newBlogSettings })
     }
 
     return (
         <Form
             className="m-auto d-flex flex-column gap-4"
-            id="homeLayoutForm"
+            id="featuredPostsSettings"
             onSubmit={handleSubmit}
         >
 
