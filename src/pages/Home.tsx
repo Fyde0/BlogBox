@@ -10,6 +10,7 @@ import { getAllPostsQuery } from "../api/posts"
 import useUserStore from "../stores/user"
 import PostPreview from "../components/PostPreview"
 import { useBlogSettings } from "../api/blogSettings"
+import Intro from "../components/Sidebar/Intro"
 
 export function Component() {
     const { page } = useParams()
@@ -64,7 +65,9 @@ export function Component() {
                     <PostsList posts={posts} totalPosts={postsCount} currentPage={currentPage} />
                 </Col>
                 <Col>
-                    <Sidebar host="home" />
+                    <Sidebar>
+                        {blogSettings.data?.homeLayout.introCard && <Intro />}
+                    </Sidebar>
                 </Col>
             </Row>
         </div>

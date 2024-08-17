@@ -10,6 +10,11 @@ interface IBlogSettings {
         introCard: boolean
         introCardTitle: string
         introCardContent: string
+    },
+    sidebarLayout: {
+        showArchives: boolean,
+        showTags: boolean,
+        showLatestPosts: boolean
     }
 }
 
@@ -23,11 +28,19 @@ export const defaultBlogSettings: IBlogSettings = {
         introCard: false,
         introCardTitle: "",
         introCardContent: ""
+    },
+    sidebarLayout: {
+        showArchives: true,
+        showTags: true,
+        showLatestPosts: true
     }
 }
 
 export function isIBlogSettings(obj: IBlogSettings): obj is IBlogSettings {
 
+    if (!obj.title || !obj.theme) {
+        return false
+    }
     if (!obj.homeLayout || !obj.homeLayout.postPreviewStyle ||
         typeof obj.homeLayout.featuredPosts !== "boolean" ||
         !obj.homeLayout.featuredPostsTags ||
@@ -35,9 +48,13 @@ export function isIBlogSettings(obj: IBlogSettings): obj is IBlogSettings {
     ) {
         return false
     }
-    if (!obj.title || !obj.theme) {
+    if (typeof obj.sidebarLayout.showArchives !== "boolean" ||
+        typeof obj.sidebarLayout.showTags !== "boolean" ||
+        typeof obj.sidebarLayout.showLatestPosts !== "boolean"
+    ) {
         return false
     }
+
     return true
 
 }

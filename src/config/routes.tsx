@@ -75,22 +75,27 @@ const routes: IRoute[] = [
       {
         path: "settings",
         lazy: () => import("../pages/AdminPanel/BlogSettings"),
-        admin: true,
+        admin: true
       },
       {
         path: "homePostPreviews",
         lazy: () => import("../pages/AdminPanel/Home/PostPreviewsStyle"),
-        admin: true,
+        admin: true
       },
       {
         path: "homeFeatured",
         lazy: () => import("../pages/AdminPanel/Home/FeaturedPostsSettings"),
-        admin: true,
+        admin: true
       },
       {
         path: "homeIntroCard",
         lazy: () => import("../pages/AdminPanel/Home/IntroCard"),
-        admin: true,
+        admin: true
+      },
+      {
+        path: "sidebarSettings",
+        lazy: () => import("../pages/AdminPanel/Sidebar/SidebarSettings"),
+        admin: true
       }
     ]
   },

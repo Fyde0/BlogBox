@@ -22,6 +22,12 @@ export function Component() {
                         <RouterLink type="listGroupItem" to="homeIntroCard">Intro card settings</RouterLink>
                     </ListGroup>
                 </div>
+                <div>
+                    <h6 className="ms-1">Sidebar layout</h6>
+                    <ListGroup key={pathname + "-sidebar"}>
+                        <RouterLink type="listGroupItem" to="sidebarSettings">Sidebar settings</RouterLink>
+                    </ListGroup>
+                </div>
             </Col>
             <Col>
                 <Outlet />

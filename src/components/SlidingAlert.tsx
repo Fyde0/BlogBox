@@ -8,7 +8,7 @@ function SlidingAlert({ children, variant }: { children: ReactNode, variant?: st
         return (
             <Alert
                 variant={variant}
-                // maybe sticky instead of fixed?
+                // TODO maybe sticky instead of fixed?
                 className={"position-fixed start-50 top-0 shadow-sm"}
                 style={{ animation: "alert-animation 0.3s ease 0s 1 forwards normal", }}
                 onClick={() => setShow(false)}

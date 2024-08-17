@@ -1,24 +1,24 @@
 import { ReactNode } from "react"
 import Archives from "./Archives"
-import Intro from "./Intro"
 import LatestPosts from "./LatestPosts"
 import Tags from "./Tags"
 import { useBlogSettings } from "../../api/blogSettings"
+import IBlogSettings from "../../interfaces/blogSettings"
 
-function Sidebar({ host, children }: { host?: string, children?: ReactNode }) {
+function Sidebar({ children, overrideLayout }: { children?: ReactNode, overrideLayout?: IBlogSettings["sidebarLayout"] }) {
     const blogSettings = useBlogSettings()
+
+    let sidebarLayout = blogSettings.data?.sidebarLayout
+    if (overrideLayout) {
+        sidebarLayout = overrideLayout
+    }
 
     return (
         <div className="d-flex flex-column gap-4">
             {children}
-            {
-                host === "home" &&
-                blogSettings.data?.homeLayout.introCard &&
-                <Intro />
-            }
-            <Archives />
-            <Tags />
-            <LatestPosts />
+            {sidebarLayout?.showArchives && <Archives />}
+            {sidebarLayout?.showTags && <Tags />}
+            {sidebarLayout?.showLatestPosts && <LatestPosts />}
         </div>
     )
 }
