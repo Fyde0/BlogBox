@@ -134,3 +134,25 @@ export function updateUserInfoMutation() {
         }
     })
 }
+
+// 
+// Mutation, change password
+// 
+export function changePasswordMutation() {
+    return useMutation({
+        mutationFn: async ({ oldPassword, newPassword }: { oldPassword: string, newPassword: string }) => {
+            return fetch(import.meta.env.VITE_API_URL + "/users/password", {
+                method: "PATCH",
+                headers: fetchHeaders,
+                body: JSON.stringify({ oldPassword, newPassword }),
+                credentials: "include",
+            }).then(async (response) => {
+                const data = await response.json()
+                if (response.ok) {
+                    return data
+                }
+                throw new FetchError(response, data.error)
+            })
+        }
+    })
+}

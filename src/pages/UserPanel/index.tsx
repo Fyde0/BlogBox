@@ -12,6 +12,7 @@ export function Component() {
                 <ListGroup key={pathname}>
                     <RouterLink type="listGroupItem" to="profile">Profile</RouterLink>
                     <RouterLink type="listGroupItem" to="settings">Settings</RouterLink>
+                    <RouterLink type="listGroupItem" to="changePassword">Change password</RouterLink>
                 </ListGroup>
             </Col>
             <Col>

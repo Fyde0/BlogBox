@@ -63,6 +63,11 @@ const routes: IRoute[] = [
         path: "settings",
         lazy: () => import("../pages/UserPanel/UserSettings"),
         auth: true
+      },
+      {
+        path: "changePassword",
+        lazy: () => import("../pages/UserPanel/ChangePassword"),
+        auth: true
       }
     ]
   },
