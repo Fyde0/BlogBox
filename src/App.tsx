@@ -9,8 +9,6 @@ import queryClient from "./api/queryClient"
 import IRoute from "./interfaces/route"
 import routes from "./config/routes"
 
-console.log(import.meta.env.BASE_URL)
-
 // Generates Route objects recursively
 // Handles protected routes
 function mapRoutes(routes: IRoute[]) {
