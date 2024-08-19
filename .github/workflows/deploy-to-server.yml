@@ -1,4 +1,4 @@
-run-name: Deploying github.action_repository
+run-name: Deploying ${{ github.action_repository }} to server
 on:
   workflow_dispatch:
   push:
@@ -22,11 +22,13 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.KEY }}
+          script_stop: true
           script: |
+            source ${{ secrets.ENV_FILE }}
             cd ${{ secrets.WORK_DIR }}
             git fetch origin
             git reset --hard origin/deploy
-            cp ${{ secrets.ENV_FILE }} .env
+            cp ${{ secrets.APP_ENV_FILE }} .env
             npm install
             npm run build
             cp -r build/* ${{ secrets.SERVE_DIR }}
