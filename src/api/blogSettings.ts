@@ -56,7 +56,7 @@ export function changeBlogSettingsMutation(previousTheme?: IBlogSettings["theme"
             // if the theme changed
             // need to reload from home to avoid problems with loading new css
             if (previousTheme && previousTheme !== data.theme) {
-                window.location.href = "/" + import.meta.env.VITE_BASENAME
+                window.location.href = "/" + import.meta.env.BASE_URL
             }
         }
     })
