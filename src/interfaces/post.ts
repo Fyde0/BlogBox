@@ -7,6 +7,7 @@ interface IPost {
     author: IUserInfo
     content: string
     picture?: string
+    pictureInView?: boolean
     tags: string[]
     createdAt?: Date
     updatedAt?: Date

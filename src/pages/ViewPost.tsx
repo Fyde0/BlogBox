@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Navigate, useParams } from "react-router-dom"
-import { Alert, Button, Card, Col, Row } from "react-bootstrap"
+import { Alert, Button, Card, Col, Row, Image } from "react-bootstrap"
 // 
 import RouterLink from "../components/RouterLink"
 import ErrorPage from "../components/errors/ErrorPage"
@@ -59,8 +59,6 @@ export function Component() {
         authorString += " (Updated " + new Date(post.updatedAt).toLocaleString(undefined, { dateStyle: "long", timeStyle: "short" }) + ")"
     }
 
-    // 
-
     return (
         <>
             <Row className="d-flex flex-column">
@@ -95,7 +93,15 @@ export function Component() {
                     <h1>{post.title}</h1>
                     <p className="text-body-secondary">{authorString}</p>
                     <hr className="my-4" />
-                    <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                    {
+                        post.pictureInView &&
+                        <Image
+                            src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture + "-512"}
+                            width={300}
+                            className="float-start border m-3"
+                        />
+                    }
+                    <div className="lh-lg" dangerouslySetInnerHTML={{ __html: post.content }} />
                     {
                         post.tags.length > 0 &&
                         <div className="d-inline-flex flex-wrap">

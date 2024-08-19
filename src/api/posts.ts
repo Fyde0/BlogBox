@@ -159,7 +159,7 @@ export function submitPostMutation({ updating }: { updating: boolean }) {
             queryClient.invalidateQueries({ queryKey: ["allPosts"] })
             queryClient.invalidateQueries({ queryKey: ["postsCountByMonth"] })
             queryClient.invalidateQueries({ queryKey: ["tags"] })
-            queryClient.invalidateQueries({ queryKey: [postId] })
+            queryClient.invalidateQueries({ queryKey: ["postById", postId] })
         }
     })
 }

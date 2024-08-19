@@ -64,6 +64,19 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
                         </Form.Label>
                     </Form.Group>
 
+                    <Form.Label className="d-flex align-items-center gap-2">
+                        <Form.Check
+                            type="checkbox"
+                            name="thumbnailInView"
+                            checked={post.pictureInView}
+                            onChange={() => setPost((prevPost: IPost) => ({
+                                ...prevPost,
+                                pictureInView: !post.pictureInView
+                            }))}
+                        />
+                        Show thumbnail at the top of the post
+                    </Form.Label>
+
                     {postToEdit &&
                         <Form.Label className="d-flex align-items-center gap-2">
                             <Form.Check
@@ -75,6 +88,7 @@ function PostEditor({ postToEdit, submitPost, isPending }: { postToEdit?: IPost,
                             Delete thumbnail
                         </Form.Label>
                     }
+
                 </Col>
                 <Col className="d-flex justify-content-center justify-content-md-start">
                     {post.picture &&

@@ -1,4 +1,4 @@
-run-name: Deploying ${{ github.action_repository }} to server
+run-name: Deploying to server
 on:
   workflow_dispatch:
   push:
