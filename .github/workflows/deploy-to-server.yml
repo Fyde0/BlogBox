@@ -30,6 +30,6 @@ jobs:
             git reset --hard origin/deploy
             cp ${{ secrets.APP_ENV_FILE }} .env
             npm install
-            npm run build
+            npm run build -- $BUILD_OPTIONS
             cp -r build/* ${{ secrets.SERVE_DIR }}
             rm .env
