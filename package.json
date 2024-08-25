@@ -42,6 +42,8 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "jsdom": "^24.1.1",
+    "msw": "^2.3.5",
+    "nock": "^14.0.0-beta.11",
     "sass": "^1.77.8",
     "typescript": "^5.2.2",
     "vite": "^5.3.4",
@@ -50,6 +52,7 @@
   "overrides": {
     "eslint": {
       "file-entry-cache": "^8.0.0"
-    }
+    },
+    "tough-cookie": "^5.0.0-rc.4"
   }
 }
