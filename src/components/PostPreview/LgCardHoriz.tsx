@@ -1,6 +1,7 @@
 import { Card, Col, Row, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
+import getPostPreview from "./helpers/getPostPreview";
 
 function LgCardHoriz({ post }: { post: IPost }) {
 
@@ -26,9 +27,7 @@ function LgCardHoriz({ post }: { post: IPost }) {
     }
 
     // get first paragraph of post to show in preview
-    const parser = new DOMParser()
-    const doc = parser.parseFromString(post.content, 'text/html')
-    const firstP = doc.querySelector('p')
+    const firstP = getPostPreview(post.content)
 
     return (
         <Col sm="12">
@@ -58,7 +57,7 @@ function LgCardHoriz({ post }: { post: IPost }) {
                                 <Card.Text
                                     dangerouslySetInnerHTML={{ __html: firstP?.innerHTML }}
                                     // see src/assets/scss/custom.scss
-                                    className="post-preview-card post-preview-3-lines"
+                                    className="post-preview-card post-preview-4-lines"
                                 />
                             </Card.Body>
                         }

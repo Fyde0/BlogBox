@@ -7,8 +7,18 @@ body {
     word-break: break-word;
 }
 
+// fixes broken lists in prosemirror
+li>p {
+    margin-bottom: 0 !important;
+}
+
 .post-preview-3-lines {
     max-height: 3 * $line-height-base * 1em;
+    overflow: hidden;
+}
+
+.post-preview-4-lines {
+    max-height: 4 * $line-height-base * 1em;
     overflow: hidden;
 }
 

@@ -100,13 +100,13 @@ export function Component() {
                         <Image
                             src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture + "-512"}
                             width={300}
-                            className="float-start border m-3"
+                            className="float-end border m-3"
                         />
                     }
                     <div className="lh-lg" dangerouslySetInnerHTML={{ __html: post.content }} />
                     {
                         post.tags.length > 0 &&
-                        <div className="d-inline-flex flex-wrap">
+                        <div className="d-inline-flex flex-wrap gap-2">
                             {
                                 post.tags.map((tag, i) => {
                                     return <Tag key={i}>{tag}</Tag>

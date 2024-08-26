@@ -17,6 +17,7 @@ export const emptyPost: IPost = {
     title: "",
     author: emptyUserInfo,
     content: "",
+    pictureInView: false,
     tags: []
 }
 

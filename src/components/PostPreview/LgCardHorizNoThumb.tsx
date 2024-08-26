@@ -1,6 +1,7 @@
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import IPost from "../../interfaces/post";
+import getPostPreview from "./helpers/getPostPreview";
 
 function LgCardHorizNoThumb({ post }: { post: IPost }) {
 
@@ -26,9 +27,7 @@ function LgCardHorizNoThumb({ post }: { post: IPost }) {
     }
 
     // get first paragraph of post to show in preview
-    const parser = new DOMParser()
-    const doc = parser.parseFromString(post.content, 'text/html')
-    const firstP = doc.querySelector('p')
+    const firstP = getPostPreview(post.content)
 
     return (
         <Col sm="12">
