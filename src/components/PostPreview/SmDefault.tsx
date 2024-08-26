@@ -56,7 +56,7 @@ function SmDefault({ post }: { post: IPost }) {
                 <Link to={"/" + post.postId}>
                     <h6 className="mb-1">{post.title}</h6>
                 </Link>
-                <small>{shortAuthorString}</small>
+                <small title={longAuthorString}>{shortAuthorString}</small>
             </Col>
         </Row>
     )
