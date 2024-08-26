@@ -1,10 +1,8 @@
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
 // 
-import IUserSettings, { defaultUserSettings } from "../interfaces/userSettings"
-import { emptyUserInfo, IUserInfo } from "../interfaces/user"
-
-// TODO don't persist, refetch at start (don't use react query?)
+import IUserSettings, { defaultUserSettings, isIUserSettings } from "../interfaces/userSettings"
+import { emptyUserInfo, isIUserInfo, IUserInfo } from "../interfaces/user"
+import { fetchHeaders } from "../api/FetchLib"
 
 interface IUserState {
     hydrating: boolean
@@ -17,75 +15,61 @@ interface IUserState {
     changeUserInfo: (userInfo: IUserInfo) => void
     changeSettings: (settings: IUserSettings) => void
     setIsAdmin: (isAdmin: boolean) => void
-    setHydrating: (hydrating: boolean) => void
+    fetch: () => void
 }
 
 const useUserStore = create<IUserState>()(
-    persist(
-        (set) => ({
-            hydrating: false,
+    (set, get) => ({
+        hydrating: false,
+        loggedIn: false,
+        userInfo: emptyUserInfo,
+        userSettings: defaultUserSettings,
+        isAdmin: false,
+        clientLogin: (info, settings, isAdmin) => set({
+            loggedIn: true,
+            userInfo: info,
+            userSettings: settings,
+            isAdmin: isAdmin
+        }),
+        clientLogout: () => set({
             loggedIn: false,
             userInfo: emptyUserInfo,
             userSettings: defaultUserSettings,
-            isAdmin: false,
-            clientLogin: (info, settings, isAdmin) => set({
-                loggedIn: true,
-                userInfo: info,
-                userSettings: settings,
-                isAdmin: isAdmin
-            }),
-            clientLogout: () => set({
-                loggedIn: false,
-                userInfo: emptyUserInfo,
-                userSettings: defaultUserSettings,
-                isAdmin: false
-            }),
-            changeUserInfo: (userInfo) => set({ userInfo: userInfo }),
-            changeSettings: (settings) => set({ userSettings: settings }),
-            setIsAdmin: (isAdmin) => set({ isAdmin }),
-            setHydrating: (hydrating) => set({ hydrating })
+            isAdmin: false
         }),
-        // Persist in local storage
-        {
-            name: "userState",
-            storage: createJSONStorage(() => localStorage),
-            partialize: (state) => {
-                // don't store admin status, instead
-                // check with server when hydrating
-                delete state.isAdmin
-                return state
-            },
-            // check with server if still logged in and if admin
-            // this happens when opening the page (incl. refresh)
-            onRehydrateStorage: () => {
-                // getting from local storage here
-                // now, check with server
-                return async (state) => {
-                    if (!state) { return } // for TS
-                    // If not logged in already, don't check
-                    if (!state.loggedIn) { return }
-                    state.setHydrating(true)
-                    return fetch(import.meta.env.VITE_API_URL + "/users/ping", {
-                        method: "GET",
-                        credentials: 'include',
-                    }).then(async (response) => {
-                        const data = await response.json()
-                        if (response.ok) {
-                            state.clientLogin(
-                                state.userInfo,
-                                state.userSettings,
-                                // admin status from server
-                                data.isAdmin
-                            )
-                        } else {
-                            state.clientLogout()
-                        }
-                    }).catch(() => state.clientLogout())
-                        .finally(() => state.setHydrating(false))
+        changeUserInfo: (userInfo) => set({ userInfo: userInfo }),
+        changeSettings: (settings) => set({ userSettings: settings }),
+        setIsAdmin: (isAdmin) => set({ isAdmin }),
+        fetch: async () => {
+            set({ hydrating: true })
+            return fetch(import.meta.env.VITE_API_URL + "/users/ping", {
+                method: "GET",
+                headers: fetchHeaders,
+                credentials: "include",
+            }).then(async (response) => {
+                const data = await response.json()
+
+                const userInfo: IUserInfo = data.userInfo
+                // merge with default settings in case there are new ones
+                const userSettings: IUserSettings =
+                    { ...defaultUserSettings, ...data.userSettings }
+                const isAdmin = data.admin
+
+                if (
+                    response.ok &&
+                    isIUserInfo(userInfo) &&
+                    isIUserSettings(userSettings) &&
+                    typeof isAdmin === "boolean"
+                ) {
+                    get().clientLogin(userInfo, userSettings, isAdmin)
                 }
-            }
+                set({ hydrating: false })
+            })
         }
-    )
+    })
 )
+
+// fetch initial state from api
+useUserStore.getState().fetch()
 
 export default useUserStore
