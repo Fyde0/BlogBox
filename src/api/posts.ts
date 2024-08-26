@@ -6,6 +6,7 @@ import IPost, { isIPost } from "../interfaces/post"
 import IGetAllPostsQueryProps from "./interfaces/getAllPostsQueryProps"
 import IAllPosts, { isIAllPosts } from "./interfaces/allPosts"
 import IPostsCountByMonth, { isIPostsCountByMonthArray } from "./interfaces/postsCountByMonth"
+import checkDemoMode from "../helpers/checkDemoMode"
 
 /**
  * Gets all posts (optionally by page, with date range and sort)
@@ -126,6 +127,7 @@ export function submitPostMutation({ updating }: { updating: boolean }) {
                 thumbnail: File | null,
                 deleteThumbnail?: boolean
             }) => {
+            checkDemoMode()
 
             let API_URL = import.meta.env.VITE_API_URL + "/posts/create"
             let method = "POST"
@@ -170,6 +172,7 @@ export function submitPostMutation({ updating }: { updating: boolean }) {
 export function deletePostMutation() {
     return useMutation({
         mutationFn: async (_id: string | undefined) => {
+            checkDemoMode()
             return fetch(import.meta.env.VITE_API_URL + "/posts/delete/" + _id, {
                 method: "DELETE",
                 credentials: "include",

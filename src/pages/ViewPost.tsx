@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Navigate, useParams } from "react-router-dom"
-import { Alert, Button, Card, Col, Row, Image } from "react-bootstrap"
+import { Alert, Button, Card, Col, Row, Image, Container } from "react-bootstrap"
 // 
 import RouterLink from "../components/RouterLink"
 import ErrorPage from "../components/errors/ErrorPage"
@@ -82,7 +82,9 @@ export function Component() {
                 </CenteredModal>
 
                 {/* Mutation error alert */}
-                {deletePost.isError && <Alert variant="danger" className="align-self-center">{deletePost.error.message}</Alert>}
+                <Container className="d-flex flex-column">
+                    {deletePost.isError && <Alert variant="danger" className="align-self-center">{deletePost.error.message}</Alert>}
+                </Container>
 
             </Row>
 

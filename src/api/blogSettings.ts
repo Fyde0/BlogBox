@@ -3,6 +3,7 @@ import { queryOptions, useMutation, useQuery } from "@tanstack/react-query"
 import { FetchError, fetchHeaders } from "./FetchLib"
 import IBlogSettings, { defaultBlogSettings, isIBlogSettings } from "../interfaces/blogSettings"
 import { deepMerge } from "../helpers/deepMerge"
+import checkDemoMode from "../helpers/checkDemoMode"
 
 // 
 // Hook (query) get blog settings
@@ -39,6 +40,7 @@ export function useBlogSettings() {
 export function changeBlogSettingsMutation(previousTheme?: IBlogSettings["theme"]) {
     return useMutation({
         mutationFn: async ({ blogSettings }: { blogSettings: IBlogSettings }) => {
+            checkDemoMode()
             return fetch(import.meta.env.VITE_API_URL + "/blog/settings", {
                 method: "PATCH",
                 headers: fetchHeaders,

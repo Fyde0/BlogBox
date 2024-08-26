@@ -3,6 +3,7 @@ import { FetchError, fetchHeaders } from "./FetchLib"
 import IUserSettings, { defaultUserSettings, isIUserSettings } from "../interfaces/userSettings"
 import { isIUserInfo, IUserInfo } from "../interfaces/user"
 import queryClient from "./queryClient"
+import checkDemoMode from "../helpers/checkDemoMode"
 
 // 
 // Mutation, register
@@ -10,6 +11,7 @@ import queryClient from "./queryClient"
 export function registerMutation() {
     return useMutation({
         mutationFn: async ({ username, password }: { username: string, password: string }) => {
+            checkDemoMode()
             return fetch(import.meta.env.VITE_API_URL + "/users/register", {
                 method: "POST",
                 headers: fetchHeaders,
@@ -87,6 +89,7 @@ export function logoutMutation() {
 export function changeSettingsMutation() {
     return useMutation({
         mutationFn: async ({ userSettings }: { userSettings: IUserSettings }) => {
+            checkDemoMode()
             return fetch(import.meta.env.VITE_API_URL + "/users/settings", {
                 method: "PATCH",
                 headers: fetchHeaders,
@@ -115,6 +118,7 @@ export function changeSettingsMutation() {
 export function updateUserInfoMutation() {
     return useMutation({
         mutationFn: async (userInfo: FormData) => {
+            checkDemoMode()
             // no headers because there's a file, docs say so
             return fetch(import.meta.env.VITE_API_URL + "/users/update", {
                 method: "PATCH",
@@ -141,6 +145,7 @@ export function updateUserInfoMutation() {
 export function changePasswordMutation() {
     return useMutation({
         mutationFn: async ({ oldPassword, newPassword }: { oldPassword: string, newPassword: string }) => {
+            checkDemoMode()
             return fetch(import.meta.env.VITE_API_URL + "/users/password", {
                 method: "PATCH",
                 headers: fetchHeaders,
