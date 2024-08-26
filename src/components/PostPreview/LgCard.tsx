@@ -32,7 +32,7 @@ function LgCard({ post }: { post: IPost }) {
     return (
         <Col md="6">
             <Card>
-                {post.picture && <Card.Img variant="top" src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture} />}
+                {post.picture && <Card.Img variant="top" src={import.meta.env.VITE_API_URL + "/thumbs/" + post.picture + "-512"} />}
                 <Card.Body>
                     <Card.Title>
                         <Link to={"/" + post.postId}>
